@@ -1,4 +1,9 @@
-# BreakBreakdown Web Application #
+# BreakBreakdown Web Application #  
+
+## Mission Statement ##  
+Our goal at Git Schwifty, is to help maximize people’s potential impact on the world.  
+## Problem Statement ##
+It is often easy to lose track of time and as a result we often find ourselves at the end of the day feeling like we wasted more time than we should have.  
   
 ## Communication Plan ##  
   
