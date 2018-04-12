@@ -6,7 +6,7 @@
 ## **Table of Content**
 ### 1 Problem
 ### 2 Solution: Application Screens
-### 4 References
+### 3 References
 ---
 ## **1 Problem**
 #### It is often easy to lose track of time and as a result we often find ourselves at the end of the day feeling like we wasted more time than we should have. Many college students can attest to this as they are often losing track of time resulting in them not being as productive as they can or should be. 
@@ -61,6 +61,6 @@
 #### The save button will save all changes a user has changed in the input boxes. The cancel button will discard all changes and revert the event back to before the edit. The trash button will remove the event completely. These options are important in case a user changes their mind about their edits or doesn’t need to do the event anymore.
 
 ---
-## **4 References**
+## **3 References**
 #### Link to the survey responses: [Google Survery](https://docs.google.com/spreadsheets/d/1bP7yiP73uqqgH2g6nE2kK508kycIfuRe8nQ8ab1X7uY/edit?usp=sharing)
 ---
