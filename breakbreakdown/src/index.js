@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-var firebase = require("firebase");
+import firebase from 'firebase/app';
 
 var config = {
     apiKey: "AIzaSyBzenkKKf1b7eyYHboHgcBL9N6mQAjpB2g",
@@ -12,11 +12,3 @@ var config = {
     messagingSenderId: "534313689390"
   };
   firebase.initializeApp(config);
-
-<Router history={customHistory}>
-    <div>
-        <Route path="/login" component={Login}/>
-        <Route path="/app/home" component={Home}/>
-        <Redirect from="/" to="/login"/>
-    </div>
-</Router>
