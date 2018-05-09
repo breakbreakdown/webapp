@@ -12,11 +12,3 @@ var config = {
     messagingSenderId: "534313689390"
   };
 firebase.initializeApp(config);
-
-<Router history={customHistory}>
-    <div>
-        <Route path="/login" component={Login}/>
-        <Route path="/app/home" component={Home}/>
-        <Redirect from="/" to="/login"/>
-    </div>
-</Router>
