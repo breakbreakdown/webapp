@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+body {
+  background-color: rgb(117, 176, 209);
+}
+
+h1 {
+  font-family: Pacifico;
+  color: rgb(255, 255, 255);
+  font-size: 50pt;
+  font-weight: 100;
+}
+
+#main {
+  text-align: center;
+  margin: auto;
+}
+
+#googleButton {
+  margin: auto;
+}

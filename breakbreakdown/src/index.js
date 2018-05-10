@@ -1,14 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import firebase from 'firebase/app';
+import registerServiceWorker from './registerServiceWorker';
+import GoogleButton from 'react-google-button'
+import handleSignIn from './login.js'
 
-var config = {
-    apiKey: "AIzaSyBzenkKKf1b7eyYHboHgcBL9N6mQAjpB2g",
-    authDomain: "breakbreakdown-64b8a.firebaseapp.com",
-    databaseURL: "https://breakbreakdown-64b8a.firebaseio.com",
-    projectId: "breakbreakdown-64b8a",
-    storageBucket: "",
-    messagingSenderId: "534313689390"
-  };
-firebase.initializeApp(config);
+class InitHomePage extends React.Component {
+  render() {
+    return (
+      <div id="main">
+        <h1>BreakBreakdown</h1>
+        <GoogleButton id="googleButton" onClick={handleSignIn}/>
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(
+  <InitHomePage />,
+  document.getElementById('root')
+);
+registerServiceWorker();
