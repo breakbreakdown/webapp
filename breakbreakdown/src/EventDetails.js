@@ -1,16 +1,14 @@
-import Reach from 'react';
+import React from 'react';
 import Firebase from 'firebase';
+import M from 'react-materialize';
 
-var EventDetails = react.createClass ({
-	getInitialState(){
-		return{}
-	},
+class EventDetails extends React.Component {
 
-	componentDidMount(){
-		
-	},
 	
-	render(){
-		
+	render() {
+		return (
+		  <div></div>
+		);
 	}
-})
+}
+ export default EventDetails;
