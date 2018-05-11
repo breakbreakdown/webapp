@@ -4,6 +4,7 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import GoogleButton from 'react-google-button'
 import handleSignIn from './login.js'
+import homePage from './home.js'
 
 class InitHomePage extends React.Component {
   render() {
