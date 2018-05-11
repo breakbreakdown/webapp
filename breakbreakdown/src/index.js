@@ -5,6 +5,7 @@ import registerServiceWorker from './registerServiceWorker';
 import GoogleButton from 'react-google-button'
 import handleSignIn from './login.js'
 import homePage from './home.js'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 class InitHomePage extends React.Component {
   render() {
@@ -17,8 +18,10 @@ class InitHomePage extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <InitHomePage />,
-  document.getElementById('root')
-);
+ReactDOM.render((
+  <Router>
+    <Route path="/" component={InitHomePage} />
+  </Router>),
+  document.getElementById('root'));
+
 registerServiceWorker();

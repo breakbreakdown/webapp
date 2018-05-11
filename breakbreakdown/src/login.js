@@ -11,7 +11,6 @@ var config = {
   };
 firebase.initializeApp(config);
 
-
 export default function handleSignIn() {
   var provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider).then(function(result) {

@@ -5,13 +5,13 @@ var lName;
 var email;
 var token;
 
-export function initUserData(userID, fName, lName, email, token) {
-  userID = userID;
+export function initUserData(id, first, last, userEmail, googleToken) {
+  userID = id;
   isAuthenticated = true;
-  fName = fName;
-  lName = lName;
-  email = email;
-  token = token;
+  fName = first;
+  lName = last;
+  email = userEmail;
+  token = googleToken;
 }
 
 export {userID, isAuthenticated, fName, lName, email, token};
