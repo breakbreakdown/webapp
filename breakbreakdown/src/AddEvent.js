@@ -4,7 +4,7 @@ import M from 'react-materialize';
 
 class AddEvent extends React.Component {
 
-	
+
 	render() {
 		return (
 		  <div></div>
