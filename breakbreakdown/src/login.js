@@ -26,6 +26,7 @@ export default function handleSignIn() {
     }
     // Sets up global variables in user.js
     U.initUserData(user.uid, name[0], name[1], user.email, token);
+    pushToFirebase();
   }).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
@@ -35,4 +36,8 @@ export default function handleSignIn() {
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
   });
+}
+
+function pushToFirebase() {
+  
 }
