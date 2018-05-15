@@ -10,6 +10,7 @@ var config = {
     messagingSenderId: "534313689390"
   };
 firebase.initializeApp(config);
+var database = firebase.database()
 
 export default function handleSignIn() {
   var provider = new firebase.auth.GoogleAuthProvider();
@@ -39,5 +40,5 @@ export default function handleSignIn() {
 }
 
 function pushToFirebase() {
-  
+
 }
