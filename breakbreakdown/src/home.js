@@ -1,4 +1,4 @@
-import Reach from 'react';
+import React from 'react';
 import Firebase from 'firebase';
 import AddEvent from 'AddEvent.js';
 import AddEventPopup from 'AddEventPopup.js';
@@ -19,6 +19,8 @@ var homePage = react.createClass ({
 	},
 	
 	render(){
-		
+		return (
+			
+		);
 	}
 })

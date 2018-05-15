@@ -1,7 +1,7 @@
-import Reach from 'react';
+import React from 'react';
 import Firebase from 'firebase';
 
-var Checklist = react.createClass ({
+var Checklist = react.createClass({
 	getInitialState(){
 		return{}
 	},
@@ -11,6 +11,8 @@ var Checklist = react.createClass ({
 	},
 	
 	render(){
-		
+		return(
+			
+		);
 	}
 })
