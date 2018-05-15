@@ -1,16 +1,14 @@
-import Reach from 'react';
+import React from 'react';
 import Firebase from 'firebase';
+import M from 'react-materialize';
 
-var Toolbar = react.createClass ({
-	getInitialState(){
-		return{}
-	},
+class Toolbar extends React.Component {
 
-	componentDidMount(){
-		
-	},
 	
-	render(){
-		
+	render() {
+		return (
+		  <div></div>
+		);
 	}
-})
+}
+ export default Toolbar;

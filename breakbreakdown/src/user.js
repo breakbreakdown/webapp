@@ -1,9 +1,17 @@
-import userData from './login.js'
-import token from './login.js'
+var userID ;
+var isAuthenticated = false;
+var fName;
+var lName;
+var email;
+var token;
 
-var userID = userData.userID;
-var fName = userData.firstName;
-var lName = userData.lastName;
-var email = userData.email;
+export function initUserData(id, first, last, userEmail, googleToken) {
+  userID = id;
+  isAuthenticated = true;
+  fName = first;
+  lName = last;
+  email = userEmail;
+  token = googleToken;
+}
 
-export default {userID, fName, lName, email, token};
+export {userID, isAuthenticated, fName, lName, email, token};

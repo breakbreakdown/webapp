@@ -1,18 +1,14 @@
 import React from 'react';
 import Firebase from 'firebase';
+import M from 'react-materialize';
 
-var Checklist = react.createClass({
-	getInitialState(){
-		return{}
-	},
 
-	componentDidMount(){
-		
-	},
-	
-	render(){
-		return(
-			
+class Checklist extends React.Component {
+
+	render() {
+		return (
+		  <div></div>
 		);
 	}
-})
+}
+ export default Checklist;
