@@ -5,9 +5,10 @@ import registerServiceWorker from './registerServiceWorker';
 import GoogleButton from 'react-google-button'
 import handleSignIn from './login.js'
 import home from './home.js'
+import App from './App.js'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-class InitHomePage extends React.Component {
+class SignIn extends React.Component {
   render() {
     return (
       <div id="main">
@@ -21,7 +22,8 @@ class InitHomePage extends React.Component {
 ReactDOM.render((
   <Router>
 	<div className="Routes">
-		<Route exact path='/' component={InitHomePage} />
+		<Route path='/' component={App} />
+		<Route path='/signin' component={SignIn} />
 		<Route path='/home' component={home} />
 	</div>
   </Router>),
