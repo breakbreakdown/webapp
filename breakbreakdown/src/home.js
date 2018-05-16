@@ -8,13 +8,27 @@ import EventDetails from './EventDetails.js';
 import Graph from './Graph.js';
 import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
+import './home.css';
 
 class home extends React.Component {
 
 	
 	render() {
 		return (
-		  <div></div>
+			<div id='home'>
+				<div id='top'>
+					<Toolbar />
+				</div>
+				<div id='content'>
+					<div id='left-column'>
+						<Graph />
+					</div>
+					<div id='right-column'>
+						<Checklist />
+						<AddEvent />
+					</div>
+				</div>
+			</div>
 
 		);
 	}

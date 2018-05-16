@@ -1,13 +1,16 @@
 import React from 'react';
 import Firebase from 'firebase';
 import M from 'react-materialize';
+import './checklist.css';
 
 
 class Checklist extends React.Component {
 
 	render() {
 		return (
-		  <div></div>
+			<div id='checklist'>
+					checklist
+			</div>
 		);
 	}
 }

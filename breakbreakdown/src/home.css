@@ -1,0 +1,42 @@
+body {
+	margin: 0;
+	padding: 0;
+
+}
+
+#home {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+#top {
+}
+
+#content {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	top: 118.5px;
+}
+
+#left-column {
+	position: relative;
+	height: 100%;
+	width: 60%;
+	float: left;
+}
+
+#right-column {
+	position: relative;
+	height: 100%;
+	width: 40%;
+	float: right;
+}
+
+#toolbar, #graph, #checklist, #addevent {
+	background-color: white;
+	border-radius: 15px;
+	padding: 30px;
+	margin: 40px;
+}

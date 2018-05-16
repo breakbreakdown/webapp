@@ -22,7 +22,7 @@ ReactDOM.render((
   <Router>
 	<div className="Routes">
 		<Route exact path='/' component={InitHomePage} />
-		<Route path='home' component={home} />
+		<Route path='/home' component={home} />
 	</div>
   </Router>),
   document.getElementById('root')

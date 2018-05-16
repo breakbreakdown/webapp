@@ -1,13 +1,14 @@
 import React from 'react';
 import Firebase from 'firebase';
 import M from 'react-materialize';
+import './graph.css';
 
 class Graph extends React.Component {
 
 	
 	render() {
 		return (
-		  <div></div>
+		  <div id='graph'> graph </div>
 		);
 	}
 }
