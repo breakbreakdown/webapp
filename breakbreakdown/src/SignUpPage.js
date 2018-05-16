@@ -7,7 +7,7 @@ import handleSignIn from './login.js'
 import home from './home.js'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-class InitHomePage extends React.Component {
+class SignUpPage extends React.Component {
   render() {
     return (
       <div id="main">
@@ -20,12 +20,8 @@ class InitHomePage extends React.Component {
 
 ReactDOM.render((
   <Router>
-	<div className="Routes">
-		<Route exact path='/' component={InitHomePage} />
-		<Route path='home' component={home} />
-	</div>
+    <Route path="/" component={InitHomePage} />
   </Router>),
-  document.getElementById('root')
-);
+  document.getElementById('root'));
 
 registerServiceWorker();
