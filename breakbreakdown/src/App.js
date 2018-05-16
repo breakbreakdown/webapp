@@ -7,11 +7,11 @@ class App extends React.Component {
 	render() {
 		firebase.auth().onAuthStateChanged(function(user) {
 		  if (user) {
-			console.log("logged in");
-			return <Redirect to="/home" push={true} />
+				console.log("logged in");
+				return <Redirect from="/" to="/home" />
 		  } else {
 			  console.log("not logged in");
-			return <Redirect to="/signin" push={true} />
+				return <Redirect from="/" to="/signin" />
 		  }
 		});
 		return(<div></div>)
