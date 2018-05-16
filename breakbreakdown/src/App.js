@@ -1,22 +1,20 @@
-import React, { Component } from 'react';
-import home from 'home.js';
-import SignUpPage from 'SignUpPage.js'
+import React, { Component, PropTypes } from 'react';
+import firebase from 'firebase'
+import {BrowserRouter as Router, Route, browserHistory, Redirect } from 'react-router-dom'
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect
-} from 'react-router-dom'
-class App extends Component {
-  render() {
-    return (
-      <Router>
-			<Route path="/" exact={true} component={SignUpPage} />
-			<Route path="/home" exact={true} component={home} />
-      </Router>
-    );
-  }
+class App extends React.Component {
+	
+	render() {
+		firebase.auth().onAuthStateChanged(function(user) {
+		  if (user) {
+			console.log("logged in");
+			return <Redirect to="/home" push={true} />
+		  } else {
+			  console.log("not logged in");
+			return <Redirect to="/signin" push={true} />
+		  }
+		});
+		return(<div></div>)
+	}
 }
 export default App;
