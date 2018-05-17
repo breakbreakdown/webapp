@@ -1,7 +1,6 @@
 import React from 'react';
-import Firebase from 'firebase';
-import M from 'react-materialize';
 import Materialize from 'materialize-css';
+import ColorPalette from './ColorPalette'
 
 class AddEventPopup extends React.Component {
 
@@ -18,24 +17,28 @@ class AddEventPopup extends React.Component {
 
 	render() {
 		return (
-			<div id='addevent-popup-content'>
+			<div>
 			<span id='add-event-title'> Add Event </span>
 				<div className='row' id='addevent-form'>
 					<form className='col s12'>
 						<div className='row'>
-							<div className='input-field col s12'>
-								<input id='title' type='text' className='validate' />
-								<label htmlFor='title' className='active'>Title</label>
+							<div className='input-field col s11'>
+								<input id='title' placeholder='' type='text' className='validate' />
+								<label htmlFor='title'>Title</label>
+							</div>
+							<div className='input-field col s1'>
+								<label className='active'>Color</label>
+								<ColorPalette />
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s6'>
-								<input id='date' type='text' className='datepicker' />
-								<label htmlFor='date' className='active'>Date</label>
+								<input id='date' placeholder='' type='text' type='text' className='datepicker' />
+								<label htmlFor='date'>Date</label>
 							</div>
 							<div className='input-field col s6'>
 								<select>
-									<option value='1'>One Time</option>
+									<option value='1'></option>
 									<option value='2'>Daily</option>
 									<option value='3'>Weekly</option>
 									<option value='4'>Monthly</option>
@@ -46,37 +49,38 @@ class AddEventPopup extends React.Component {
 						</div>
 						<div className='row'>
 							<div className='input-field col s4'>
-								<input id='start' type='text' className='timepicker' />
-								<label htmlFor='start' className='active'>Start</label>
+								<input id='start' placeholder='' type='text' type='text' className='timepicker' />
+								<label htmlFor='start'>Start</label>
 							</div>
 							<div className='input-field col s4'>
-								<input id='end' type='text' className='timepicker' />
-								<label htmlFor='end' className='active'>End</label>
+								<input id='end' placeholder='' type='text' type='text' className='timepicker' />
+								<label htmlFor='end'>End</label>
 							</div>
 							<div className='input-field col s4'>
-								<input id='duration' type='text' className='validate' />
-								<label htmlFor='duration' className='active'>Duration</label>
+								<input id='duration' placeholder='' type='text' type='text' className='validate' />
+								<label htmlFor='duration'>Duration</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='location' type='text' className='validate' />
-								<label htmlFor='location' className='active'>Location</label>
+								<input id='location' placeholder='' type='text' type='text' className='validate' />
+								<label htmlFor='location'>Location</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='notes' type='text' className='validate' />
-								<label htmlFor='notes' className='active'>Notes</label>
+								<input id='notes' placeholder='' type='text' type='text' className='validate' />
+								<label htmlFor='notes'>Notes</label>
 							</div>
 						</div>
 						
-						<button className='btn waves-effect waves-light' type='submit' name='action'>Add to Calendar
+						<a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Cancel</a>
+						
+						<button className='btn waves-effect waves-light' type='submit'>Add to Calendar
 							<i className='material-icons right'>send</i>
 						</button>
 					</form>
 				</div>
-		  
 			</div>
 		);
 	}

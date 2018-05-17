@@ -1,6 +1,5 @@
 import React from 'react';
 import Firebase from 'firebase';
-import M from 'react-materialize';
 import Materialize from 'materialize-css';
 import './checklist.css';
 import ChecklistItem from './ChecklistItem'
@@ -13,7 +12,8 @@ class Checklist extends React.Component {
 	}
 	
 	componentDidMount(){
-		this.setState({listItems:['Event 1', 'Event 2', 'Event 3']});
+		var events = ['Event 1', 'Event 2', 'Event 3', 'Event 4', 'Event 5', 'Event 6', 'Event 7']
+		this.setState({listItems:events});
 	}
 	
 	render() {

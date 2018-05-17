@@ -78,49 +78,21 @@ body {
 	padding: 50px;
 }
 
-/* All popup modals */
-#addevent-popup {
-	max-height: 80% !important;
-	padding: 20px !important;
-	border-radius: 15px;
+.btn {
+	background-color: #75b0d1 !important;
 }
-
-.timepicker-modal {
-	width: 80% !important;
-}
-
-.datepicker-modal {
-	width: 100% !important;
-}
-
-.btn, .timepicker-digital-display, .datepicker-date-display, .is-selected {
-	background-color: rgb(117, 176, 209) !important;
-}
-
-.timepicker-close, .timepicker-dial, .confirmation-btns button, .is-today, .dropdown-content span {
-	color: rgb(117, 176, 209) !important;
-}
-
-.timepicker-canvas-bg, .timepicker-canvas-bearing {
-	fill: rgb(117, 176, 209) !important;
-}
-
-.timepicker-canvas line {
-	stroke: rgb(117, 176, 209) !important;
-}
-
 
 /* label focus color */
 input[type=text]:focus + label, label.active {
-	color: rgb(117, 176, 209) !important;
+	color: grey !important;
 }
 
 /* label underline color */
 input[type=text], input[type=text]:focus {
-	border-bottom: 1px solid rgb(117, 176, 209) !important;
+	border-bottom: 1px solid #75b0d1 !important;
 }
 
 /* label underline focus shadow */
 input[type=text]:focus {
-	box-shadow: 0 1px 0 0 rgb(117, 176, 209) !important;
+	box-shadow: 0 1px 0 0 #75b0d1 !important;
 }

@@ -3,9 +3,70 @@
 }
 
 #add-event-btn {
+	position: relative;
+	width: 36px;
 	float: right;
+	border-radius: 18px;
+	padding: 0;
+}
+
+
+#cancel-btn {
+	margin-right: 30px;
 }
 
 #addevent-form {
-	margin-top: 20px;
+	margin-top: 40px;
+}
+
+#addevent-popup {
+	width: 55%;
+	max-height: 80% !important;
+	padding: 20px !important;
+	border-radius: 15px;
+}
+
+.modal-overlay {
+	pointer-events: none;
+}
+
+.timepicker-modal, .datepicker-modal {
+	width: 90% !important;
+}
+
+.datepicker-footer, .timepicker-footer {
+	margin-top: 10px !important;
+}
+
+.datepicker-calendar-container, .timepicker-analog-display, .timepicker-digital-display {
+	padding: 20px !important;
+}
+
+.dropdown-content span {
+	color: black !important;
+}
+
+.timepicker-digital-display, .datepicker-date-display, .is-selected {
+	background-color: #75b0d1 !important;
+}
+
+.timepicker-close, .timepicker-dial, .confirmation-btns button, .is-today {
+	color: #75b0d1 !important;
+}
+
+.timepicker-canvas-bg, .timepicker-canvas-bearing {
+	fill: #75b0d1 !important;
+}
+
+.timepicker-canvas line {
+	stroke: #75b0d1 !important;
+}
+
+#color-palette {
+	margin-top: 15px;
+
+}
+
+#color-palette div input, #color-palette div[style*="justify-content:"] {
+	display: none !important;
 }

@@ -1,6 +1,4 @@
 import React from 'react';
-import Firebase from 'firebase';
-import M from 'react-materialize';
 import './addevent.css'
 import AddEventPopup from './AddEventPopup';
 import Popup from 'reactjs-popup';
