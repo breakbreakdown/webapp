@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import firebase from 'firebase'
 import {BrowserRouter as Router, Route, browserHistory, Redirect } from 'react-router-dom'
+import '../node_modules/materialize-css/dist/css/materialize.css';
 
 class App extends React.Component {
 

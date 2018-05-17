@@ -17,6 +17,7 @@ body {
 	width: 100%;
 	position: fixed;
 	bottom: 0;
+	/* height of toolbar + margin */
 	top: 118.5px;
 }
 
@@ -34,9 +35,45 @@ body {
 	float: right;
 }
 
+#toolbar {
+	margin-bottom: 0 !important;
+}
+
+#graph {
+	margin-right: 0 !important;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+}
+
+#checklist {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	/* height of addevent + margin */
+	bottom: 127px;
+}
+
+#addevent {
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: 0;
+}
+
 #toolbar, #graph, #checklist, #addevent {
 	background-color: white;
 	border-radius: 15px;
-	padding: 30px;
 	margin: 40px;
+}
+
+#toolbar, #addevent {
+	padding: 30px;
+}
+
+#graph, #checklist {
+	padding: 50px;
 }

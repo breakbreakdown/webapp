@@ -1,7 +1,27 @@
-#checklist {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 118.5px;
+#checklist-title {
+	font-size: 1.64rem;
+}
+
+.event-title {
+	color: black;
+}
+
+.checkbox:checked + .event-title {
+	color: grey;
+}
+
+/* .event-color { */
+	/* position: absolute; */
+	/* width: 10px; */
+	/* height: 16px; */
+	/* background-color: red; */
+	/* vertical-align: center; */
+/* } */
+
+.collection {
+	margin-top: 20px !important;
+}
+
+.collection, .collection .collection-item {
+	border: none !important;
 }
