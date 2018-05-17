@@ -8,13 +8,14 @@ import EventDetails from './EventDetails.js';
 import Graph from './Graph.js';
 import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
+import ApiCalendar from 'react-google-calendar-api/ApiCalendar';
 
 class home extends React.Component {
-
-	
 	render() {
 		return (
-		  <div></div>
+		  <div>
+				<p>Home</p>
+			</div>
 
 		);
 	}

@@ -14,4 +14,4 @@ export function initUserData(id, first, last, userEmail, googleToken) {
   token = googleToken;
 }
 
-export {userID, isAuthenticated, fName, lName, email, token};
+export default {userID, isAuthenticated, fName, lName, email, token};
