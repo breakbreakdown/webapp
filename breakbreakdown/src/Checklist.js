@@ -1,6 +1,7 @@
 import React from 'react';
 import Firebase from 'firebase';
 import M from 'react-materialize';
+import Materialize from 'materialize-css';
 import './checklist.css';
 import ChecklistItem from './ChecklistItem'
 
