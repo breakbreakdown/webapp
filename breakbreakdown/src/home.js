@@ -10,6 +10,8 @@ import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
 import ApiCalendar from './ApiCalendar.js';
 
+console.log("ajksdfkjasdbfjkasd");
+//ApiCalendar.handleAuthClick();
 class home extends React.Component {
 
 	render() {

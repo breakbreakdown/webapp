@@ -34,29 +34,49 @@ class ApiCalendar {
      * Auth to the google Api.
      */
     initClient() {
-        this.gapi = window['gapi'];
-        this.gapi.client.init(Config)
-            .then(() => {
-            // Listen for sign-in state changes.
-            this.gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
-            // Handle the initial sign-in state.
-            this.updateSigninStatus(this.gapi.auth2.getAuthInstance().isSignedIn.get());
-            if (this.onLoadCallback) {
-                this.onLoadCallback();
-            }
-        });
+      this.gapi = window['gapi'];
+      this.gapi.client.init(Config)
+          .then(() => {
+          // Listen for sign-in state changes.
+          this.gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
+          // Handle the initial sign-in state.
+          this.updateSigninStatus(this.gapi.auth2.getAuthInstance().isSignedIn.get());
+          if (this.onLoadCallback) {
+              this.onLoadCallback();
+          }
+      });
+    }
+
+    loadClientWhenGapiReady = (script) => {
+      console.log('Trying To Load Client!');
+      console.log(script)
+      if(script.getAttribute('gapi_processed')){
+        console.log('Client is ready! Now you can access gapi. :)');
+        window['gapi'].load('client:auth2', this.initClient);
+      }
+      else{
+        console.log('Client wasn\'t ready, trying again in 100ms');
+        setTimeout(() => {this.loadClientWhenGapiReady(script)}, 100);
+      }
+
     }
     /**
      * Init Google Api
      * And create gapi in global
      */
     handleClientLoad() {
-        const script = document.createElement("script");
-        script.src = "https://apis.google.com/js/api.js";
-        document.body.appendChild(script);
-        script.onload = () => {
-            window['gapi'].load('client:auth2', this.initClient);
-        };
+      console.log('Initializing GAPI...');
+      console.log('Creating the google script tag...');
+
+      const script = document.createElement("script");
+      script.onload = () => {
+        console.log('Loaded script, now loading our api...')
+        // Gapi isn't available immediately so we have to wait until it is to use gapi.
+        this.loadClientWhenGapiReady(script);
+        //window['gapi'].load('client:auth2', this.initClient);
+      };
+      script.src = "https://apis.google.com/js/client.js";
+      document.body.appendChild(script);
     }
     /**
      * Sign in Google user account
