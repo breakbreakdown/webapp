@@ -45,18 +45,18 @@ class ApiCalendar {
               this.onLoadCallback();
           }
       });
+      return true;
     }
 
     loadClientWhenGapiReady = (script) => {
       console.log('Trying To Load Client!');
-      console.log(script)
       if(script.getAttribute('gapi_processed')){
         console.log('Client is ready! Now you can access gapi. :)');
         window['gapi'].load('client:auth2', this.initClient);
       }
       else{
-        console.log('Client wasn\'t ready, trying again in 100ms');
-        setTimeout(() => {this.loadClientWhenGapiReady(script)}, 100);
+        console.log('Client wasn\'t ready, trying again in 200ms');
+        setTimeout(() => {this.loadClientWhenGapiReady(script)}, 200);
       }
 
     }
@@ -84,7 +84,9 @@ class ApiCalendar {
     handleAuthClick() {
         if (this.gapi) {
             this.gapi.auth2.getAuthInstance().signIn();
+            console.log(this.isSignedIn());
         } else {
+            setTimeout(() => {this.handleAuthClick()}, 200);
             console.log("Error: this.gapi not loaded");
         }
     }

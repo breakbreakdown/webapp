@@ -1,3 +1,4 @@
+import ApiCalendar from './ApiCalendar.js';
 import React from 'react';
 import Firebase from 'firebase';
 import AddEvent from './AddEvent.js';
@@ -8,10 +9,9 @@ import EventDetails from './EventDetails.js';
 import Graph from './Graph.js';
 import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
-import ApiCalendar from './ApiCalendar.js';
 
-console.log("ajksdfkjasdbfjkasd");
-//ApiCalendar.handleAuthClick();
+ApiCalendar.handleAuthClick();
+
 class home extends React.Component {
 
 	render() {
