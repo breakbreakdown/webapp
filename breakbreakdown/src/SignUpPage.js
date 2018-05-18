@@ -5,7 +5,7 @@ import registerServiceWorker from './registerServiceWorker';
 import GoogleButton from 'react-google-button'
 import handleSignIn from './login.js'
 import home from './home.js'
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 class SignUpPage extends React.Component {
   render() {
