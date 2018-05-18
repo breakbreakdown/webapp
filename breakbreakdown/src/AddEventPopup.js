@@ -23,7 +23,7 @@ class AddEventPopup extends React.Component {
 					<form className='col s12'>
 						<div className='row'>
 							<div className='input-field col s11'>
-								<input id='title' placeholder='' type='text' className='validate' />
+								<input id='title' placeholder='' value='' type='text' className='validate' />
 								<label htmlFor='title'>Title</label>
 							</div>
 							<div className='input-field col s1'>

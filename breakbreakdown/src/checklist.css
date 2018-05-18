@@ -4,6 +4,20 @@
 
 .event-title {
 	color: black;
+	display: inline;
+}
+
+.checklist-event {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	bottom: 0;
+	margin: 10px;
+	margin-left: 30px;
+}
+
+.collection-item {
+	position: relative;
 }
 
 /* checked item title color */

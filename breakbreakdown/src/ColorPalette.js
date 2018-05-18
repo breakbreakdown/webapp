@@ -29,19 +29,16 @@ class ColorPalette extends React.Component {
 			color: {
 			  width: '30px',
 			  height: '30px',
-			  borderRadius: '2px',
+			  borderRadius: '5px',
 			  background: `${this.state.color}`,
-			},
-			swatch: {
-			  borderRadius: '1px',
-			  boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
 			  display: 'inline-block',
-			  cursor: 'pointer',
+			  cursor: 'pointer'
 			},
+
 			popover: {
 			  position: 'absolute',
-			  right: '-9px',
-			  top: '60px',
+			  right: '0',
+			  
 			  zIndex: '2',
 			},
 			cover: {
@@ -63,7 +60,7 @@ class ColorPalette extends React.Component {
 				  <div style={ styles.cover } onClick={ this.handleClose }/>
 				  <TwitterPicker width='168px'
 								colors={this.state.colors}
-								triangle='top-right'
+								triangle='hide'
 								color={ this.state.color }
 								onChange={ this.handleChange } />
 				</div> : null }

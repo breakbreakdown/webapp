@@ -50,6 +50,10 @@
 	background-color: #75b0d1 !important;
 }
 
+.timepicker-tick:hover, .datepicker-day-button:focus {
+	background-color: rgb(117, 176, 209, 0.25) !important;
+}
+
 .timepicker-close, .timepicker-dial, .confirmation-btns button, .is-today {
 	color: #75b0d1 !important;
 }

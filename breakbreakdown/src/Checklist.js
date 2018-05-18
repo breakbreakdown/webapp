@@ -3,6 +3,7 @@ import Firebase from 'firebase';
 import Materialize from 'materialize-css';
 import './checklist.css';
 import ChecklistItem from './ChecklistItem'
+import EventDetails from './EventDetails';
 
 
 class Checklist extends React.Component {
@@ -24,7 +25,7 @@ class Checklist extends React.Component {
 			
 				<ul className='collection'>
 					{Object.keys(this.state.listItems).map((d) => {
-							return <ChecklistItem title={this.state.listItems[d]}/>
+							return <ChecklistItem key={d} title={this.state.listItems[d]} events={this.state.listItems}/>
 					})}
 				</ul>
 				
