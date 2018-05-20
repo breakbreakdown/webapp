@@ -167,6 +167,7 @@
   - hh/mm/ss counter with &quot;free time&quot; label above it
 - Time left in the day counter
   - Located in the center of the graph
+  - The free time left should be the 24:00 - users current time in the selected time zone - total duration of all events added to account.
   - hh/mm/ss counter in the center of time chart with &quot;Time left In the Day&quot; label
   - Smaller than original free time counter
 - Events sectioned
