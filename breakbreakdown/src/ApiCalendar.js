@@ -28,7 +28,7 @@ class ApiCalendar {
      * @param {boolean} isSignedIn
      */
     updateSigninStatus(isSignedIn) {
-        this.sign = isSignedIn;
+      this.sign = isSignedIn;
     }
     /**
      * Auth to the google Api.
@@ -77,6 +77,7 @@ class ApiCalendar {
     handleAuthClick() {
         if (this.gapi) {
             this.gapi.auth2.getAuthInstance().signIn();
+            //console.log(this.gapi.auth2.getAuthInstance().isSignedIn.get());
         } else {
             setTimeout(() => {this.handleAuthClick()}, 300);
             console.log("Error: this.gapi not loaded. Loading again...");
@@ -98,7 +99,8 @@ class ApiCalendar {
             this.gapi.auth2.getAuthInstance().isSignedIn.listen(callback);
         }
         else {
-            console.log("Error: this.gapi not loaded");
+          setTimeout(() => {this.listenSign(callback)}, 300);
+          console.log("listenSign: this.gapi not loaded. Loading again...");
         }
     }
     /**
@@ -132,18 +134,34 @@ class ApiCalendar {
      */
     listUpcomingEvents(maxResults, calendarId = this.calendar) {
         if (this.gapi) {
-            return this.gapi.client.calendar.events.list({
+          let myEvents = {};
+          let timeMax = new Date();
+          timeMax.setHours(24,0,0,0);
+          timeMax = timeMax.toISOString();
+          this.gapi.client.calendar.events.list({
                 'calendarId': calendarId,
-                'timeMin': (new Date()).toISOString(),
+                'timeMin': new Date().toISOString(),
+                'timeMax': timeMax,
                 'showDeleted': false,
                 'singleEvents': true,
                 'maxResults': maxResults,
                 'orderBy': 'startTime'
+            }).then((response) => {
+              let events = response.result.items;
+              if (events.length > 0) {
+                for (let i = 0; i < events.length; i++) {
+                  let event = events[i];
+                  myEvents[event.id] = event;
+                }
+              } else {
+                myEvents = null;
+              }
             });
-        }
-        else {
-            console.log("Error: this.gapi not loaded");
-            return false;
+            console.log("myEvents:", myEvents);
+            return myEvents;
+        } else {
+          console.log("Error: this.gapi not loaded");
+          return false;
         }
     }
     /**

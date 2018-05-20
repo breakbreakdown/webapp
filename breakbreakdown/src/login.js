@@ -11,7 +11,7 @@ var config = {
   };
 
 firebase.initializeApp(config);
-var database = firebase.database()
+var database = firebase.database();
 
 export default function handleSignIn() {
   var provider = new firebase.auth.GoogleAuthProvider();

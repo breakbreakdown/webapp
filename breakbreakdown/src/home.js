@@ -10,21 +10,19 @@ import Graph from './Graph.js';
 import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
 
-//ApiCalendar.handleAuthClick();
-
 class home extends React.Component {
-	constructor(props) {
-    super(props);
-    this.state = {
-      done: false
-    }
-  }
 
 	componentDidMount() {
-    ApiCalendar.handleAuthClick();
-		if (this.state.done) {//user is authorized in
-			console.log("Events: " + JSON.stringify(ApiCalendar.listUpcomingEvents(10)));
-		}
+		var signChanged = function (val) {
+			console.log("Sign in:", val);
+			if (val) {
+				console.log(ApiCalendar.listUpcomingEvents(10));
+			} else {
+				ApiCalendar.handleAuthClick();
+			}
+		};
+
+		ApiCalendar.listenSign(signChanged);
   }
 
 	render() {
