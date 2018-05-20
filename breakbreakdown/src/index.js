@@ -6,7 +6,7 @@ import GoogleButton from 'react-google-button'
 import handleSignIn from './login.js'
 import home from './home.js'
 import App from './App.js'
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 class SignIn extends React.Component {
   render() {
@@ -22,11 +22,9 @@ class SignIn extends React.Component {
 ReactDOM.render((
   <Router>
 	<div className="Routes">
-    <Switch>
-  		<Route path='/signin' component={SignIn} />
-  		<Route path='/home' component={home} />
-      <Route path='/' component={App} />
-    </Switch>
+    <Route path='/signin' component={SignIn} />
+		<Route path='/home' component={home} />
+		<Route path='/' component={App} />
 	</div>
   </Router>),
   document.getElementById('root')

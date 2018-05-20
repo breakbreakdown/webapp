@@ -10,7 +10,7 @@ import Graph from './Graph.js';
 import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
 
-ApiCalendar.handleAuthClick();
+//piCalendar.handleAuthClick();
 
 class home extends React.Component {
 

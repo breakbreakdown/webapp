@@ -9,6 +9,8 @@ var config = {
     storageBucket: "breakbreakdown-64b8a.appspot.com",
     messagingSenderId: "534313689390"
   };
+
+const firebaseAuthKey = "firebaseAuthInProgress";
 firebase.initializeApp(config);
 var database = firebase.database()
 
@@ -27,9 +29,10 @@ export default function handleSignIn() {
     }
     // Sets up global variables in user.js
     U.initUserData(user.uid, name[0], name[1], user.email, token);
-    pushToFirebase();
+    localStorage.setItem(firebaseAuthKey, "1");
   }).catch(function(error) {
     // Handle Errors here.
+    localStorage.removeItem(firebaseAuthKey);
     var errorCode = error.code;
     var errorMessage = error.message;
     // The email of the user's account used.
@@ -37,8 +40,4 @@ export default function handleSignIn() {
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
   });
-}
-
-function pushToFirebase() {
-
 }
