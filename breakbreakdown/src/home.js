@@ -10,14 +10,27 @@ import Graph from './Graph.js';
 import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
 
-//piCalendar.handleAuthClick();
+//ApiCalendar.handleAuthClick();
 
 class home extends React.Component {
+	constructor(props) {
+    super(props);
+    this.state = {
+      done: false
+    }
+  }
+
+	componentDidMount() {
+    ApiCalendar.handleAuthClick();
+		if (this.state.done) {//user is authorized in
+			console.log("Events: " + JSON.stringify(ApiCalendar.listUpcomingEvents(10)));
+		}
+  }
 
 	render() {
 		return (
 		  <div>
-				<p>Home</p>
+				Waiting for authorization...
 			</div>
 
 		);

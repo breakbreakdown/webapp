@@ -10,7 +10,6 @@ var config = {
     messagingSenderId: "534313689390"
   };
 
-const firebaseAuthKey = "firebaseAuthInProgress";
 firebase.initializeApp(config);
 var database = firebase.database()
 
@@ -29,10 +28,10 @@ export default function handleSignIn() {
     }
     // Sets up global variables in user.js
     U.initUserData(user.uid, name[0], name[1], user.email, token);
-    localStorage.setItem(firebaseAuthKey, "1");
+    localStorage.setItem("firebaseAuthInProgress", "1");
   }).catch(function(error) {
     // Handle Errors here.
-    localStorage.removeItem(firebaseAuthKey);
+    localStorage.removeItem("firebaseAuthKey");
     var errorCode = error.code;
     var errorMessage = error.message;
     // The email of the user's account used.

@@ -49,13 +49,10 @@ class ApiCalendar {
     }
 
     loadClientWhenGapiReady = (script) => {
-      console.log('Trying To Load Client!');
       if(script.getAttribute('gapi_processed')){
-        console.log('Client is ready! Now you can access gapi. :)');
         window['gapi'].load('client:auth2', this.initClient);
       }
       else{
-        console.log('Client wasn\'t ready, trying again in 300ms');
         setTimeout(() => {this.loadClientWhenGapiReady(script)}, 300);
       }
 
@@ -65,12 +62,8 @@ class ApiCalendar {
      * And create gapi in global
      */
     handleClientLoad() {
-      console.log('Initializing GAPI...');
-      console.log('Creating the google script tag...');
-
       const script = document.createElement("script");
       script.onload = () => {
-        console.log('Loaded script, now loading our api...')
         // Gapi isn't available immediately so we have to wait until it is to use gapi.
         this.loadClientWhenGapiReady(script);
         //window['gapi'].load('client:auth2', this.initClient);
@@ -86,7 +79,7 @@ class ApiCalendar {
             this.gapi.auth2.getAuthInstance().signIn();
         } else {
             setTimeout(() => {this.handleAuthClick()}, 300);
-            console.log("Error: this.gapi not loaded");
+            console.log("Error: this.gapi not loaded. Loading again...");
         }
     }
     /**
