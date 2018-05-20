@@ -1,22 +1,7 @@
-# BreakBreakdown Web Application
-
-#
-
-## Requirement Outline
-
-Andrew Tran, Benjamin Nogawa, Constance La, Juan Alvarez, Phillip Park
-
-Git Schwifty INFO 461 Sp&#39; 17
-
-
-
-
-
-
+**Requirement Notes**
 
 **Application Flow Diagram**
-
-**Requirement Notes**
+![Application Flow Diagram ](https://github.com/breakbreakdown/webapp/blob/master/img/ApplicationFlowDiagram.png)
 
 **Overall Notes**
 
@@ -35,7 +20,7 @@ Git Schwifty INFO 461 Sp&#39; 17
       - Gill Sans MT
       - RGB(0, 0, 0)
   - Buttons
-    - Sign In, Sign Up, Add Event, Settings - RGB(117, 176, 209)
+    - Google Sign in Button
     - Save and Edit - RGB(159, 198, 136)
     - Delete and Cancel - RGB(210, 85,115)
   - 16 Event Label Colors
@@ -56,33 +41,16 @@ Git Schwifty INFO 461 Sp&#39; 17
     - RGB(117,85,233)
     - RGB(209,96,121)
 
-**Sign-Up**
-
+**Sign-In**
+![signin ](https://github.com/breakbreakdown/webapp/blob/master/img/signin.png)
 - Fields
-  - Name (text field)
-  - Email (text field)
-    - Check for valid email using \*\*\*\*\*@\*\*\*\*\*.\*\*\*(com, edu,net, gov, org) format
-    - Email is stored in Firebase
-  - Password (text field)
-    - Password is stored in Firebase
-  - Confirm password (text field)
-    - Checks if the password is the same as the password in the first password field
-
-- Connect google account (required)
-  - Required fields to login to google
-    - Email
-    - Password
-  - Confirm button
-    - If confirmed, marks the account as a google calendar user in the database
-    - If user is a google calendar user, checks their google calendar daily to pull events from their calendar into our application.
-- Link to Sign-In page (&quot;Already a member?&quot;)
-  - Sends you to the sign in page
-- Sign-up button
-  - Clicking sign-up button will send you to homepage
-  - Sends all the fields to the database to store (Name, email, password)
+  - Input data
+    - Sign-in button
+      - Sign-in button(Google). Don’t use image above, just have a Google Sign in Button
+      - Clicking sign-in button will send you to homepage
 
 **Add Event (popup)**
-
+![add event ](https://github.com/breakbreakdown/webapp/blob/master/img/AddEvent.png)
 - Adds new event and also adds it to the user&#39;s google calendar
 - Fields
   - Title (text field)
@@ -93,21 +61,15 @@ Git Schwifty INFO 461 Sp&#39; 17
   - Start/End time/Estimated Time
     - Selector if its a scheduled event (class, work, etc...) or non-scheduled task (clean room, do laundry, etc...)
       - If scheduled
-        - Start time drop down menu that indicates what time the scheduled event starts in intervals of 30 minutes
-        - End time drop down menu that indicates what time the scheduled event ends in intervals of 30 minutes
-        - AM/PM drop down menu for users to indicate if its AM or PM
-        - End time must be after start time. If not, show red error under fields that say &quot;End time can not be before start time&quot;
+        - Uses a start and end time picker popup to select start and end times
+        - End time must be after start time. If not, show red error under fields that say “End time can not be before start time”
       - If non-scheduled task
         - Sent to google calendar API as all day event
         - Hour field to indicated how many hours the task will take
         - Minute field to indicate how many minutes the event will take.
   - Color
     - Scroller menu of preset colors
-    - Red, blue, green, yellow, orange, pink; any shade of these colors
-    - 16 preset colors limit
-    - One custom color that takes in rgb input
-      - RGB slider with color preview next to slider
-      - Sets the event color based on the rgb that the user has provided
+    - User can not choose a custom color, can only select from preselected colors
   - Location (text field only, since there is no GPS compatibility)
     - Input location of the event as text
     - Null accepted
@@ -133,28 +95,90 @@ Git Schwifty INFO 461 Sp&#39; 17
   - Closes popup, shows the home screen
   - Does not push data to google calendar
 
- 
 
-**Edit Settings (popup)**
 
-- Email Field and Google Account Field
-  - Text input pre filled with users current email
-  - Allows users to edit the text
-  - Change email/ change Google Account button
-    - Confirm popup to confirm change
-      - Accept button
-        - Checks if text box is different than user&#39;s current email
-        - If it&#39;s not different, clicking it shows error saying &quot;Email not changed&quot;
-        - If it is different, clicking it changes email in our database and shows green message saying &quot;Change email successful&quot;
-      - Cancel button
-        - Changes email in Email/Google Account field back to current saved email in database
-- Change password
-  - Unhides a &quot;Current Password&quot; field, &quot;New Password&quot; field, and a &quot;Confirm New Password Field&quot;
-  - Unhides a confirm button.
-  - Confirm button
-    - Checks if current password field matches the current password of the user. If not show error under that field saying &quot;Wrong Password&quot;
-    - Checks if New Password and Confirm New Password field matches each other. If not, show error under Confirm New Password Field that says &quot;Passwords do not match&quot;
-- X button on top right that closes the popup. Shows home screen.
+**Event Details** (popup)
+![event details ](https://github.com/breakbreakdown/webapp/blob/master/img/eventname.png)
+- Color of text fields and buttons match color of the event
+- Title
+  - Displays title of the event based on what the user inputed in Add Event popup
+- Start/end/estimated
+  - Displays the start/end/estimated time of the event based on what the user inputed in Add Event popup
+- Color
+  - Displays the color the event was assigned based on what the user inputed in Add Event popup
+- Location
+  - Displays the location of the event based on what the user inputed in Add Event popup
+- Notes
+  - Displays the description of the event based on what the user inputed in Add Event popup
+- Event delete button
+  - Deletes event
+  - Removes it from user&#39;s google calendar
+  - Pop-up to confirm delete with message and confirm and cancel buttons
+
+
+**Event Edit** button (popup)
+![event edit ](https://github.com/breakbreakdown/webapp/blob/master/img/EventNameEdit.png)
+- Same fields as in the create events popup, except the fields are preloaded with the information already input
+- Change popup to event details after clicking these two buttons below
+  - Save edits
+    - Push new fields to google calendar and our database (firebase)
+  - Cancel buttons
+
+
+
+**Settings (popup)**
+![Setting ](https://github.com/breakbreakdown/webapp/blob/master/img/setting.png)
+- Email Field
+  - Displays user&#39;s current email stored in database with &quot;Email&quot; label
+- Google Account Field
+  - Displays user&#39;s current email stored in database with &quot;Google Account&quot; label
+- Edit button
+  - Located on bottom of popup
+  - Opens Edit Settings popup
+- X button on top right that closes popup and shows home screen
+
+**Header Bar**
+![homescreen ](https://github.com/breakbreakdown/webapp/blob/master/img/homescreen.png)
+- Profile icon with user name on left of bar
+- Calendar icon with day of week, month, and day in middle of bar
+- Clock icon with current time on right of bar
+- Logout Button on right of bar logs the user out on click and brings them back to the sign in page
+
+**Checklist**
+
+- List of added events
+  - Each event has a small vertical bar with the color being the color it was assigned to
+  - On hover, change cursor to the pointer finger to show users it can be clicked
+  - On click, show users the event detail screen as an Event Details popup
+  - List ordered by scheduled time
+    - Un-scheduled tasks first on list
+- Check off events
+  - Event&#39;s checkbox checked off when clicked
+  - Event&#39;s title &quot;faded out&quot; - font color changed to light grey
+  - Event moved to the bottom of the checklist
+  - Update chart
+    - Remaining amount of time of the event added to amount of freetime
+    - Event slice is removed from the chart
+
+**Graph**
+![homescreen ](https://github.com/breakbreakdown/webapp/blob/master/img/homescreen.png)
+- Free time counter
+  - Located in the center of the graph
+  - hh/mm/ss counter with &quot;free time&quot; label above it
+- Time left in the day counter
+  - Located in the center of the graph
+  - hh/mm/ss counter in the center of time chart with &quot;Time left In the Day&quot; label
+  - Smaller than original free time counter
+- Events sectioned
+  - Scaled based on the portion of the remainder of the day that event will take up
+    - Based on
+      - For scheduled events
+        - Time between start and finish
+      - For non-scheduled tasks
+        - Estimated time value
+- On click
+  - Opens Event Detail popup for the event selected on the graph
+
 - On hover
   - **Summary Detail** (popup)
     - Title
