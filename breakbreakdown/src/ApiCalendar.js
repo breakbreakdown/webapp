@@ -23,6 +23,32 @@ class ApiCalendar {
         this.setCalendar = this.setCalendar.bind(this);
         this.handleClientLoad();
     }
+
+    loadClientWhenGapiReady = (script) => {
+      if(script.getAttribute('gapi_processed')){
+        window['gapi'].load('client:auth2', this.initClient);
+      }
+      else{
+        setTimeout(() => {this.loadClientWhenGapiReady(script)}, 300);
+      }
+
+    }
+
+    /**
+     * Init Google Api
+     * And create gapi in global
+     */
+    handleClientLoad() {
+      const script = document.createElement("script");
+      script.onload = () => {
+        // Gapi isn't available immediately so we have to wait until it is to use gapi.
+        this.loadClientWhenGapiReady(script);
+        //window['gapi'].load('client:auth2', this.initClient);
+      };
+      script.src = "https://apis.google.com/js/client.js";
+      document.body.appendChild(script);
+    }
+
     /**
      * Update connection status.
      * @param {boolean} isSignedIn
@@ -48,29 +74,7 @@ class ApiCalendar {
       return true;
     }
 
-    loadClientWhenGapiReady = (script) => {
-      if(script.getAttribute('gapi_processed')){
-        window['gapi'].load('client:auth2', this.initClient);
-      }
-      else{
-        setTimeout(() => {this.loadClientWhenGapiReady(script)}, 300);
-      }
 
-    }
-    /**
-     * Init Google Api
-     * And create gapi in global
-     */
-    handleClientLoad() {
-      const script = document.createElement("script");
-      script.onload = () => {
-        // Gapi isn't available immediately so we have to wait until it is to use gapi.
-        this.loadClientWhenGapiReady(script);
-        //window['gapi'].load('client:auth2', this.initClient);
-      };
-      script.src = "https://apis.google.com/js/client.js";
-      document.body.appendChild(script);
-    }
     /**
      * Sign in Google user account
      */
@@ -157,10 +161,10 @@ class ApiCalendar {
                 myEvents = null;
               }
             });
-            console.log("myEvents:", myEvents);
             return myEvents;
         } else {
           console.log("Error: this.gapi not loaded");
+          setTimeout(() => {this.listUpcomingEvents(maxResults, calendarId = this.calendar)}, 300);
           return false;
         }
     }

@@ -13,15 +13,16 @@ import Toolbar from './Toolbar.js';
 class home extends React.Component {
 
 	componentDidMount() {
+		ApiCalendar.handleAuthClick();
 		var signChanged = function (val) {
 			console.log("Sign in:", val);
 			if (val) {
-				console.log(ApiCalendar.listUpcomingEvents(10));
+				console.log(ApiCalendar.listUpcomingEvents(25));
+				ApiCalendar.handleSignoutClick();
 			} else {
-				ApiCalendar.handleAuthClick();
+
 			}
 		};
-
 		ApiCalendar.listenSign(signChanged);
   }
 
