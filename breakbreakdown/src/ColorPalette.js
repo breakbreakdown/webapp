@@ -53,16 +53,16 @@ class ColorPalette extends React.Component {
 
 		return (
 			<div id='color-palette'>
-				<div style={ styles.swatch } onClick={ this.handleClick }>
-				  <div style={ styles.color } />
+				<div style={styles.swatch} onClick={this.handleClick}>
+				  <div style={styles.color}/>
 				</div>
-				{ this.state.displayColorPicker ? <div style={ styles.popover }>
-				  <div style={ styles.cover } onClick={ this.handleClose }/>
+				{ this.state.displayColorPicker ? <div style={styles.popover}>
+				  <div style={styles.cover} onClick={this.handleClose}/>
 				  <TwitterPicker width='168px'
 								colors={this.state.colors}
 								triangle='hide'
-								color={ this.state.color }
-								onChange={ this.handleChange } />
+								color={this.state.color}
+								onChange={this.handleChange} />
 				</div> : null }
 
 			</div>

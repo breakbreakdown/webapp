@@ -19,9 +19,7 @@ class Graph extends React.Component {
 		  <div id='graph'> 
 			<VictoryPie
 			  colorScale={["tomato", "orange", "gold", "cyan", "navy" ]}
-			  data={
-				this.state.events
-			  }
+			  data={this.state.events}
 			  innerRadius={100}
 			  events={[{
 					  target: "data",
