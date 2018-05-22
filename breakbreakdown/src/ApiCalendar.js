@@ -182,11 +182,11 @@ class ApiCalendar {
             description,
             start: {
                 dateTime: (new Date()).toISOString(),
-                timeZone: "Europe/Paris",
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             },
             end: {
                 dateTime: (new Date(new Date().getTime() + time * 60000)),
-                timeZone: "Europe/Paris",
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             }
         };
         return this.gapi.client.calendar.events.insert({

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import firebase from 'firebase'
-import ApiCalendar from './ApiCalendar.js';
+import ApiCalendar from './ApiCalendar.js';//leave this here so it loads first
 import {BrowserRouter as Router, Route, browserHistory, Redirect } from 'react-router-dom'
 
 class App extends React.Component {

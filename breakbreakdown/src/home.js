@@ -9,15 +9,18 @@ import EventDetails from './EventDetails.js';
 import Graph from './Graph.js';
 import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
+ 
+let events = {};
 
 class home extends React.Component {
 
 	componentDidMount() {
 		ApiCalendar.handleAuthClick();
 		var signChanged = function (val) {
-			console.log("Sign in:", val);
+			console.log("Signed in:", val);
 			if (val) {
-				console.log(ApiCalendar.listUpcomingEvents(25));
+				events = ApiCalendar.listUpcomingEvents(25);//load max of 25 events
+				console.log(events);
 				ApiCalendar.handleSignoutClick();
 			} else {
 
