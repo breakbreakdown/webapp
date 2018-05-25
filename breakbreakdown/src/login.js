@@ -32,12 +32,9 @@ export default function handleSignIn() {
 }
 
 function initializeUser(userId, firstName, lastName, email) {
-  var array = [1,2,3];
   fire.database().ref('users/' + userId).set({
     firstName: firstName,
 		lastName: lastName,
-    email: email,
-    days: array
+    email: email
   });
-  console.log('user set')
 }

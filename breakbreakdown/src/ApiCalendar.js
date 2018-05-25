@@ -154,8 +154,8 @@ class ApiCalendar {
               let events = response.result.items;
               if (events.length > 0) {
                 for (let i = 0; i < events.length; i++) {
-                  let event = events[i];
-                  myEvents[event.id] = event;
+                  //let event = events[i];
+                  myEvents[i] = events[i];
                 }
               } else {
                 myEvents = null;
@@ -165,7 +165,7 @@ class ApiCalendar {
         } else {
           console.log("Error: this.gapi not loaded");
           setTimeout(() => {this.listUpcomingEvents(maxResults, calendarId = this.calendar)}, 300);
-          return false;
+          return;
         }
     }
     /**

@@ -26,6 +26,7 @@ class home extends React.Component {
 			if (val) {
 				events = ApiCalendar.listUpcomingEvents(25);//load max of 25 events
 				console.log(events);
+				writeUserData(localStorage.getItem('appTokenKey'), events);
 				ApiCalendar.handleSignoutClick();
 			} else {
 
@@ -33,8 +34,6 @@ class home extends React.Component {
 		};
 		ApiCalendar.listenSign(signChanged);
 		//console.log(events['1coub2oqli7hh2ha2j4rdlhmvf']);
-		//writeUserData(localStorage.getItem('appTokenKey'), events);
-		console.log(localStorage.getItem('appTokenKey'));
   }
 
 	render() {
@@ -60,10 +59,23 @@ class home extends React.Component {
 	}
 }
 
-function writeUserData(userId, event) {
-	var usersRef = database.ref('users/' + userId);
-  usersRef.update({
-		days[0]: event
-  });
+function writeUserData(userId, eventsArr) {
+	var date = new Date();
+	var month = date.getUTCMonth() + 1; //months from 1-12
+	var day = date.getUTCDate();
+	var year = date.getUTCFullYear();
+	var newDate = year + "-" + month + "-" + day;
+	var daysRef = database.ref('users/' + userId + '/days/' + newDate);
+
+	console.log(eventsArr[0]);//this thing needs to be fixed
+	for (var i = 0; i < eventsArr.length; i++) {
+		console.log(eventsArr[i].id);
+		daysRef.set({
+			event: eventsArr[i].id
+		});
+	}
+
+
+
 }
  export default home;
