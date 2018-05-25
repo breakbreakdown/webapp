@@ -1,6 +1,6 @@
 import ApiCalendar from './ApiCalendar.js';
 import React from 'react';
-import Firebase from 'firebase';
+import firebase from 'firebase';
 import AddEvent from './AddEvent.js';
 import AddEventPopup from './AddEventPopup.js';
 import Checklist from './Checklist.js';
@@ -10,8 +10,12 @@ import Graph from './Graph.js';
 import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
 import './home.css';
- 
+import fire from './fireB.js';
+import * as U from './user.js'
+
 let events = {};
+
+var database = fire.database();
 
 class home extends React.Component {
 
@@ -28,6 +32,9 @@ class home extends React.Component {
 			}
 		};
 		ApiCalendar.listenSign(signChanged);
+		//console.log(events['1coub2oqli7hh2ha2j4rdlhmvf']);
+		//writeUserData(localStorage.getItem('appTokenKey'), events);
+		console.log(localStorage.getItem('appTokenKey'));
   }
 
 	render() {
@@ -51,5 +58,12 @@ class home extends React.Component {
 
 		);
 	}
+}
+
+function writeUserData(userId, event) {
+	var usersRef = database.ref('users/' + userId);
+  usersRef.update({
+		days[0]: event
+  });
 }
  export default home;

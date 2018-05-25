@@ -5,6 +5,7 @@ import ApiCalendar from './ApiCalendar.js';//leave this here so it loads first
 import '../node_modules/materialize-css/dist/css/materialize.css';
 import '../node_modules/material-design-icons/iconfont/material-icons.css';
 
+
 class App extends React.Component {
 	render() {
 		if (localStorage.getItem("appTokenKey")) {

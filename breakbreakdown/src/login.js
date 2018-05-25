@@ -1,17 +1,6 @@
-import firebase from 'firebase'
 import * as U from './user.js'
-
-var config = {
-    apiKey: "AIzaSyBzenkKKf1b7eyYHboHgcBL9N6mQAjpB2g",
-    authDomain: "breakbreakdown-64b8a.firebaseapp.com",
-    databaseURL: "https://breakbreakdown-64b8a.firebaseio.com",
-    projectId: "breakbreakdown-64b8a",
-    storageBucket: "breakbreakdown-64b8a.appspot.com",
-    messagingSenderId: "534313689390"
-  };
-
-firebase.initializeApp(config);
-var database = firebase.database();
+import firebase from 'firebase';
+import fire from './fireB.js'
 
 export default function handleSignIn() {
   var provider = new firebase.auth.GoogleAuthProvider();
@@ -27,8 +16,9 @@ export default function handleSignIn() {
       name.shift();
     }
     // Sets up global variables in user.js
-    U.initUserData(user.uid, name[0], name[1], user.email, token);
+    //U.initUserData(user.uid, name[0], name[1], user.email, token);
     localStorage.setItem("firebaseAuthInProgress", "1");
+    initializeUser(user.uid, name[0], name[1], user.email);
   }).catch(function(error) {
     // Handle Errors here.
     localStorage.removeItem("firebaseAuthKey");
@@ -39,4 +29,15 @@ export default function handleSignIn() {
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
   });
+}
+
+function initializeUser(userId, firstName, lastName, email) {
+  var array = [1,2,3];
+  fire.database().ref('users/' + userId).set({
+    firstName: firstName,
+		lastName: lastName,
+    email: email,
+    days: array
+  });
+  console.log('user set')
 }
