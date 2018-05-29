@@ -13,7 +13,9 @@ import './home.css';
 import fire from './fireB.js';
 import * as U from './user.js'
 
-let events = {};
+
+
+let eventsArray = {};
 
 var database = fire.database();
 
@@ -27,16 +29,15 @@ class home extends React.Component {
 		var signChanged = function (val) {
 			console.log("Signed in:", val);
 			if (val) {
-				events = ApiCalendar.listUpcomingEvents(25);//load max of 25 events
-				console.log(events);
-				writeUserData(localStorage.getItem('appTokenKey'), events);
+				eventsArray = ApiCalendar.listUpcomingEvents(25);//load max of 25 events
+				console.log(eventsArray);
 				ApiCalendar.handleSignoutClick();
+				writeUserData(localStorage.getItem('appTokenKey'));
 			} else {
 
 			}
 		};
 		ApiCalendar.listenSign(signChanged);
-		//console.log(events['1coub2oqli7hh2ha2j4rdlhmvf']);
   }
 
 	render() {
@@ -62,46 +63,56 @@ class home extends React.Component {
 	}
 }
 
-function writeUserData(userId, eventsArr) {
+function writeUserData(userId) {
 	var date = new Date();
 	var month = date.getUTCMonth() + 1; //months from 1-12
 	var day = date.getUTCDate();
 	var year = date.getUTCFullYear();
 	var newDate = year + "-" + month + "-" + day;
 
-		writeNewEvent('dayKey', newDate);
+	console.log('WriteUserData done, moving to  writeNewEvent...');
+	writeNewEvent(newDate);
 
 }
 
 //Writes all the users new events to firebase
-function writeNewEvent(dayKey, newDate) {
-
+function writeNewEvent(newDate) {
+	console.log('writeNewEvent initiated');
+	console.log(eventsArray);
 	//stores all the events that need to be updated
 	var updates = {};
 
 	//PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
-	for (var i = 1; i < 3; i++) {
+	for (var i = 0; i < eventsArray.length; i++) {
+	//for (let i = 0; i < eventsArray.length; i++) {
+		console.log('for loop started. Currently on pass ' + i);
+		var singleEvent = eventsArray[i];
+		//var event = eventsArray[i];
+		console.log(eventsArray[i]);
+		//var eventName = ''+singleEvent.eventName
 		// An event entry.
 	  var eventData = {
-			eventName: 'eventName',
-			colorId: 'colorId',
-	    duration: 'duration',
-	    startTime: 'startTime',
-	    endTime: 'endTime',
-	    location: '0',
-	    notes: 'update'
+			eventName: singleEvent.eventName,
+			colorId: singleEvent.colorId,
+	    duration: singleEvent.duration,
+	    startTime: singleEvent.startTime,
+	    endTime: singleEvent.endTime,
+	    location: singleEvent.location,
+	    notes: singleEvent.notes
 	  };
 
+		console.log('event data found' + i);
 	  // Get a key for a new event.
 		//Once we get eventID from google we will use Authorization instead of 'i'
 	  var newPostKey = databaseRef.ref.child('' + i).key;
 
 		//adds the event with data into updates array
 	  updates['/days/' + newDate + '/' + newPostKey] = eventData;
-
+		console.log('event data loaded into array for index ' + i);
 }
 	//pushes updates to firebase
   return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
+	console.log('event data pushed');
 }
 
  export default home;

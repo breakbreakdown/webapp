@@ -154,8 +154,18 @@ class ApiCalendar {
               let events = response.result.items;
               if (events.length > 0) {
                 for (let i = 0; i < events.length; i++) {
-                  //let event = events[i];
-                  myEvents[i] = events[i];
+                  let event = events[i];
+                  //myEvents[i] = events[i];
+                  //myEvents[i] = new EventObject(events[i]);
+                  myEvents[i] = { eventName: event.summary,
+                                  colorId: event.colorId,
+                                  duration: '30',
+                                  startTime: event.start["dateTime"],
+                                  endTime: event.start["dateTime"],
+                                  location: event.location,
+                                  notes: event.description,
+                                  eventId: event.id };
+
                 }
               } else {
                 myEvents = null;
@@ -207,5 +217,6 @@ class ApiCalendar {
         });
     }
 }
+
 const apiCalendar = new ApiCalendar();
 export default apiCalendar;
