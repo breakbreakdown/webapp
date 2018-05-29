@@ -9,7 +9,7 @@ import $ from 'jquery';
 class EventDetails extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {title:''}
+		this.state = { event:''}
 	}
 	
 	componentDidMount() {
@@ -21,29 +21,21 @@ class EventDetails extends React.Component {
 			var menu = document.querySelectorAll('select');
 			var instances = Materialize.FormSelect.init(menu);
 		});
-	}
-	
-	setEventInfo() {
-		$('#title-edit').val(this.props.title);
-		//$('#duration-edit').val(this.props.title);
-		//$('#location-edit').val(this.props.title);
-		//$('#notes-edit').val(this.props.title);
+
 	}
 
-	editText(event) {
-		Materialize.updateTextFields();
+	asdf() {
+		//document.getElementById("edit-event-form").reset();
 	}
 
 	render() {
-		this.setEventInfo();
 		return (			
 			<div>
-			<span id='event-details-title'> {} </span>
-				<div className='row' id='addevent-form'>
-					<form className='col s12'>
+				<div className='row' id='event-form'>
+					<form id='edit-event-form' className='col s12'>
 						<div className='row'>
 							<div className='input-field col s11'>
-								<input id='title-edit' placeholder='' value={this.props.title} type='text' onChange={this.editText} />
+								<input id='title-edit' placeholder='' defaultValue={this.props.event} type='text' />
 								<label htmlFor='title'>Title</label>
 							</div>
 							<div className='input-field col s1'>
@@ -53,7 +45,7 @@ class EventDetails extends React.Component {
 						</div>
 						<div className='row'>
 							<div className='input-field col s6'>
-								<input id='date-edit' placeholder='' value='' type='text' type='text' className='datepicker' />
+								<input id='date-edit' placeholder='' defaultValue={this.props.event} type='text' type='text' className='datepicker' />
 								<label htmlFor='date'>Date</label>
 							</div>
 							<div className='input-field col s6'>
@@ -69,32 +61,33 @@ class EventDetails extends React.Component {
 						</div>
 						<div className='row'>
 							<div className='input-field col s4'>
-								<input id='start-edit' placeholder='' value='' type='text' type='text' className='timepicker' />
+								<input id='start-edit' placeholder='' defaultValue={this.props.event} type='text' type='text' className='timepicker' />
 								<label htmlFor='start'>Start</label>
 							</div>
 							<div className='input-field col s4'>
-								<input id='end-edit' placeholder='' value='' type='text' type='text' className='timepicker' />
+								<input id='end-edit' placeholder='' defaultValue={this.props.event} type='text' type='text' className='timepicker' />
 								<label htmlFor='end'>End</label>
 							</div>
 							<div className='input-field col s4'>
-								<input id='duration-edit' placeholder='' value='' type='text' type='text' className='validate' />
+								<input id='duration-edit' placeholder='' defaultValue={this.props.event} type='text' type='text' />
 								<label htmlFor='duration'>Duration</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='location-edit' placeholder='' value='' type='text' type='text' className='validate' />
+								<input id='location-edit' placeholder='' defaultValue={this.props.event} type='text' type='text' />
 								<label htmlFor='location'>Location</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='notes-edit' placeholder='' value='' type='text' type='text' className='validate' />
+								<input id='notes-edit' placeholder='' defaultValue={this.props.event} type='text' type='text' />
 								<label htmlFor='notes'>Notes</label>
 							</div>
 						</div>
-						<a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Cancel</a>
+						<a className="waves-effect waves-light btn modal-close" id='cancel-btn' onClick={this.asdf}>Cancel</a>
 						<a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Save</a>
+						<input type='reset' value='Reset' name='reset' onclick="return resetForm(this.form);" />
 
 					</form>
 				</div>
