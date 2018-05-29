@@ -1,5 +1,5 @@
 import React from 'react';
-import Firebase from 'firebase';
+import firebase from 'firebase';
 import M from 'react-materialize';
 import Materialize from 'materialize-css';
 import './graph.css';
@@ -7,6 +7,18 @@ import { VictoryPie, VictoryTooltip } from 'victory';
 import Countdown from 'react-countdown-now';
 import EventDetails from './EventDetails';
 import $ from 'jquery';
+
+var config = {
+    apiKey: "AIzaSyBzenkKKf1b7eyYHboHgcBL9N6mQAjpB2g",
+    authDomain: "breakbreakdown-64b8a.firebaseapp.com",
+    databaseURL: "https://breakbreakdown-64b8a.firebaseio.com",
+    projectId: "breakbreakdown-64b8a",
+    storageBucket: "breakbreakdown-64b8a.appspot.com",
+    messagingSenderId: "534313689390"
+};
+
+var database = firebase.database();
+var user = firebase.auth().currentUser;
 
 class Graph extends React.Component {
 	constructor(props) {
@@ -18,6 +30,19 @@ class Graph extends React.Component {
     setTitle(newTitle) {
         this.setState({ currTitle: newTitle });
     }
+
+    //componentDidMount() {
+    //    var today = new Date();
+    //    var dd = today.getDate();
+    //    var userEventRef = firebase.database().ref('events/' + user.uid + '/days/' + dd);
+    //    userEventRef.on('value', function (snapshot) {
+    //        snapshot.forEach(function (childSnapshot) {
+    //            var value = childSnapshot.val();
+    //            var newStateArray = this.state.events;
+    //            newStateArray.push({ x: " ", y: value.duration, label: values.eventName, duration: values.duration, startTime: values.startTime, endTime: values.endTime, location: values.location, notes: values.notes });
+    //        });
+    //    });
+    //}
 
 	componentWillMount() {
 		var d = new Date();
@@ -39,7 +64,7 @@ class Graph extends React.Component {
     render() {
         var currIndex = 0;
         console.log(this.state.currTitle);
-        var popup = <EventDetails id="graphEvent" title={ this.state.currTitle } />;
+        var popup = <EventDetails id="graphEvent" event={ this.state.currTitle } />;
 
 		return (
 		  <div id='graph'> 
@@ -54,7 +79,7 @@ class Graph extends React.Component {
 					  eventHandlers: {
                             onClick: (evt, clickedProps) => {
                                 currIndex = clickedProps.index;
-                              popup = <EventDetails id="graphEvent" title={this.state.events[currIndex].label} />
+                              popup = <EventDetails id="graphEvent" event={this.state.events[currIndex].label} />
                               this.setTitle(this.state.events[currIndex].label);
                               var elems = document.querySelectorAll('.modal');
                               var instances = Materialize.Modal.init(elems);
