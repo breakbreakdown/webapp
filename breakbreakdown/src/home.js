@@ -17,6 +17,9 @@ let events = {};
 
 var database = fire.database();
 
+//path to user
+var databaseRef = database.ref('users/' + localStorage.getItem('appTokenKey'));
+
 class home extends React.Component {
 
 	componentDidMount() {
@@ -65,17 +68,40 @@ function writeUserData(userId, eventsArr) {
 	var day = date.getUTCDate();
 	var year = date.getUTCFullYear();
 	var newDate = year + "-" + month + "-" + day;
-	var daysRef = database.ref('users/' + userId + '/days/' + newDate);
 
-	console.log(eventsArr[0]);//this thing needs to be fixed
-	for (var i = 0; i < eventsArr.length; i++) {
-		console.log(eventsArr[i].id);
-		daysRef.set({
-			event: eventsArr[i].id
-		});
-	}
-
-
+		writeNewEvent('dayKey', newDate);
 
 }
+
+//Writes all the users new events to firebase
+function writeNewEvent(dayKey, newDate) {
+
+	//stores all the events that need to be updated
+	var updates = {};
+
+	//PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
+	for (var i = 1; i < 3; i++) {
+		// An event entry.
+	  var eventData = {
+			eventName: 'eventName',
+			colorId: 'colorId',
+	    duration: 'duration',
+	    startTime: 'startTime',
+	    endTime: 'endTime',
+	    location: '0',
+	    notes: 'update'
+	  };
+
+	  // Get a key for a new event.
+		//Once we get eventID from google we will use Authorization instead of 'i'
+	  var newPostKey = databaseRef.ref.child('' + i).key;
+
+		//adds the event with data into updates array
+	  updates['/days/' + newDate + '/' + newPostKey] = eventData;
+
+}
+	//pushes updates to firebase
+  return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
+}
+
  export default home;
