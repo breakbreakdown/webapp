@@ -33,12 +33,14 @@ class Graph extends React.Component {
 		for (i = 0; i < this.state.events.length; i++) {
 			totalEventTime += this.state.events[i].y * 3600000;
 		}
-		console.log(totalEventTime);
 		return totalEventTime;
 	}
 	
     render() {
         var currIndex = 0;
+        console.log(this.state.currTitle);
+        var popup = <EventDetails id="graphEvent" title={ this.state.currTitle } />;
+
 		return (
 		  <div id='graph'> 
 			<VictoryPie
@@ -50,22 +52,21 @@ class Graph extends React.Component {
 			  events={[{
 					  target: "data",
 					  eventHandlers: {
-                          onClick: (evt, clickedProps) => {
-                              currIndex = clickedProps.index;
-                              this.setTitle(this.state.events[currIndex].title);
-                              console.log(this.state.currTitle)
+                            onClick: (evt, clickedProps) => {
+                                currIndex = clickedProps.index;
+                              popup = <EventDetails id="graphEvent" title={this.state.events[currIndex].label} />
+                              this.setTitle(this.state.events[currIndex].label);
                               var elems = document.querySelectorAll('.modal');
                               var instances = Materialize.Modal.init(elems);
                               var instance = Materialize.Modal.getInstance($('#event-details-popup'));
                               instance.open();
-                              console.log($('#graphEvent').attr('title'));
 						}
 					  }
 					}]}
                 />
                 <div id='event-details-popup' className='modal'>
-                    <div className='modal-content'>
-                        <EventDetails id="graphEvent" title={this.state.currTitle} />
+                    <div className="modal-content">
+                        {popup}
                     </div>
                 </div>
 			    <div id="freetime-countdown">

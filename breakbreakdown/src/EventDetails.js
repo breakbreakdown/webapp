@@ -21,7 +21,7 @@ class EventDetails extends React.Component {
 		$('#start').defaultValue
 	}
 	
-	setEventInfo() {
+    setEventInfo() {
 		$('#title').val(this.props.title);
 		$('#date').val(this.props.title);
 		$('#recurring').val(this.props.title);
@@ -29,7 +29,7 @@ class EventDetails extends React.Component {
 		$('#end').val(this.props.title);
 		$('#duration').val(this.props.title);
 		$('#location').val(this.props.title);
-		$('#notes').val(this.props.title);
+        $('#notes').val(this.props.title);
 	}
 	
 	editEvent() {
