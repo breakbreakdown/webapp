@@ -1,9 +1,17 @@
 import React from 'react';
 import Materialize from 'materialize-css';
-import ColorPalette from './ColorPalette'
+import M from 'react-materialize';
+import ColorPalette from './ColorPalette';
+import $ from 'jquery';
 
-class AddEventPopup extends React.Component {
 
+
+class EventDetails extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {title:''}
+	}
+	
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', function() {
 			var date = document.querySelectorAll('.datepicker');
@@ -14,16 +22,28 @@ class AddEventPopup extends React.Component {
 			var instances = Materialize.FormSelect.init(menu);
 		});
 	}
+	
+	setEventInfo() {
+		$('#title-edit').val(this.props.title);
+		//$('#duration-edit').val(this.props.title);
+		//$('#location-edit').val(this.props.title);
+		//$('#notes-edit').val(this.props.title);
+	}
+
+	editText(event) {
+		Materialize.updateTextFields();
+	}
 
 	render() {
-		return (
+		this.setEventInfo();
+		return (			
 			<div>
-			<span id='add-event-title'> Add Event </span>
+			<span id='event-details-title'> {} </span>
 				<div className='row' id='addevent-form'>
 					<form className='col s12'>
 						<div className='row'>
 							<div className='input-field col s11'>
-								<input id='title' placeholder='' type='text'/>
+								<input id='title-edit' placeholder='' value={this.props.title} type='text' onChange={this.editText} />
 								<label htmlFor='title'>Title</label>
 							</div>
 							<div className='input-field col s1'>
@@ -33,7 +53,7 @@ class AddEventPopup extends React.Component {
 						</div>
 						<div className='row'>
 							<div className='input-field col s6'>
-								<input id='date' placeholder='' type='text' type='text' className='datepicker' />
+								<input id='date-edit' placeholder='' value='' type='text' type='text' className='datepicker' />
 								<label htmlFor='date'>Date</label>
 							</div>
 							<div className='input-field col s6'>
@@ -49,40 +69,37 @@ class AddEventPopup extends React.Component {
 						</div>
 						<div className='row'>
 							<div className='input-field col s4'>
-								<input id='start' placeholder='' type='text' type='text' className='timepicker' />
+								<input id='start-edit' placeholder='' value='' type='text' type='text' className='timepicker' />
 								<label htmlFor='start'>Start</label>
 							</div>
 							<div className='input-field col s4'>
-								<input id='end' placeholder='' type='text' type='text' className='timepicker' />
+								<input id='end-edit' placeholder='' value='' type='text' type='text' className='timepicker' />
 								<label htmlFor='end'>End</label>
 							</div>
 							<div className='input-field col s4'>
-								<input id='duration' placeholder='' type='text' type='text' className='validate' />
+								<input id='duration-edit' placeholder='' value='' type='text' type='text' className='validate' />
 								<label htmlFor='duration'>Duration</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='location' placeholder='' type='text' type='text' className='validate' />
+								<input id='location-edit' placeholder='' value='' type='text' type='text' className='validate' />
 								<label htmlFor='location'>Location</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='notes' placeholder='' type='text' type='text' className='validate' />
+								<input id='notes-edit' placeholder='' value='' type='text' type='text' className='validate' />
 								<label htmlFor='notes'>Notes</label>
 							</div>
 						</div>
-						
 						<a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Cancel</a>
-						
-						<button className='btn waves-effect waves-light' type='submit'>Add to Calendar
-							<i className='material-icons right'>send</i>
-						</button>
+						<a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Save</a>
+
 					</form>
 				</div>
 			</div>
 		);
 	}
 }
- export default AddEventPopup;
+ export default EventDetails;
