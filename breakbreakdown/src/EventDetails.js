@@ -19,17 +19,23 @@ class EventDetails extends React.Component {
 			var menu = document.querySelectorAll('select');
 			var instances = Materialize.FormSelect.init(menu);
 		});
+		
+		$('#start').defaultValue
 	}
 	
 	changeEventTitle() {
-			$("#add-event-title").text(this.props.title);
+		$('#event-details-title').text(this.props.title);
+	}
+	
+	editEvent() {
+		console.log("hello");
 	}
 
 	render() {
 		this.changeEventTitle();
 		return (			
 			<div>
-			<span id='add-event-title'> {} </span>
+			<span id='event-details-title'> {} </span>
 				<div className='row' id='addevent-form'>
 					<form className='col s12'>
 						<div className='row'>
@@ -85,11 +91,8 @@ class EventDetails extends React.Component {
 							</div>
 						</div>
 						
-						<a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Cancel</a>
-						
-						<button className='btn waves-effect waves-light' type='submit'>Add to Calendar
-							<i className='material-icons right'>send</i>
-						</button>
+						<a className="waves-effect waves-light btn" id='edit-btn' onClick={this.editEvent}>Edit</a>
+
 					</form>
 				</div>
 			</div>

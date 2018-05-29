@@ -46,6 +46,7 @@ class home extends React.Component {
 						<AddEvent />
 					</div>
 				</div>
+				<div id='home-overlay'></div>
 			</div>
 			</div>
 

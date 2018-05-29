@@ -14,16 +14,6 @@
 	margin-top: 40px;
 }
 
-#addevent-popup {
-	width: 55%;
-	max-height: 80% !important;
-	padding: 20px !important;
-	border-radius: 15px;
-}
-
-.modal-overlay {
-	pointer-events: none;
-}
 
 .timepicker-modal, .datepicker-modal {
 	width: 90% !important;

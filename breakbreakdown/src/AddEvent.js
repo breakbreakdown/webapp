@@ -19,8 +19,8 @@ class AddEvent extends React.Component {
 		return (
 			<div id='addevent'>
 				<span id='add-event-title'> Add Event </span>
-				<a className='waves-effect waves-light btn modal-trigger' id='add-event-btn' href='#addevent-popup'><i className="material-icons">add</i></a>
-				<div id='addevent-popup' className='modal'>
+				<a className='waves-effect waves-light btn modal-trigger' id='add-event-btn' href='#add-event-popup'><i className="material-icons">add</i></a>
+				<div id='add-event-popup' className='modal'>
 					<div className='modal-content'>
 						<AddEventPopup />
 					</div>
