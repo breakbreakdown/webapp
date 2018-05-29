@@ -3,7 +3,7 @@ import Firebase from 'firebase';
 import M from 'react-materialize';
 import Materialize from 'materialize-css';
 import './graph.css';
-import { VictoryPie } from 'victory-pie';
+import { VictoryPie, VictoryTooltip } from 'victory';
 import Countdown from 'react-countdown-now';
 import EventDetails from './EventDetails';
 import $ from 'jquery';
@@ -11,13 +11,18 @@ import $ from 'jquery';
 class Graph extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {events:[], currTime:0}
+        this.state = { events: [], currTime: 0, currTitle: "InitialTitle" }
+        this.setTitle = this.setTitle.bind(this);
 	}
-	
+
+    setTitle(newTitle) {
+        this.setState({ currTitle: newTitle });
+    }
+
 	componentWillMount() {
 		var d = new Date();
 		var totalMilliseconds = (d.getHours() * 3600000) + (d.getMinutes() * 60000) + (d.getSeconds() * 1000);
-		this.setState({events:[{ x: " ", y: 6, title: "Fortnite Grind" }, { x: " ", y: 1, title: "Info 461 HW" }, { x: " ", y: 2, title: "Capstone Work"}],
+		this.setState({events:[{ x: " ", y: 6, label: "Fortnite Grind Duration: 6 hrs" }, { x: " ", y: 1, label: "Info 461 HW" }, { x: " ", y: 2, label: "Capstone Work"}],
             currTime: totalMilliseconds
         });
 	}
@@ -32,7 +37,8 @@ class Graph extends React.Component {
 		return totalEventTime;
 	}
 	
-	render() {
+    render() {
+        var currIndex = 0;
 		return (
 		  <div id='graph'> 
 			<VictoryPie
@@ -40,21 +46,26 @@ class Graph extends React.Component {
 			  data={this.state.events}
 			  innerRadius={150}
 			  padding={{ top: 0, bottom: 0 }}
+              labelComponent={<VictoryTooltip />}
 			  events={[{
 					  target: "data",
 					  eventHandlers: {
-                          onClick: () => {
+                          onClick: (evt, clickedProps) => {
+                              currIndex = clickedProps.index;
+                              this.setTitle(this.state.events[currIndex].title);
+                              console.log(this.state.currTitle)
                               var elems = document.querySelectorAll('.modal');
                               var instances = Materialize.Modal.init(elems);
                               var instance = Materialize.Modal.getInstance($('#event-details-popup'));
                               instance.open();
+                              console.log($('#graphEvent').attr('title'));
 						}
 					  }
 					}]}
                 />
                 <div id='event-details-popup' className='modal'>
                     <div className='modal-content'>
-                        <EventDetails title={this.state.title} />
+                        <EventDetails id="graphEvent" title={this.state.currTitle} />
                     </div>
                 </div>
 			    <div id="freetime-countdown">
