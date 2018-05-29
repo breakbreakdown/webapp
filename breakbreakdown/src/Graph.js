@@ -68,8 +68,6 @@ class Graph extends React.Component {
 	
     render() {
         var currIndex = 0;
-        var popup = <EventDetails event={this.state.currEvent.label} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}
-            endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} />;
 
 		return (
 		  <div id='graph'> 
@@ -84,8 +82,7 @@ class Graph extends React.Component {
 					  eventHandlers: {
                             onClick: (evt, clickedProps) => {
                                 currIndex = clickedProps.index;
-                                popup = <EventDetails event={this.state.events[currIndex].label} duration={this.state.events[currIndex].y} startTime={this.state.events[currIndex].startTime}
-                                    endTime={this.state.events[currIndex].endTime} location={this.state.events[currIndex].location} notes={this.state.events[currIndex].notes} />
+
                               this.setEvent(this.state.events[currIndex]);
                               var elems = document.querySelectorAll('.modal');
                               var instances = Materialize.Modal.init(elems);
@@ -97,7 +94,8 @@ class Graph extends React.Component {
                 />
                 <div id='event-details-popup' className='modal event-details-popup'>
                     <div className="modal-content">
-                        {popup}
+                        <EventDetails event={this.state.currEvent.label} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}
+						endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} />
                     </div>
                 </div>
 				<div id={'event-edit-popup-' + this.props.index} className='modal event-edit-popup'>
