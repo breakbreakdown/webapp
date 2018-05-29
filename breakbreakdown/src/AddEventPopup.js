@@ -22,11 +22,11 @@ class AddEventPopup extends React.Component {
 				<div className='row' id='addevent-form'>
 					<form className='col s12'>
 						<div className='row'>
-							<div className='input-field col s11'>
+							<div className='input-field col s10'>
 								<input id='title' placeholder='' type='text'/>
 								<label htmlFor='title'>Title</label>
 							</div>
-							<div className='input-field col s1'>
+							<div className='input-field col s2'>
 								<label className='active'>Color</label>
 								<ColorPalette />
 							</div>
