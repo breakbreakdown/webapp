@@ -210,12 +210,35 @@ class ApiCalendar {
      * @param {object} event with start and end dateTime
      * @returns {any}
      */
-    createEvent(event, calendarId = this.calendar) {
-        return this.gapi.client.calendar.events.insert({
-            'calendarId': calendarId,
-            'resource': event,
+    createEvent(name, location, notes, colorId, startTime, endTime, recurrence, calendarId = this.calendar) {
+        var event = {
+          'summary': name,
+          'location': location,
+          'description': notes,
+          'colorId': colorId,
+          'start': {
+            'dateTime': '2018-05-29T09:00:00-07:00',
+            'timeZone': 'America/Los_Angeles'
+          },
+          'end': {
+            'dateTime': '2018-05-29T17:00:00-10:00',
+            'timeZone': 'America/Los_Angeles'
+          },
+          'recurrence': [
+            'RRULE:FREQ=DAILY;COUNT=2'
+          ]
+        };
+
+        var request = this.gapi.client.calendar.events.insert({
+          'calendarId': calendarId,
+          'resource': event
+        });
+
+        request.execute(function(event) {
+          //appendPre('Event created: ' + event.htmlLink);
         });
     }
+
 }
 
 const apiCalendar = new ApiCalendar();

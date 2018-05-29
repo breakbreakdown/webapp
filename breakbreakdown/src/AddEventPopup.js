@@ -1,6 +1,7 @@
 import React from 'react';
 import Materialize from 'materialize-css';
-import ColorPalette from './ColorPalette'
+import ColorPalette from './ColorPalette';
+import ApiCalendar from './ApiCalendar.js';
 
 class AddEventPopup extends React.Component {
 
@@ -73,9 +74,9 @@ class AddEventPopup extends React.Component {
 								<label htmlFor='notes'>Notes</label>
 							</div>
 						</div>
-						
+
 						<a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Cancel</a>
-						
+
 						<button className='btn waves-effect waves-light' type='submit'>Add to Calendar
 							<i className='material-icons right'>send</i>
 						</button>
@@ -86,3 +87,4 @@ class AddEventPopup extends React.Component {
 	}
 }
  export default AddEventPopup;
+	//ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
