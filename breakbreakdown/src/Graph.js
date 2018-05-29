@@ -6,6 +6,7 @@ import './graph.css';
 import { VictoryPie, VictoryTooltip } from 'victory';
 import Countdown from 'react-countdown-now';
 import EventDetails from './EventDetails';
+import EventEdit from './EventEdit';
 import $ from 'jquery';
 
 var config = {
@@ -97,6 +98,11 @@ class Graph extends React.Component {
                 <div id='event-details-popup' className='modal'>
                     <div className="modal-content">
                         {popup}
+                        <div id={'event-edit-popup-' + this.props.index} className='modal event-edit-popup'>
+                            <div className='modal-content'>
+                                <EventEdit event={this.state.currEvent.label} />
+                            </div>
+                        </div>
                     </div>
                 </div>
 			    <div id="freetime-countdown">

@@ -87,7 +87,7 @@ class EventDetails extends React.Component {
 						</div>
 						<a className="waves-effect waves-light btn modal-close" id='cancel-btn' onClick={this.asdf}>Cancel</a>
 						<a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Save</a>
-						<input type='reset' value='Reset' name='reset' onclick="return resetForm(this.form);" />
+						<input type='reset' value='Reset' name='reset' onClick="return resetForm(this.form);" />
 
 					</form>
 				</div>
