@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import M from 'react-materialize';
 import Materialize from 'materialize-css';
 import './graph.css';
+import './home.css';
 import { VictoryPie, VictoryTooltip } from 'victory';
 import Countdown from 'react-countdown-now';
 import EventDetails from './EventDetails';
@@ -67,7 +68,6 @@ class Graph extends React.Component {
 	
     render() {
         var currIndex = 0;
-        console.log(this.state.currTitle);
         var popup = <EventDetails event={this.state.currEvent.label} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}
             endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} />;
 
@@ -95,16 +95,16 @@ class Graph extends React.Component {
 					  }
 					}]}
                 />
-                <div id='event-details-popup' className='modal'>
+                <div id='event-details-popup' className='modal event-details-popup'>
                     <div className="modal-content">
                         {popup}
-                        <div id={'event-edit-popup-' + this.props.index} className='modal event-edit-popup'>
+                    </div>
+                </div>
+				<div id={'event-edit-popup-' + this.props.index} className='modal event-edit-popup'>
                             <div className='modal-content'>
                                 <EventEdit event={this.state.currEvent.label} />
                             </div>
                         </div>
-                    </div>
-                </div>
 			    <div id="freetime-countdown">
 				    <div id="freetime-text"> Free Time </div>
 				    <div>
