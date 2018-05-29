@@ -1,7 +1,9 @@
 import React from 'react';
 import Materialize from 'materialize-css';
 import ColorPalette from './ColorPalette';
+import EventEdit from './EventEdit';
 import $ from 'jquery';
+import './eventdetails.css';
 
 
 class EventDetails extends React.Component {
@@ -12,10 +14,6 @@ class EventDetails extends React.Component {
 	
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', function() {
-			var date = document.querySelectorAll('.datepicker');
-			var instances = Materialize.Datepicker.init(date);
-			var time = document.querySelectorAll('.timepicker');
-			var instances = Materialize.Timepicker.init(time);
 			var menu = document.querySelectorAll('select');
 			var instances = Materialize.FormSelect.init(menu);
 		});
@@ -23,8 +21,15 @@ class EventDetails extends React.Component {
 		$('#start').defaultValue
 	}
 	
-	changeEventTitle() {
-		$('#event-details-title').text(this.props.title);
+	setEventInfo() {
+		$('#title').val(this.props.title);
+		$('#date').val(this.props.title);
+		$('#recurring').val(this.props.title);
+		$('#start').val(this.props.title);
+		$('#end').val(this.props.title);
+		$('#duration').val(this.props.title);
+		$('#location').val(this.props.title);
+		$('#notes').val(this.props.title);
 	}
 	
 	editEvent() {
@@ -32,7 +37,7 @@ class EventDetails extends React.Component {
 	}
 
 	render() {
-		this.changeEventTitle();
+		this.setEventInfo();
 		return (			
 			<div>
 			<span id='event-details-title'> {} </span>
@@ -40,7 +45,7 @@ class EventDetails extends React.Component {
 					<form className='col s12'>
 						<div className='row'>
 							<div className='input-field col s11'>
-								<input id='title' placeholder='' value='' type='text' className='validate' />
+								<input id='title' placeholder='' disabled value='' type='text' className='validate' />
 								<label htmlFor='title'>Title</label>
 							</div>
 							<div className='input-field col s1'>
@@ -50,48 +55,42 @@ class EventDetails extends React.Component {
 						</div>
 						<div className='row'>
 							<div className='input-field col s6'>
-								<input id='date' placeholder='' type='text' type='text' className='datepicker' />
+								<input id='date' placeholder='' disabled value='' type='text' type='text' className='validate' />
 								<label htmlFor='date'>Date</label>
 							</div>
 							<div className='input-field col s6'>
-								<select>
-									<option value='1'></option>
-									<option value='2'>Daily</option>
-									<option value='3'>Weekly</option>
-									<option value='4'>Monthly</option>
-									<option value='5'>Yearly</option>
-								</select>
-								<label>Recurring</label>
+								<input id='recurring' placeholder='' disabled value='' type='text' type='text' className='validate' />
+								<label htmlFor='date'>Recurring</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s4'>
-								<input id='start' placeholder='' type='text' type='text' className='timepicker' />
+								<input id='start' placeholder='' disabled value='' type='text' type='text' className='validate' />
 								<label htmlFor='start'>Start</label>
 							</div>
 							<div className='input-field col s4'>
-								<input id='end' placeholder='' type='text' type='text' className='timepicker' />
+								<input id='end' placeholder='' disabled value='' type='text' type='text' className='validate' />
 								<label htmlFor='end'>End</label>
 							</div>
 							<div className='input-field col s4'>
-								<input id='duration' placeholder='' type='text' type='text' className='validate' />
+								<input id='duration' placeholder='' disabled value='' type='text' type='text' className='validate' />
 								<label htmlFor='duration'>Duration</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='location' placeholder='' type='text' type='text' className='validate' />
+								<input id='location' placeholder='' disabled value='' type='text' type='text' className='validate' />
 								<label htmlFor='location'>Location</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='notes' placeholder='' type='text' type='text' className='validate' />
+								<input id='notes' placeholder='' disabled value='' type='text' type='text' className='validate' />
 								<label htmlFor='notes'>Notes</label>
 							</div>
 						</div>
-						
-						<a className="waves-effect waves-light btn" id='edit-btn' onClick={this.editEvent}>Edit</a>
+						<a className="waves-effect waves-light btn modal-close" id='cancel-btn' >Close</a>
+						<a className="waves-effect waves-light btn modal-trigger" href='#event-edit-popup' id='edit-btn'>Edit</a>
 
 					</form>
 				</div>

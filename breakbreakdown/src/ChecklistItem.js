@@ -1,5 +1,6 @@
 import React from 'react';
 import EventDetails from './EventDetails';
+import EventEdit from './EventEdit';
 
 class ChecklistItem extends React.Component {
 	constructor(props) {
@@ -24,6 +25,11 @@ class ChecklistItem extends React.Component {
 				<div id='event-details-popup' className='modal'>
 					<div className='modal-content'>
 						<EventDetails title={this.state.title}/>
+					</div>
+				</div>
+				<div id='event-edit-popup' className='modal'>
+					<div className='modal-content'>
+						<EventEdit title={this.state.title} />
 					</div>
 				</div>
 			</li>

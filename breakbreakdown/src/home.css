@@ -82,7 +82,7 @@ body {
 	font-size: 1.64rem;
 }
 
-#add-event-popup, #event-details-popup {
+#add-event-popup, #event-details-popup, #event-edit-popup {
 	width: 55%;
 	max-height: 80% !important;
 	padding: 20px !important;
