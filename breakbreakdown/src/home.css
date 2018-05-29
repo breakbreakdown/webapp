@@ -84,7 +84,7 @@ body {
 
 #add-event-popup, .event-details-popup, .event-edit-popup {
 	width: 40% !important;
-	max-height: 80% !important;
+	max-height: 90% !important;
 	padding: 20px !important;
 }
 
