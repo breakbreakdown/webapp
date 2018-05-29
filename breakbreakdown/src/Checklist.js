@@ -25,7 +25,7 @@ class Checklist extends React.Component {
 			
 				<ul className='collection'>
 					{Object.keys(this.state.listItems).map((d) => {
-							return <ChecklistItem key={d} title={this.state.listItems[d]} events={this.state.listItems}/>
+						return <ChecklistItem key={d} index={d} event={this.state.listItems[d]}/>
 					})}
 				</ul>
 				

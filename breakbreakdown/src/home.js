@@ -10,6 +10,8 @@ import Graph from './Graph.js';
 import Settings from './Settings.js';
 import Toolbar from './Toolbar.js';
 import './home.css';
+import Materialize from 'materialize-css';
+import $ from 'jquery';
  
 let events = {};
 
@@ -28,6 +30,10 @@ class home extends React.Component {
 			}
 		};
 		ApiCalendar.listenSign(signChanged);
+
+		$(document).ready(function () {
+			Materialize.updateTextFields();
+		});
   }
 
 	render() {
