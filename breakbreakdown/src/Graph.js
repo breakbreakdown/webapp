@@ -23,12 +23,12 @@ var user = firebase.auth().currentUser;
 class Graph extends React.Component {
 	constructor(props) {
 		super(props);
-        this.state = { events: [], currTime: 0, currTitle: "InitialTitle" }
-        this.setTitle = this.setTitle.bind(this);
+        this.state = { events: [], currTime: 0, currEvent: { x: " ", y: 6, label: "Fortnite Grind", duration: "6 Hour(s)", startTime: "1:30 PM", endTime: "7:30 PM", location: "Home", notes: "Get Better" } }
+        this.setEvent = this.setEvent.bind(this);
 	}
 
-    setTitle(newTitle) {
-        this.setState({ currTitle: newTitle });
+    setEvent(newEvent) {
+        this.setState({ currEvent: newEvent });
     }
 
     //componentDidMount() {
@@ -47,7 +47,10 @@ class Graph extends React.Component {
 	componentWillMount() {
 		var d = new Date();
 		var totalMilliseconds = (d.getHours() * 3600000) + (d.getMinutes() * 60000) + (d.getSeconds() * 1000);
-		this.setState({events:[{ x: " ", y: 6, label: "Fortnite Grind Duration: 6 hrs" }, { x: " ", y: 1, label: "Info 461 HW" }, { x: " ", y: 2, label: "Capstone Work"}],
+        this.setState({
+            events: [{ x: " ", y: 6, label: "Fortnite Grind", duration: "6 Hour(s)", startTime: "1:30 PM", endTime: "7:30 PM", location: "Home", notes: "Get Better" },
+                    { x: " ", y: 1, label: "Info 462 HW", duration: "1 Hour(s)", startTime: "12:30 PM", endTime: "1:30 PM", location: "Colab", notes: "Finish the graph section" },
+                    { x: " ", y: 2, label: "Capstone Work", duration: "2 Hour(s)", startTime: "7:30 PM", endTime: "9:30 PM", location: "Info Lounge", notes: "Capstone Sucks" }],
             currTime: totalMilliseconds
         });
 	}
@@ -64,7 +67,8 @@ class Graph extends React.Component {
     render() {
         var currIndex = 0;
         console.log(this.state.currTitle);
-        var popup = <EventDetails id="graphEvent" event={ this.state.currTitle } />;
+        var popup = <EventDetails event={this.state.currEvent.label} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}
+            endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} />;
 
 		return (
 		  <div id='graph'> 
@@ -79,8 +83,9 @@ class Graph extends React.Component {
 					  eventHandlers: {
                             onClick: (evt, clickedProps) => {
                                 currIndex = clickedProps.index;
-                              popup = <EventDetails id="graphEvent" event={this.state.events[currIndex].label} />
-                              this.setTitle(this.state.events[currIndex].label);
+                                popup = <EventDetails event={this.state.events[currIndex].label} duration={this.state.events[currIndex].y} startTime={this.state.events[currIndex].startTime}
+                                    endTime={this.state.events[currIndex].endTime} location={this.state.events[currIndex].location} notes={this.state.events[currIndex].notes} />
+                              this.setEvent(this.state.events[currIndex]);
                               var elems = document.querySelectorAll('.modal');
                               var instances = Materialize.Modal.init(elems);
                               var instance = Materialize.Modal.getInstance($('#event-details-popup'));
