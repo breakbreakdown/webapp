@@ -138,7 +138,7 @@ class ApiCalendar {
      */
     listUpcomingEvents(maxResults, calendarId = this.calendar) {
         if (this.gapi) {
-          let myEvents = {};
+          let myEvents = [];
           let timeMax = new Date();
           timeMax.setHours(24,0,0,0);
           timeMax = timeMax.toISOString();
@@ -152,6 +152,19 @@ class ApiCalendar {
                 'orderBy': 'startTime'
             }).then((response) => {
               let events = response.result.items;
+              // events.forEach(function (event) {
+              //   let element = {
+              //     eventName: event.summary,
+              //     colorId: event.colorId,
+              //     duration: '30',
+              //     startTime: event.start["dateTime"],
+              //     endTime: event.start["dateTime"],
+              //     location: event.location,
+              //     notes: event.description,
+              //     eventId: event.id
+              //   };
+              //   myEvents.push(element);
+              // })
               if (events.length > 0) {
                 for (let i = 0; i < events.length; i++) {
                   let event = events[i];

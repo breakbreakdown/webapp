@@ -1,5 +1,5 @@
 import ApiCalendar from './ApiCalendar.js';
-import React from 'react';
+import React, { Component } from 'react';
 import firebase from 'firebase';
 import AddEvent from './AddEvent.js';
 import AddEventPopup from './AddEventPopup.js';
@@ -13,7 +13,7 @@ import './home.css';
 import fire from './fireB.js';
 import * as U from './user.js'
 
-
+//in initial constructor set the
 
 let eventsArray = {};
 
@@ -22,18 +22,41 @@ var database = fire.database();
 //path to user
 var databaseRef = database.ref('users/' + localStorage.getItem('appTokenKey'));
 
-class home extends React.Component {
+class home extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			myEvents: null
+		};
+
+		this.componentDidMount = this.componentDidMount.bind(this);
+		this.writeNewEvent = this.writeNewEvent.bind(this);
+		this.writeUserData = this.writeUserData.bind(this);
+
+	}
 
 	componentDidMount() {
+		let currComp = this;
 		ApiCalendar.handleAuthClick();
 		var signChanged = function (val) {
 			console.log("Signed in:", val);
 			if (val) {
-				eventsArray = ApiCalendar.listUpcomingEvents(25);
+				//eventsArray = ApiCalendar.listUpcomingEvents(25);
 				//load max of 25 events
 				//ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
-				console.log(eventsArray);
-				//writeUserData(localStorage.getItem('appTokenKey'));
+
+					console.log(ApiCalendar.listUpcomingEvents(25));
+
+				currComp.setState({
+					myEvents: ApiCalendar.listUpcomingEvents(25)
+				});
+//
+				if(currComp.state.myEvents != null) {
+					console.log(currComp.myEvents);
+					currComp.writeUserData(localStorage.getItem('appTokenKey'));
+				}
+
 				ApiCalendar.handleSignoutClick();
 			} else {
 
@@ -41,6 +64,18 @@ class home extends React.Component {
 		};
 		ApiCalendar.listenSign(signChanged);
   }
+
+	writeUserData(userId) {
+		var date = new Date();
+		var month = date.getUTCMonth() + 1; //months from 1-12
+		var day = date.getUTCDate();
+		var year = date.getUTCFullYear();
+		var newDate = year + "-" + month + "-" + day;
+
+		console.log('WriteUserData done, moving to  writeNewEvent...');
+		this.writeNewEvent(newDate);
+
+	}
 
 	render() {
 		return (
@@ -63,55 +98,43 @@ class home extends React.Component {
 
 		);
 	}
-}
-
-function writeUserData(userId) {
-	var date = new Date();
-	var month = date.getUTCMonth() + 1; //months from 1-12
-	var day = date.getUTCDate();
-	var year = date.getUTCFullYear();
-	var newDate = year + "-" + month + "-" + day;
-
-	console.log('WriteUserData done, moving to  writeNewEvent...');
-	writeNewEvent(newDate);
-
-}
 
 //Writes all the users new events to firebase
-function writeNewEvent(newDate) {
+writeNewEvent(newDate) {
+	let currComp = this;
 	console.log('writeNewEvent initiated');
-	console.log(eventsArray);
+	console.log(currComp.state.myEvents);
 
 	//stores all the events that need to be updated
 	var updates = {};
 
+	console.log(currComp.state.myEvents);
+
 	//PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
-	for (var i = 0; i < 2; i++) {
-	//for (let i = 0; i < eventsArray.length; i++) {
+	for (var i = 0; i < 1; i++) {
+	//for (let i = 0; i < currComp.state.myEvents.length; i++) {
 		console.log('for loop started. Currently on pass ' + i);
-		console.log(eventsArray);
-		console.log(eventsArray[Object.keys(eventsArray)[0]]);
-		console.log(eventsArray['0']);
+		console.log(currComp.state.myEvents);
 		var singleEvent;
-		setTimeout(() => {
-			singleEvent = eventsArray[i];
-		}, 2000);
-		//var singleEvent = eventsArray[i];
+		// setTimeout(() => {
+		// 	singleEvent = eventsArray[i];
+		// }, 2000);
+		var singleEvent = currComp.state.myEvents[i];
 		//var event = eventsArray[i];
 		console.log(singleEvent);
 		//var eventName = ''+singleEvent.eventName
 
 		// An event entry.
 		//USE THIS ONE FOR SENDING REAL DATA
-	  var eventData = {
-			eventName: singleEvent.eventName,
-			colorId: singleEvent.colorId,
-	    duration: singleEvent.duration,
-	    startTime: singleEvent.startTime,
-	    endTime: singleEvent.endTime,
-	    location: singleEvent.location,
-	    notes: singleEvent.notes
-	  };
+	  // var eventData = {
+		// 	eventName: singleEvent.eventName,
+		// 	colorId: singleEvent.colorId,
+	  //   duration: singleEvent.duration,
+	  //   startTime: singleEvent.startTime,
+	  //   endTime: singleEvent.endTime,
+	  //   location: singleEvent.location,
+	  //   notes: singleEvent.notes
+	  // };
 
 
 		//Use this one for sending DUMMY CODE
@@ -128,17 +151,19 @@ function writeNewEvent(newDate) {
 		*/
 
 		console.log('event data found' + i);
-	  // Get a key for a new event.
-		//Once we get eventID from google we will use Authorization instead of 'i'
-	  var newPostKey = databaseRef.ref.child('' + i).key;
-
-		//adds the event with data into updates array
-	  updates['/days/' + newDate + '/' + newPostKey] = eventData;
+	  // // Get a key for a new event.
+		// //Once we get eventID from google we will use Authorization instead of 'i'
+	  //var newPostKey = databaseRef.ref.child('' + i).key;
+		//
+		// //adds the event with data into updates array
+	  //updates['/days/' + newDate + '/' + newPostKey] = eventData;
 		console.log('event data loaded into array for index ' + i);
-}
+   }
 	//pushes updates to firebase
-  return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
+  //return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
 	console.log('event data pushed');
+	}
 }
+
 
  export default home;
