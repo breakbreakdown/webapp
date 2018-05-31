@@ -142,7 +142,7 @@ class ApiCalendar {
           let timeMax = new Date();
           timeMax.setHours(24,0,0,0);
           timeMax = timeMax.toISOString();
-          this.gapi.client.calendar.events.list({
+          var request = this.gapi.client.calendar.events.list({
                 'calendarId': calendarId,
                 'timeMin': new Date().toISOString(),
                 'timeMax': timeMax,
@@ -150,8 +150,29 @@ class ApiCalendar {
                 'singleEvents': true,
                 'maxResults': maxResults,
                 'orderBy': 'startTime'
-            }).then((response) => {
-              let events = response.result.items;
+            });
+            return new Promise(function(resolve,reject){
+              request.execute(function(resp) {
+                var events = resp.items;
+                if (events.length > 0) {
+                  for (let i = 0; i < events.length; i++) {
+                    let event = events[i];
+                    myEvents[i] = { eventName: event.summary,
+                                    colorId: event.colorId,
+                                    duration: '30',
+                                    startTime: event.start["dateTime"],
+                                    endTime: event.start["dateTime"],
+                                    location: event.location,
+                                    notes: event.description,
+                                    eventId: event.id };
+
+                  }
+                } else {
+                  myEvents = null;
+                }
+                resolve(myEvents);
+              });
+            });
               // events.forEach(function (event) {
               //   let element = {
               //     eventName: event.summary,
@@ -165,26 +186,9 @@ class ApiCalendar {
               //   };
               //   myEvents.push(element);
               // })
-              if (events.length > 0) {
-                for (let i = 0; i < events.length; i++) {
-                  let event = events[i];
-                  //myEvents[i] = events[i];
-                  //myEvents[i] = new EventObject(events[i]);
-                  myEvents[i] = { eventName: event.summary,
-                                  colorId: event.colorId,
-                                  duration: '30',
-                                  startTime: event.start["dateTime"],
-                                  endTime: event.start["dateTime"],
-                                  location: event.location,
-                                  notes: event.description,
-                                  eventId: event.id };
 
-                }
-              } else {
-                myEvents = null;
-              }
-            });
-            return myEvents;
+
+
         } else {
           console.log("Error: this.gapi not loaded");
           setTimeout(() => {this.listUpcomingEvents(maxResults, calendarId = this.calendar)}, 300);

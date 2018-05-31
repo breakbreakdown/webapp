@@ -15,7 +15,7 @@ import * as U from './user.js'
 
 //in initial constructor set the
 
-let eventsArray = {};
+let eventsArray;
 
 var database = fire.database();
 
@@ -24,34 +24,33 @@ var databaseRef = database.ref('users/' + localStorage.getItem('appTokenKey'));
 
 class home extends Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			myEvents: null
-		};
-
-		this.componentDidMount = this.componentDidMount.bind(this);
-		this.writeNewEvent = this.writeNewEvent.bind(this);
-		this.writeUserData = this.writeUserData.bind(this);
-
-	}
-
 	componentDidMount() {
 		let currComp = this;
 		ApiCalendar.handleAuthClick();
 		var signChanged = function (val) {
 			console.log("Signed in:", val);
 			if (val) {
+				ApiCalendar.listUpcomingEvents(25).then(function(myEvents){
+					//DO ALL EVENTS ?HANDLING HERE
+					console.log(myEvents[1]);
+				}).catch(function(err){
+				  //What happens if the promise was rejected
+				});
+				ApiCalendar.handleSignoutClick();
+			}
+		}
+		ApiCalendar.listenSign(signChanged);
+
 				//eventsArray = ApiCalendar.listUpcomingEvents(25);
 				//load max of 25 events
 				//ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
 
-					console.log(ApiCalendar.listUpcomingEvents(25));
+				/*console.log(ApiCalendar.listUpcomingEvents(25));
 
 				currComp.setState({
 					myEvents: ApiCalendar.listUpcomingEvents(25)
 				});
-//
+
 				if(currComp.state.myEvents != null) {
 					console.log(currComp.myEvents);
 					currComp.writeUserData(localStorage.getItem('appTokenKey'));
@@ -63,8 +62,9 @@ class home extends Component {
 			}
 		};
 		ApiCalendar.listenSign(signChanged);
-  }
-
+		*/
+	}
+/*
 	writeUserData(userId) {
 		var date = new Date();
 		var month = date.getUTCMonth() + 1; //months from 1-12
@@ -76,7 +76,7 @@ class home extends Component {
 		this.writeNewEvent(newDate);
 
 	}
-
+*/
 	render() {
 		return (
 			<div>
@@ -98,7 +98,7 @@ class home extends Component {
 
 		);
 	}
-
+/*
 //Writes all the users new events to firebase
 writeNewEvent(newDate) {
 	let currComp = this;
@@ -149,7 +149,7 @@ writeNewEvent(newDate) {
 	    notes: 'this is the notes which will appear in the description of the dummy event'
 	  };
 		*/
-
+/*
 		console.log('event data found' + i);
 	  // // Get a key for a new event.
 		// //Once we get eventID from google we will use Authorization instead of 'i'
@@ -163,6 +163,7 @@ writeNewEvent(newDate) {
   //return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
 	console.log('event data pushed');
 	}
+	*/
 }
 
 
