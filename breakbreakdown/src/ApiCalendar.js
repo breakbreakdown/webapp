@@ -161,7 +161,7 @@ class ApiCalendar {
                                     colorId: event.colorId,
                                     duration: '30',
                                     startTime: event.start["dateTime"],
-                                    endTime: event.start["dateTime"],
+                                    endTime: event.end["dateTime"],
                                     location: event.location,
                                     notes: event.description,
                                     eventId: event.id };
@@ -173,22 +173,6 @@ class ApiCalendar {
                 resolve(myEvents);
               });
             });
-              // events.forEach(function (event) {
-              //   let element = {
-              //     eventName: event.summary,
-              //     colorId: event.colorId,
-              //     duration: '30',
-              //     startTime: event.start["dateTime"],
-              //     endTime: event.start["dateTime"],
-              //     location: event.location,
-              //     notes: event.description,
-              //     eventId: event.id
-              //   };
-              //   myEvents.push(element);
-              // })
-
-
-
         } else {
           console.log("Error: this.gapi not loaded");
           setTimeout(() => {this.listUpcomingEvents(maxResults, calendarId = this.calendar)}, 300);
