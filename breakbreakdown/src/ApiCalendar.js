@@ -1,8 +1,8 @@
 const Config = {
-  "clientId": "534313689390-4fq78tg8hg3ucvrr5caj7qjc6255hq77.apps.googleusercontent.com",
-  "apiKey": "AIzaSyDk_qX1ujvEGokVrS6iM7BB2NyT9eFYEws",
-  "scope": "https://www.googleapis.com/auth/calendar",
-  "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"]
+    "clientId": "534313689390-4fq78tg8hg3ucvrr5caj7qjc6255hq77.apps.googleusercontent.com",
+    "apiKey": "AIzaSyDk_qX1ujvEGokVrS6iM7BB2NyT9eFYEws",
+    "scope": "https://www.googleapis.com/auth/calendar",
+    "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"]
 };
 
 class ApiCalendar {
@@ -25,12 +25,12 @@ class ApiCalendar {
     }
 
     loadClientWhenGapiReady = (script) => {
-      if(script.getAttribute('gapi_processed')){
-        window['gapi'].load('client:auth2', this.initClient);
-      }
-      else{
-        setTimeout(() => {this.loadClientWhenGapiReady(script)}, 300);
-      }
+        if (script.getAttribute('gapi_processed')) {
+            window['gapi'].load('client:auth2', this.initClient);
+        }
+        else {
+            setTimeout(() => { this.loadClientWhenGapiReady(script) }, 300);
+        }
 
     }
 
@@ -39,14 +39,14 @@ class ApiCalendar {
      * And create gapi in global
      */
     handleClientLoad() {
-      const script = document.createElement("script");
-      script.onload = () => {
-        // Gapi isn't available immediately so we have to wait until it is to use gapi.
-        this.loadClientWhenGapiReady(script);
-        //window['gapi'].load('client:auth2', this.initClient);
-      };
-      script.src = "https://apis.google.com/js/client.js";
-      document.body.appendChild(script);
+        const script = document.createElement("script");
+        script.onload = () => {
+            // Gapi isn't available immediately so we have to wait until it is to use gapi.
+            this.loadClientWhenGapiReady(script);
+            //window['gapi'].load('client:auth2', this.initClient);
+        };
+        script.src = "https://apis.google.com/js/client.js";
+        document.body.appendChild(script);
     }
 
     /**
@@ -54,24 +54,24 @@ class ApiCalendar {
      * @param {boolean} isSignedIn
      */
     updateSigninStatus(isSignedIn) {
-      this.sign = isSignedIn;
+        this.sign = isSignedIn;
     }
     /**
      * Auth to the google Api.
      */
     initClient() {
-      this.gapi = window['gapi'];
-      this.gapi.client.init(Config)
-          .then(() => {
-          // Listen for sign-in state changes.
-          this.gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
-          // Handle the initial sign-in state.
-          this.updateSigninStatus(this.gapi.auth2.getAuthInstance().isSignedIn.get());
-          if (this.onLoadCallback) {
-              this.onLoadCallback();
-          }
-      });
-      return true;
+        this.gapi = window['gapi'];
+        this.gapi.client.init(Config)
+            .then(() => {
+                // Listen for sign-in state changes.
+                this.gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
+                // Handle the initial sign-in state.
+                this.updateSigninStatus(this.gapi.auth2.getAuthInstance().isSignedIn.get());
+                if (this.onLoadCallback) {
+                    this.onLoadCallback();
+                }
+            });
+        return true;
     }
 
 
@@ -83,7 +83,7 @@ class ApiCalendar {
             this.gapi.auth2.getAuthInstance().signIn();
             //console.log(this.gapi.auth2.getAuthInstance().isSignedIn.get());
         } else {
-            setTimeout(() => {this.handleAuthClick()}, 300);
+            setTimeout(() => { this.handleAuthClick() }, 300);
             console.log("Error: this.gapi not loaded. Loading again...");
         }
     }
@@ -103,8 +103,8 @@ class ApiCalendar {
             this.gapi.auth2.getAuthInstance().isSignedIn.listen(callback);
         }
         else {
-          setTimeout(() => {this.listenSign(callback)}, 300);
-          console.log("listenSign: this.gapi not loaded. Loading again...");
+            setTimeout(() => { this.listenSign(callback) }, 300);
+            console.log("listenSign: this.gapi not loaded. Loading again...");
         }
     }
     /**
@@ -138,11 +138,11 @@ class ApiCalendar {
      */
     listUpcomingEvents(maxResults, calendarId = this.calendar) {
         if (this.gapi) {
-          let myEvents = {};
-          let timeMax = new Date();
-          timeMax.setHours(24,0,0,0);
-          timeMax = timeMax.toISOString();
-          this.gapi.client.calendar.events.list({
+            let myEvents = {};
+            let timeMax = new Date();
+            timeMax.setHours(24, 0, 0, 0);
+            timeMax = timeMax.toISOString();
+            this.gapi.client.calendar.events.list({
                 'calendarId': calendarId,
                 'timeMin': new Date().toISOString(),
                 'timeMax': timeMax,
@@ -151,21 +151,33 @@ class ApiCalendar {
                 'maxResults': maxResults,
                 'orderBy': 'startTime'
             }).then((response) => {
-              let events = response.result.items;
-              if (events.length > 0) {
-                for (let i = 0; i < events.length; i++) {
-                  let event = events[i];
-                  myEvents[event.id] = event;
+                let events = response.result.items;
+                if (events.length > 0) {
+                    for (let i = 0; i < events.length; i++) {
+                        let event = events[i];
+                        //myEvents[i] = events[i];
+                        //myEvents[i] = new EventObject(events[i]);
+                        myEvents[i] = {
+                            eventName: event.summary,
+                            colorId: event.colorId,
+                            duration: '30',
+                            startTime: event.start["dateTime"],
+                            endTime: event.start["dateTime"],
+                            location: event.location,
+                            notes: event.description,
+                            eventId: event.id
+                        };
+
+                    }
+                } else {
+                    myEvents = null;
                 }
-              } else {
-                myEvents = null;
-              }
             });
             return myEvents;
         } else {
-          console.log("Error: this.gapi not loaded");
-          setTimeout(() => {this.listUpcomingEvents(maxResults, calendarId = this.calendar)}, 300);
-          return false;
+            console.log("Error: this.gapi not loaded");
+            setTimeout(() => { this.listUpcomingEvents(maxResults, calendarId = this.calendar) }, 300);
+            return;
         }
     }
     /**
@@ -200,12 +212,40 @@ class ApiCalendar {
      * @param {object} event with start and end dateTime
      * @returns {any}
      */
-    createEvent(event, calendarId = this.calendar) {
-        return this.gapi.client.calendar.events.insert({
-            'calendarId': calendarId,
-            'resource': event,
-        });
+    createEvent(title, location, notes, colorID, startTime, endTime, recurrence, calendarId = this.calendar) {
+        console.log("in here");
+        var event = {
+            'summary': title,
+            'location': location,
+            'description': notes,
+            'colorId': colorID,
+            'start': {
+                'dateTime': '2018-05-31T09:00:00-07:00',
+                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone
+            },
+            'end': {
+                'dateTime': '2018-05-31T17:00:00-10:00',
+                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone
+            }
+            // ,
+            // 'recurrence': [
+            //     'RRULE:FREQ=DAILY;COUNT=2'
+            // ]
+        };
+
+        console.log(event)
+
+        // var request = this.gapi.client.calendar.events.insert({
+        //     'calendarId': 'primary',
+        //     'resource': event
+        // });
+
+        // request.execute(function (event) {
+        //     //appendPre('Event created: ' + event.htmlLink);
+        // });
     }
+
 }
+
 const apiCalendar = new ApiCalendar();
 export default apiCalendar;
