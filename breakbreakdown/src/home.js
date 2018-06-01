@@ -74,7 +74,7 @@ class home extends Component {
 			var duration = endTime.getTime - startTime.getTime || "30";
 			var location = singleEvent.location || "";
 			var notes = singleEvent.notes || "";
-			
+
 			var startHr = parseFloat(startTime.substr(11).split('-')[0].split(':')[0]);
 			var startMin = parseFloat(startTime.substr(11).split('-')[0].split(':')[1]) / 60;
 			var startFloat = startHr + startMin;
