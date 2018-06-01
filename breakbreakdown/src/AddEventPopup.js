@@ -25,15 +25,15 @@ class AddEventPopup extends React.Component {
     }
 
     createEvent(e) {
-        console.log("button clicked")
-        // ApiCalendar.handleAuthClick();
-        // var signChanged = function (val) {
-        //     if (val) {
-        //         console.log("it worked");
-        //         ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
-        //     }
-        // };
-        // ApiCalendar.listenSign(signChanged);
+        // console.log("button clicked")
+        ApiCalendar.handleAuthClick();
+        var signChanged = function (val) {
+            if (val) {
+                console.log("it worked");
+                ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
+            }
+        };
+        ApiCalendar.listenSign(signChanged);
     }
 
 
