@@ -33,26 +33,34 @@ class Graph extends React.Component {
         this.setState({ currEvent: newEvent });
     }
 
-    //componentDidMount() {
-    //    var today = new Date();
-    //    var dd = today.getDate();
-    //    var userEventRef = firebase.database().ref('events/' + user.uid + '/days/' + dd);
-    //    userEventRef.on('value', function (snapshot) {
-    //        snapshot.forEach(function (childSnapshot) {
-    //            var value = childSnapshot.val();
-    //            var newStateArray = this.state.events;
-    //            newStateArray.push({ x: " ", y: value.duration, label: values.eventName, duration: values.duration, startTime: values.startTime, endTime: values.endTime, location: values.location, notes: values.notes });
-    //        });
-    //    });
-    //}
+    componentDidMount() {
+       var today = new Date();
+	   var month = today.getMonth() + 1;
+       var day = today.getDate();
+	   var year = today.getFullYear();
+	   var currDay = year + '-' + month + '-' + day;
+	   firebase.auth().onAuthStateChanged(function(user) {
+		  if (user) {
+			var userEventRef = firebase.database().ref('users/' + user.uid + '/days/' + year + '-' + month + '-' + day);
+			userEventRef.on('value', function (snapshot) {
+			   snapshot.forEach(function (childSnapshot) {
+				   var value = childSnapshot.val();
+				   var newStateArray = this.state.events;
+				   newStateArray.push({ x: " ", y: value.y, label: value.eventName, duration: value.duration, startTime: value.startTime, endTime: value.endTime, location: value.location, notes: value.notes });
+				   this.setState({events: newStateArray})
+			   }.bind(this));
+			}.bind(this));
+		  } else {
+			// No user is signed in.
+		  }
+		}.bind(this));
+       
+    }
 
 	componentWillMount() {
 		var d = new Date();
 		var totalMilliseconds = (d.getHours() * 3600000) + (d.getMinutes() * 60000) + (d.getSeconds() * 1000);
-        this.setState({
-            events: [{ x: " ", y: 6, label: "Fortnite Grind", duration: "6 Hour(s)", startTime: "1:30 PM", endTime: "7:30 PM", location: "Home", notes: "Get Better" },
-                    { x: " ", y: 1, label: "Info 462 HW", duration: "1 Hour(s)", startTime: "12:30 PM", endTime: "1:30 PM", location: "Colab", notes: "Finish the graph section" },
-                    { x: " ", y: 2, label: "Capstone Work", duration: "2 Hour(s)", startTime: "7:30 PM", endTime: "9:30 PM", location: "Info Lounge", notes: "Capstone Sucks" }],
+        this.setState({events: [],
             currTime: totalMilliseconds
         });
 	}
@@ -63,6 +71,7 @@ class Graph extends React.Component {
 		for (i = 0; i < this.state.events.length; i++) {
 			totalEventTime += this.state.events[i].y * 3600000;
 		}
+		console.log(totalEventTime);
 		return totalEventTime;
 	}
 	
