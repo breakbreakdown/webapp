@@ -2,8 +2,12 @@ import React from 'react';
 import Materialize from 'materialize-css';
 import ColorPalette from './ColorPalette';
 import ApiCalendar from './ApiCalendar.js';
+import fire from './fireB.js';
 
+var database = fire.database();
 
+//path to user
+var databaseRef = database.ref('users/' + localStorage.getItem('appTokenKey'));
 
 class AddEventPopup extends React.Component {
     constructor(props) {
@@ -14,7 +18,9 @@ class AddEventPopup extends React.Component {
             location: '',
             startTime: '',
             endTime: '',
-            recurrence: ''
+            recurrence: '',
+            notes: '',
+            duration: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.createEvent = this.createEvent.bind(this);
@@ -25,16 +31,41 @@ class AddEventPopup extends React.Component {
     }
 
     createEvent() {
+        let eventIdReturn;
         console.log("button clicked")
         ApiCalendar.handleAuthClick();
         var signChanged = function (val) {
             if (val) {
-                console.log("it worked");
-                ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
+                console.log("About to call createEvent");
+                eventIdReturn = ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
+                console.log(eventIdReturn);
 				ApiCalendar.handleSignoutClick();
             }
         };
         ApiCalendar.listenSign(signChanged);
+
+        // var updates = {};
+        //
+    		// //PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
+        //
+  			// var duration = this.duration;
+
+  			// //An event entry.
+  			// //USE THIS ONE FOR SENDING REAL DATA
+  		  // var eventData = {
+  		  //   duration: duration
+  		  // };
+        //
+  		  // // Get a key for a new event.
+  			// //Once we get eventID from google we will use Authorization instead of 'i'
+  		  // var newPostKey = databaseRef.ref.child('' + 'event ID from google here').key;
+        //
+  			// // //adds the event with data into updates array
+  		  // updates['/days/' + this.date + '/' + newPostKey] = eventData;
+        //
+    		// //pushes updates to firebase
+    	  // return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
+    		// console.log('event data pushed');
     }
 
 
@@ -56,8 +87,8 @@ class AddEventPopup extends React.Component {
             var menu = document.querySelectorAll('select');
             var instances = Materialize.FormSelect.init(menu);
         });
-        ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
-
+        //// OPTIMIZE:this.createEvent();
+        //ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
 
     }
 

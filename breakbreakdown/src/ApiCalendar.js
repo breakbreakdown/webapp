@@ -218,11 +218,11 @@ class ApiCalendar {
           'description': notes,
           'colorId': colorId,
           'start': {
-            'dateTime': '2018-05-29T09:00:00-07:00',
+            'dateTime': '2018-06-01T09:00:00-07:00',
             'timeZone': 'America/Los_Angeles'
           },
           'end': {
-            'dateTime': '2018-05-29T17:00:00-10:00',
+            'dateTime': '2018-06-01T17:00:00-10:00',
             'timeZone': 'America/Los_Angeles'
           },
           'recurrence': [
@@ -237,6 +237,7 @@ class ApiCalendar {
 
         request.execute(function(event) {
           //appendPre('Event created: ' + event.htmlLink);
+          return event.id;
         });
     }
 
