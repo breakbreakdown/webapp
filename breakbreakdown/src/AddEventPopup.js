@@ -9,6 +9,8 @@ var database = fire.database();
 //path to user
 var databaseRef = database.ref('users/' + localStorage.getItem('appTokenKey'));
 
+var submitClicked = false;
+
 class AddEventPopup extends React.Component {
     constructor(props) {
         super(props);
@@ -24,22 +26,64 @@ class AddEventPopup extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.createEvent = this.createEvent.bind(this);
+        this.insertAuthCick = this.insertAuthCick.bind(this);
     }
 
     handleChange(evt) {
         this.setState({ [evt.target.name]: evt.target.id });
     }
 
+    insertAuthCick() {
+      if (ApiCalendar.gapi) {
+          ApiCalendar.gapi.auth2.getAuthInstance().signIn();
+          //console.log(this.gapi.auth2.getAuthInstance().isSignedIn.get());
+      } else {
+          setTimeout(() => {this.insertAuthClick()}, 300);
+          console.log("Error: this.gapi not loaded. Loading again...");
+      }
+    }
+
     createEvent() {
         let eventIdReturn;
-        console.log("button clicked")
+        console.log("button clicked");
         ApiCalendar.handleAuthClick();
+        console.log('AUTHENTICATED');
+
         var signChanged = function (val) {
-            if (val) {
-                console.log("About to call createEvent");
-                eventIdReturn = ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
-                console.log(eventIdReturn);
-				ApiCalendar.handleSignoutClick();
+          console.log("Signed in:", val);
+          if (val) {
+              console.log("About to call createEvent");
+              eventIdReturn = ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
+              // var event = {
+              //   'summary': 'name',
+              //   'location': 'location',
+              //   'description': 'notes',
+              //   'colorId': 5,
+              //   'start': {
+              //     'dateTime': '2018-06-01T09:00:00-07:00',
+              //     'timeZone': 'America/Los_Angeles'
+              //   },
+              //   'end': {
+              //     'dateTime': '2018-06-01T17:00:00-10:00',
+              //     'timeZone': 'America/Los_Angeles'
+              //   },
+              //   'recurrence': [
+              //     'RRULE:FREQ=DAILY;COUNT=2'
+              //   ]
+              // };
+              //
+              // var request = ApiCalendar.gapi.client.calendar.events.insert({
+              //   'calendarId': 'primary',
+              //   'resource': event
+              // });
+              //
+              // request.execute(function(event) {
+              //   //appendPre('Event created: ' + event.htmlLink);
+              //   eventIdReturn = event.id;
+              // });
+              console.log(eventIdReturn);
+              submitClicked = false;
+				    ApiCalendar.handleSignoutClick();
             }
         };
         ApiCalendar.listenSign(signChanged);
@@ -68,7 +112,11 @@ class AddEventPopup extends React.Component {
     		// console.log('event data pushed');
     }
 
-
+    componentDidUpdate(prevProps, prevState, snapshot) {
+      if(submitClicked) {
+        this.createEvent();
+      }
+    }
 
     componentDidMount() {
         // ApiCalendar.handleAuthClick();
@@ -87,7 +135,8 @@ class AddEventPopup extends React.Component {
             var menu = document.querySelectorAll('select');
             var instances = Materialize.FormSelect.init(menu);
         });
-        //// OPTIMIZE:this.createEvent();
+        //ApiCalendar.handleAuthClick();
+        //this.createEvent();
         //ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
 
     }
@@ -153,7 +202,7 @@ class AddEventPopup extends React.Component {
 
                         <a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Cancel</a>
 
-                        <button onClick={() => {this.createEvent()}} className='btn waves-effect waves-light' type='submit'>Add to Calendar
+                        <button onClick={submitClicked = true} className='btn waves-effect waves-light' type='submit'>Add to Calendar
 							<i className='material-icons right'>send</i>
                         </button>
                     </form>
