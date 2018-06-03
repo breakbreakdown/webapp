@@ -1,3 +1,4 @@
+
 const Config = {
     "clientId": "534313689390-4fq78tg8hg3ucvrr5caj7qjc6255hq77.apps.googleusercontent.com",
     "apiKey": "AIzaSyDk_qX1ujvEGokVrS6iM7BB2NyT9eFYEws",
@@ -7,6 +8,7 @@ const Config = {
 
 class ApiCalendar {
     constructor() {
+
         this.sign = false;
         this.gapi = null;
         this.onLoadCallback = null;
@@ -22,6 +24,8 @@ class ApiCalendar {
         this.onLoad = this.onLoad.bind(this);
         this.setCalendar = this.setCalendar.bind(this);
         this.handleClientLoad();
+
+
     }
 
     loadClientWhenGapiReady = (script) => {
@@ -138,11 +142,11 @@ class ApiCalendar {
      */
     listUpcomingEvents(maxResults, calendarId = this.calendar) {
         if (this.gapi) {
-            let myEvents = {};
+            let myEvents = [];
             let timeMax = new Date();
             timeMax.setHours(24, 0, 0, 0);
             timeMax = timeMax.toISOString();
-            this.gapi.client.calendar.events.list({
+            var request = this.gapi.client.calendar.events.list({
                 'calendarId': calendarId,
                 'timeMin': new Date().toISOString(),
                 'timeMax': timeMax,
@@ -150,30 +154,31 @@ class ApiCalendar {
                 'singleEvents': true,
                 'maxResults': maxResults,
                 'orderBy': 'startTime'
-            }).then((response) => {
-                let events = response.result.items;
-                if (events.length > 0) {
-                    for (let i = 0; i < events.length; i++) {
-                        let event = events[i];
-                        //myEvents[i] = events[i];
-                        //myEvents[i] = new EventObject(events[i]);
-                        myEvents[i] = {
-                            eventName: event.summary,
-                            colorId: event.colorId,
-                            duration: '30',
-                            startTime: event.start["dateTime"],
-                            endTime: event.start["dateTime"],
-                            location: event.location,
-                            notes: event.description,
-                            eventId: event.id
-                        };
-
-                    }
-                } else {
-                    myEvents = null;
-                }
             });
-            return myEvents;
+            return new Promise(function (resolve, reject) {
+                request.execute(function (resp) {
+                    var events = resp.items;
+                    if (events.length > 0) {
+                        for (let i = 0; i < events.length; i++) {
+                            let event = events[i];
+                            myEvents[i] = {
+                                eventName: event.summary,
+                                colorId: event.colorId,
+                                duration: '30',
+                                startTime: event.start["dateTime"],
+                                endTime: event.end["dateTime"],
+                                location: event.location,
+                                notes: event.description,
+                                eventId: event.id
+                            };
+
+                        }
+                    } else {
+                        myEvents = null;
+                    }
+                    resolve(myEvents);
+                });
+            });
         } else {
             console.log("Error: this.gapi not loaded");
             setTimeout(() => { this.listUpcomingEvents(maxResults, calendarId = this.calendar) }, 300);
@@ -212,37 +217,31 @@ class ApiCalendar {
      * @param {object} event with start and end dateTime
      * @returns {any}
      */
-    createEvent(title, location, notes, colorID, startTime, endTime, recurrence, calendarId = this.calendar) {
-        console.log("in here");
+    createEvent(title, location, notes, colorId, startTime, endTime, recurrence, calendarId = this.calendar) {
         var event = {
             'summary': title,
             'location': location,
             'description': notes,
-            'colorId': colorID,
+            'colorId': colorId,
             'start': {
-                'dateTime': '2018-05-31T09:00:00-07:00',
-                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone
+                'dateTime': '2018-06-03T09:00:00-07:00',
+                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone,
             },
             'end': {
-                'dateTime': '2018-05-31T17:00:00-10:00',
-                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone
+                'dateTime': '2018-06-03T17:00:00-10:00',
+                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone,
             }
-            // ,
-            // 'recurrence': [
-            //     'RRULE:FREQ=DAILY;COUNT=2'
-            // ]
         };
 
-        console.log(event)
+        var request = this.gapi.client.calendar.events.insert({
+            'calendarId': calendarId,
+            'resource': event
+        });
 
-        // var request = this.gapi.client.calendar.events.insert({
-        //     'calendarId': 'primary',
-        //     'resource': event
-        // });
-
-        // request.execute(function (event) {
-        //     //appendPre('Event created: ' + event.htmlLink);
-        // });
+        request.execute(function (event) {
+            //appendPre('Event created: ' + event.htmlLink);
+            return event.id;
+        });
     }
 
 }
