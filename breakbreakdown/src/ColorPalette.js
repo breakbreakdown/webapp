@@ -8,11 +8,12 @@ class ColorPalette extends React.Component {
 		this.state = {
 			displayColorPicker: false,
 			colors: ['#7986cb', '#33b679', '#8e24aa', '#e67c73', '#f6c026', '#f5511d', '#039be5', '#616161', '#3f51b5', '#0b8043', '#d60000', '#5484ed'],
-			color: ''
+			color: '#7986cb'
 		};
 	}
 	
-	componentWilldMount() {
+	componentWillMount() {
+		console.log(this.state.colors[this.props.colorIndex]);
 		this.setState({color: this.state.colors[this.props.colorIndex]})
 	}
 

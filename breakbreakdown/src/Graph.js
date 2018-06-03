@@ -56,10 +56,10 @@ class Graph extends React.Component {
                       var value = childSnapshot.val();
                       if (!value.completed) {
                           newStateArray.push({
-                              x: " ", y: value.y, date: currDay, title: value.eventName, label: value.eventName + " Duration: " + value.duration,
+                              x: " ", y: value.y, date: currDay, title: value.eventName, label: value.eventName + " | Duration: " + value.duration,
                               duration: value.duration, startTime: value.startTime, endTime: value.endTime,
                               location: value.location, notes: value.notes, completed: value.completed, color: colors[parseInt(value.colorId) - 1],
-							  colorIndex: parseInt(value.colorId) - 1
+							  color: colors[parseInt(value.colorId) - 1]
                           });
                           console.log(colors[parseInt(value.colorId) - 1]);
                           newEventColors.push(colors[parseInt(value.colorId) - 1]);
@@ -109,31 +109,29 @@ class Graph extends React.Component {
                 innerRadius={150}
                 padding={{ top: 0, bottom: 0 }}
                labelComponent={<VictoryTooltip flyoutStyle={{
-                               stroke: (d) => d.color != " " ?
-                                   d.color : "black"
-                               }}/>}
-                events={[{
-                    target: "data",
-                    eventHandlers: {
-                        onClick: (evt, clickedProps) => {
-                            currIndex = clickedProps.index;
+								   stroke: (d) => d.color != " " ?
+									   d.color : "black"
+								   }}/>}
+									events={[{
+										target: "data",
+										eventHandlers: {
+											onClick: (evt, clickedProps) => {
+												currIndex = clickedProps.index;
 
-                            this.setEvent(currEvents[currIndex]);
-                            var elems = document.querySelectorAll('.modal');
-                            var instances = Materialize.Modal.init(elems);
-                            var instance = Materialize.Modal.getInstance($('#event-details-popup-graph'));
-                            instance.open();
-                        }
-                    }
-                }]}
-            />
+												this.setEvent(currEvents[currIndex]);
+												var elems = document.querySelectorAll('.modal');
+												var instances = Materialize.Modal.init(elems);
+												var instance = Materialize.Modal.getInstance($('#event-details-popup-graph'));
+												instance.open();
+											}
+										}
+									}]}
+								/>
         }
 
     }
 
     render() {
-        
-
 		return (
 			<div id='graph'> 
 				<div id='countdowns'>
@@ -156,13 +154,13 @@ class Graph extends React.Component {
                 <div id='event-details-popup-graph' className='modal event-details-popup'>
                     <div className="modal-content">
                         <EventDetails event={this.state.currEvent.title} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}
-                            endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} date={this.state.currEvent.date}/>
+	endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} date={this.state.currEvent.date} color = {this.state.currEvent.color}/>
                     </div>
                 </div>
 				<div id={'event-edit-popup-' + this.props.index} className='modal event-edit-popup'>
                             <div className='modal-content'>
                                 <EventEdit event={this.state.currEvent.title} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}
-                                endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} date={this.state.currEvent.date} color={this.state.currEvent.colorIndex}/>
+                                endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} date={this.state.currEvent.date} colorIndex={this.state.currEvent.colorIndex}/>
                             </div>
 				</div>
 

@@ -21,6 +21,7 @@ class Checklist extends React.Component {
 		var day = today.getDate();
 		var year = today.getFullYear();
 		var currDay = year + '-' + month + '-' + day;
+		var colors = ['#7986cb', '#33b679', '#8e24aa', '#e67c73', '#f6c026', '#f5511d', '#039be5', '#616161', '#3f51b5', '#0b8043', '#d60000', '#5484ed'];
 		firebase.auth().onAuthStateChanged(function (user) {
 			if (user) {
 				var userEventRef = firebase.database().ref('users/' + user.uid + '/days/' + year + '-' + month + '-' + day);
@@ -33,7 +34,8 @@ class Checklist extends React.Component {
                                 x: " ", y: value.y, label: value.eventName,
                                 duration: value.duration, startTime: value.startTime,
                                 endTime: value.endTime, location: value.location, notes: value.notes,
-                                eventRef: 'users/' + user.uid + '/days/' + year + '-' + month + '-' + day + '/' + childSnapshot.key
+                                eventRef: 'users/' + user.uid + '/days/' + year + '-' + month + '-' + day + '/' + childSnapshot.key,
+								color: colors[value.colorId - 1]
                             });
                     }.bind(this));
                     this.setState({ events: newStateArray })
