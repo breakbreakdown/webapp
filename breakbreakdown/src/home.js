@@ -90,6 +90,7 @@ class home extends Component {
 			console.log('StartTime: ' + totalTime);
 			//An event entry.
 			//USE THIS ONE FOR SENDING REAL DATA
+
             var eventData = {
                 eventName: eventName,
                 colorId: colorId,

@@ -4,6 +4,7 @@ import fire from './fireB.js'
 import M from 'react-materialize';
 import './toolbar.css';
 import Clock from 'react-live-clock';
+import {Redirect} from 'react-router-dom';
 
 var database = firebase.database();
 var user = firebase.auth().currentUser;
@@ -13,6 +14,7 @@ class Toolbar extends React.Component {
     constructor(props) {
         super(props);
         this.state = { userName: "", todayLabel: "" }
+		this.signOut = this.signOut.bind(this);
     }
 
     componentDidMount() {
@@ -39,8 +41,13 @@ class Toolbar extends React.Component {
     }
 
     signOut() {
-        console.log("LOGGING OUT");
-        user.signOut();
+        
+        firebase.auth().signOut().then(function () {
+			localStorage.removeItem('appTokenKey');
+			return <Redirect to='/signin' />;
+			}.bind(this)
+		)
+		
     }
 
 	render() {

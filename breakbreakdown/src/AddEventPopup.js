@@ -1,56 +1,132 @@
 import React from 'react';
+import ApiCalendar from './ApiCalendar.js';
 import Materialize from 'materialize-css';
 import ColorPalette from './ColorPalette';
 import $ from 'jquery';
 import Flatpickr from 'react-flatpickr';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/themes/light.css';
+import fire from './fireB.js';
+
+var database = fire.database();
+var submitClicked = false;
 
 class AddEventPopup extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { date:'', startTime: '', endTime:''};
+		this.state = { date:'',
+						title: '', // Works
+						colorID: '', // No
+						location: '', // Works
+						start: '', // No
+						end: '', // No
+						recurrence: '', // No
+						notes: '', // Works
+						duration: '' // No };
+				}
 		this.setDefaultEndTime = this.setDefaultEndTime.bind(this);
 		this.setDefaultDate = this.setDefaultDate.bind(this);
 		this.setEventType = this.setEventType.bind(this);
 		this.resetTimes = this.resetTimes.bind(this);
 		this.resetDuration = this.resetDuration.bind(this);
 		this.setEndTime = this.setEndTime.bind(this);
+		this.createEvent = this.createEvent.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 	}
 
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', function () {
-			var menu = document.querySelectorAll('select');
-			var instances = Materialize.FormSelect.init(menu);
-		});
+            var date = document.querySelectorAll('.datepicker');
+            var instances = Materialize.Datepicker.init(date);
+            var time = document.querySelectorAll('.timepicker');
+            var instances = Materialize.Timepicker.init(time);
+            var menu = document.querySelectorAll('select');
+            var instances = Materialize.FormSelect.init(menu);
+        });
 
 		this.resetForm = this.resetForm.bind(this);
 		this.setEventType();
 	}
+	
+	handleChange(evt) {
+        this.setState({ [evt.target.id.split('-')[1]]: evt.target.value });
+        console.log(evt.target.value);
+    }
 
+    createEvent(e) {
+        e.preventDefault();
+        let eventIdReturn;
+        console.log("button clicked");
+        ApiCalendar.handleAuthClick();
+        console.log('AUTHENTICATED');
+        var alreadyPushed = false;
+        var signChanged = function (val) {
+            console.log("Signed in:", val);
+            if (val) {
+                console.log("About to call createEvent");
+                if (!alreadyPushed) {
+                  eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, this.state.colorID, this.state.start, this.state.end);
+                  alreadyPushed = true;
+                }
+                console.log(eventIdReturn);
+                ApiCalendar.handleSignoutClick();
+            }
+        }.bind(this);
+        ApiCalendar.listenSign(signChanged);
+
+        // var updates = {};
+        //
+        // //PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
+        //
+        // var duration = this.duration;
+
+        // //An event entry.
+        // //USE THIS ONE FOR SENDING REAL DATA
+        // var eventData = {
+        //   duration: duration
+        // };
+        //
+        // // Get a key for a new event.
+        // //Once we get eventID from google we will use Authorization instead of 'i'
+        // var newPostKey = databaseRef.ref.child('' + 'event ID from google here').key;
+        //
+        // // //adds the event with data into updates array
+        // updates['/days/' + this.date + '/' + newPostKey] = eventData;
+        //
+        // //pushes updates to firebase
+        // return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
+        // console.log('event data pushed');
+    }
+	
 	setDefaultEndTime(dateStr) {
 		if ($('#add-start').val() != '') {
-			this.setState({ startTime: dateStr });
-			console.log(this.state.startTime);
+			this.setState({ start: dateStr });
+			console.log(this.state.start);
 			const fp = flatpickr("#add-end", {
 				enableTime: true,
 				static: true,
 				onClose: this.setEndTime,
-				minDate: this.state.startTime[0],
+				minDate: this.state.start[0],
 			});
-			var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-			var timezone2 = dateStr[0].getTimezoneOffset();
-			this.setState({ startTime: $('#add-start').val() });
-			console.log(this.state.startTime.replace(" ", "T") + ':00' + timezone2);
+			var timezone = parseInt(this.state.start[0].getTimezoneOffset()) / 60;
+			var startFormat = $('#add-start').val().replace(" ", "T") + ':00-0' + timezone + ':00';
+			this.setState({ start: startFormat });
+			console.log(this.state.start);
 		} else {
 		console.log('empty')}
 		
 	}
 
 	setEndTime(dateStr) {
-		this.setState({ endTime: $('#add-end').val() });
-		console.log(this.state.endTime);
+		if ($('#add-end').val() != '') {
+			var timezone = parseInt(dateStr[0].getTimezoneOffset()) / 60;
+			var endFormat = $('#add-end').val().replace(" ", "T") + ':00-0' + timezone + ':00';;
+			this.setState({ end: endFormat });
+			console.log(this.state.end);
+		} else {
+			console.log('empty')
+		}
 	}
 
 	resetForm() {
@@ -148,10 +224,10 @@ class AddEventPopup extends React.Component {
 					<form className='col s12'>
 						<div className='row'>
 							<div className='input-field col s11'>
-								<input id='add-title' placeholder='' type='text'/>
+								<input id='add-title' placeholder='' type='text' onChange={this.handleChange}/>
 								<label htmlFor='add-title'>Title</label>
 							</div>
-							<div className='input-field col s1'>
+							<div className='input-field col s1' onChange={this.handleChange}>
 								<label className='active'>Color</label>
 								<ColorPalette />
 							</div>
@@ -206,7 +282,7 @@ class AddEventPopup extends React.Component {
 								</div>
 							</div>
 
-							<div className='input-field col s4' id='add-recurring'>
+							<div className='input-field col s3' id='add-recurring' onChange={this.handleChange}>
 								<select>
 									<option value='1'></option>
 									<option value='2'>Daily</option>
@@ -220,22 +296,22 @@ class AddEventPopup extends React.Component {
 
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='add-location' placeholder='' type='text' />
+								<input id='add-location' placeholder='' type='text' onChange={this.handleChange}/>
 								<label htmlFor='add-location'>Location</label>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='input-field col s12'>
-								<input id='add-notes' placeholder='' type='text' />
+								<input id='add-notes' placeholder='' type='text' onChange={this.handleChange}/>
 								<label htmlFor='add-notes'>Notes</label>
 							</div>
 						</div>
 						
 						<a className="waves-effect waves-light btn modal-close" id='cancel-btn' onClick={this.resetForm}>Cancel</a>
 						
-						<button className='btn waves-effect waves-light' type='submit' >Add to Calendar
+						<button onClick={(e) => { this.createEvent(e) }} className='btn waves-effect waves-light' type='submit'>Add to Calendar
 							<i className='material-icons right'>send</i>
-						</button>
+                        </button>
 					</form>
 				</div>
 			</div>
