@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
+import fire from './fireB.js'
 import M from 'react-materialize';
 import Materialize from 'materialize-css';
 import './graph.css';
@@ -10,14 +11,6 @@ import EventDetails from './EventDetails';
 import EventEdit from './EventEdit';
 import $ from 'jquery';
 
-var config = {
-    apiKey: "AIzaSyBzenkKKf1b7eyYHboHgcBL9N6mQAjpB2g",
-    authDomain: "breakbreakdown-64b8a.firebaseapp.com",
-    databaseURL: "https://breakbreakdown-64b8a.firebaseio.com",
-    projectId: "breakbreakdown-64b8a",
-    storageBucket: "breakbreakdown-64b8a.appspot.com",
-    messagingSenderId: "534313689390"
-};
 
 var database = firebase.database();
 var user = firebase.auth().currentUser;
@@ -27,6 +20,7 @@ class Graph extends React.Component {
 		super(props);
         this.state = { events: [], currTime: 0, currEvent: { x: " ", y: 6, label: "Fortnite Grind", duration: "6 Hour(s)", startTime: "1:30 PM", endTime: "7:30 PM", location: "Home", notes: "Get Better" } }
         this.setEvent = this.setEvent.bind(this);
+        this.renderGraph = this.renderGraph.bind(this);
 	}
 
     setEvent(newEvent) {
@@ -74,33 +68,49 @@ class Graph extends React.Component {
 		console.log(totalEventTime);
 		return totalEventTime;
 	}
-	
-    render() {
+
+    renderGraph(currEvents) {
         var currIndex = 0;
+        if (currEvents.length == 0) {
+            return <VictoryPie
+                colorScale={["gray"]}
+                data={[{ x: " ", y: 1, label: "No Events Today" }]}
+                innerRadius={150}
+                padding={{ top: 0, bottom: 0 }}
+                labelComponent={<VictoryTooltip />}
+            />;
+        } else {
+           return <VictoryPie
+                colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
+                data={currEvents}
+                innerRadius={150}
+                padding={{ top: 0, bottom: 0 }}
+                labelComponent={<VictoryTooltip />}
+                events={[{
+                    target: "data",
+                    eventHandlers: {
+                        onClick: (evt, clickedProps) => {
+                            currIndex = clickedProps.index;
+
+                            this.setEvent(currEvents[currIndex]);
+                            var elems = document.querySelectorAll('.modal');
+                            var instances = Materialize.Modal.init(elems);
+                            var instance = Materialize.Modal.getInstance($('#event-details-popup'));
+                            instance.open();
+                        }
+                    }
+                }]}
+            />
+        }
+
+    }
+
+    render() {
+        
 
 		return (
-		  <div id='graph'> 
-			<VictoryPie
-			  colorScale={["tomato", "orange", "gold", "cyan", "navy" ]}
-			  data={this.state.events}
-			  innerRadius={150}
-			  padding={{ top: 0, bottom: 0 }}
-              labelComponent={<VictoryTooltip />}
-			  events={[{
-					  target: "data",
-					  eventHandlers: {
-                            onClick: (evt, clickedProps) => {
-                                currIndex = clickedProps.index;
-
-                              this.setEvent(this.state.events[currIndex]);
-                              var elems = document.querySelectorAll('.modal');
-                              var instances = Materialize.Modal.init(elems);
-                              var instance = Materialize.Modal.getInstance($('#event-details-popup'));
-                              instance.open();
-						}
-					  }
-					}]}
-                />
+            <div id='graph'> 
+                {this.renderGraph(this.state.events)}
                 <div id='event-details-popup' className='modal event-details-popup'>
                     <div className="modal-content">
                         <EventDetails event={this.state.currEvent.label} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}

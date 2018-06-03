@@ -26,9 +26,7 @@ class Toolbar extends React.Component {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 var userRef = firebase.database().ref('users/' + user.uid);
-                console.log("TESTTTTT");
                 userRef.on('value', function (snapshot) {
-                    console.log(snapshot.val());
                     this.setState({ userName: snapshot.val().firstName + " " + snapshot.val().lastName })
                 }.bind(this));
                 
@@ -40,7 +38,8 @@ class Toolbar extends React.Component {
     }
 
     signOut() {
-        firebase.auth().signOut();
+        console.log("LOGGING OUT");
+        user.signOut();
     }
 
     render() {
