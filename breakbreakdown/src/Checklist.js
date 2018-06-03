@@ -54,12 +54,13 @@ class Checklist extends React.Component {
 		var d = new Date();
 		var totalMilliseconds = (d.getHours() * 3600000) + (d.getMinutes() * 60000) + (d.getSeconds() * 1000);
 		this.setState({
-			events: [],
 			currTime: totalMilliseconds
 		});
 	}
 	
 	render() {
+		console.log('hello');
+		console.log(this.state.events);
 		return (
 			<div id='checklist'>
 			

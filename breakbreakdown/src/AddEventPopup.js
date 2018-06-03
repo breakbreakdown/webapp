@@ -30,6 +30,7 @@ class AddEventPopup extends React.Component {
 		this.setEventType = this.setEventType.bind(this);
 		this.resetTimes = this.resetTimes.bind(this);
 		this.resetDuration = this.resetDuration.bind(this);
+		this.setEndTime = this.setEndTime.bind(this);
 		this.createEvent = this.createEvent.bind(this);
         this.handleChange = this.handleChange.bind(this);
 	}
@@ -65,7 +66,7 @@ class AddEventPopup extends React.Component {
             if (val) {
                 console.log("About to call createEvent");
                 if (!alreadyPushed) {
-                  eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '5', 'startTime', 'endTime');
+                  eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, this.state.colorID, this.state.start, this.state.end);
                   alreadyPushed = true;
                 }
                 console.log(eventIdReturn);
@@ -99,16 +100,33 @@ class AddEventPopup extends React.Component {
     }
 	
 	setDefaultEndTime(dateStr) {
-		this.setState({ startTime: dateStr });
-		console.log(this.state.startTime);
-		const fp = flatpickr("#add-end", {
-			enableTime: true,
-			static: true,
-			altInput: true,
-			noCalendar: true,
-			minTime: this.state.startTime[0],
-			defaultDate: this.state.startTime[0]
-		});
+		if ($('#add-start').val() != '') {
+			this.setState({ start: dateStr });
+			console.log(this.state.start);
+			const fp = flatpickr("#add-end", {
+				enableTime: true,
+				static: true,
+				onClose: this.setEndTime,
+				minDate: this.state.start[0],
+			});
+			var timezone = parseInt(this.state.start[0].getTimezoneOffset()) / 60;
+			var startFormat = $('#add-start').val().replace(" ", "T") + ':00-0' + timezone + ':00';
+			this.setState({ start: startFormat });
+			console.log(this.state.start);
+		} else {
+		console.log('empty')}
+		
+	}
+
+	setEndTime(dateStr) {
+		if ($('#add-end').val() != '') {
+			var timezone = parseInt(dateStr[0].getTimezoneOffset()) / 60;
+			var endFormat = $('#add-end').val().replace(" ", "T") + ':00-0' + timezone + ':00';;
+			this.setState({ end: endFormat });
+			console.log(this.state.end);
+		} else {
+			console.log('empty')
+		}
 	}
 
 	resetForm() {
@@ -123,14 +141,13 @@ class AddEventPopup extends React.Component {
 
 	resetType() {
 		$('#event-switch').prop('checked', false);
-		$('#type-event').css('display', 'block');
-		$('#type-task').css('display', 'none');
+		$('#add-type-event').css('display', 'block');
+		$('#add-type-task').css('display', 'none');
 	}
 
 	resetDate() {
 		const fps = flatpickr("#add-date", {
 			static: true,
-			altInput: true,
 			onClose: this.setDefaultDate
 		});
 	}
@@ -139,16 +156,13 @@ class AddEventPopup extends React.Component {
 		const fps = flatpickr("#add-start", {
 			enableTime: true,
 			static: true,
-			altInput: true,
-			noCalendar: true,
 			onClose: this.setDefaultEndTime
 		});
 
 		const fpe = flatpickr("#add-end", {
 			enableTime: true,
 			static: true,
-			altInput: true,
-			noCalendar: true,
+			onClose: this.setEndTime
 		});
 	}
 
@@ -156,24 +170,30 @@ class AddEventPopup extends React.Component {
 		$("#duration-hours").prop('selectedIndex', 0);
 		$(".add-duration .select-dropdown").val('');
 		$('#duration-minutes').val('0');
+		this.resetDate();
 	}
 
 	setDefaultDate(dateStr) {
 		this.setState({ date: dateStr });
-		console.log(this.state.date);
+		console.log($('#add-date').val());
 	}
 
 	setEventType() {
 		var checkbox = document.getElementById('event-switch');
 		if (checkbox.checked) {
-			$('#type-event').css('display', 'none');
-			$('#type-task').css('display', 'block');
+			$('#add-type-event').css('display', 'none');
+			$('#add-type-task').css('display', 'block');
+			$('#add-recurring').addClass('s3');
+			$('#add-recurring').removeClass('s4');
+
 			this.resetTimes();
 			console.log('task');
 		} else {
-			$('#type-event').css('display', 'block');
-			$('#type-task').css('display', 'none');
+			$('#add-type-event').css('display', 'block');
+			$('#add-type-task').css('display', 'none');
 			this.resetDuration();
+			$('#add-recurring').addClass('s4');
+			$('#add-recurring').removeClass('s3');
 			console.log('event');
 		}
 	}
@@ -214,39 +234,36 @@ class AddEventPopup extends React.Component {
 						</div>
 
 						<div className='row'>
-							<div className='input-field col s3'>
-								<label htmlFor='add-date' className='active'>Date</label>
-								<Flatpickr id='add-date' options={{
-									static: true,
-									altInput: true,
-									onClose: this.setDefaultDate
-								}} />
-							</div>
+						
 
-							<div id='type-event'>
-								<div className='input-field col s3'>
+							<div id='add-type-event'>
+								<div className='input-field col s4'>
 									<label htmlFor='add-start' className='active'>Start</label>
 									<Flatpickr id='add-start' options={{
 										enableTime: true,
 										static: true,
-										altInput: true,
-										noCalendar: true,
 										onClose: this.setDefaultEndTime
 									
 									}} />
 								</div>
-								<div className='input-field col s3'>
+								<div className='input-field col s4'>
 									<label htmlFor='add-end' className='active'>End</label>
 									<Flatpickr id='add-end' options={{
 										enableTime: true,
 										static: true,
-										altInput: true,
-										noCalendar: true,
+										onChange: this.setEndTime
 									}} />
 								</div>
 							</div>
 
-							<div id='type-task'>
+							<div id='add-type-task'>
+								<div className='input-field col s3'>
+									<label htmlFor='add-date' className='active'>Date</label>
+									<Flatpickr id='add-date' options={{
+										static: true,
+										onClose: this.setDefaultDate
+									}} />
+								</div>
 								<div id='add-duration'>
 									<div className='input-field col s3'>
 										<select id="duration-hours">

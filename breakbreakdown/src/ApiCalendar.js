@@ -219,12 +219,12 @@ class ApiCalendar {
             'description': notes,
             'colorId': colorId,
             'start': {
-                'dateTime': '2018-06-03T09:00:00-07:00',
-                'timeZone': 'America/Los_Angeles'
+                'dateTime': startTime,
+				'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone
             },
             'end': {
-                'dateTime': '2018-06-03T17:00:00-10:00',
-                'timeZone': 'America/Los_Angeles'
+                'dateTime': endTime,
+				'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone
             }
         };
 

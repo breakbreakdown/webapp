@@ -67,7 +67,7 @@ class Toolbar extends React.Component {
 				</div>
 				<div id='userTime'>
 					<i className="material-icons">access_time</i>
-					<div><Clock format={'HH:mm A'} ticking={true} /></div>
+					<div><Clock format={'h:mm A'} ticking={true} /></div>
 				</div>
                 <div id='settings'>
                     <i className="material-icons" onClick={this.signOut}>keyboard_tab</i>
