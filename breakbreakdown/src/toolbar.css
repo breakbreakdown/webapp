@@ -1,0 +1,34 @@
+#toolbar {
+	position: relative;
+}
+
+#userName, #userTime, #settings {
+	display: inline-block;
+	
+	
+}
+
+#userName div, #userTime div {
+	font-size: 18px;
+	display: inline-block;
+    vertical-align: top;
+	margin-left: 20px;
+	margin-right: 60px;
+}
+
+#userName i, #userTime i {
+	color: #b3b3b3;
+}
+
+#userName i, #userTime i {
+	color: #b3b3b3;
+}
+
+#settings i {
+	color: #75b0d1;
+	cursor: pointer;
+}
+
+#settings {
+	float: right;
+}
