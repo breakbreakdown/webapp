@@ -51,8 +51,10 @@ class AddEventPopup extends React.Component {
 	
 	handleChange(evt) {
         this.setState({ [evt.target.id.split('-')[1]]: evt.target.value });
-        console.log(evt.target.value);
-    }
+		console.log(evt.target.value);
+		console.log(this.state.recurrence);
+	}
+
 
     createEvent(e) {
         e.preventDefault();
@@ -65,8 +67,16 @@ class AddEventPopup extends React.Component {
             console.log("Signed in:", val);
             if (val) {
                 console.log("About to call createEvent");
-                if (!alreadyPushed) {
-                  eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, this.state.colorID, this.state.start, this.state.end);
+				if (!alreadyPushed) {
+					console.log(this.state.recurrence);
+					if (this.state.recurrence == 1) {
+						this.state.recurrence = "RRULE:FREQ=DAILY;COUNT=1";
+						console.log('triggered1');
+					} else {
+						this.state.recurrence = 'RRULE:FREQ=' + this.state.recurrence + ';';
+						console.log(this.state.recurrence);
+					}
+					eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '5', this.state.start, this.state.end);
                   alreadyPushed = true;
                 }
                 console.log(eventIdReturn);
@@ -111,8 +121,9 @@ class AddEventPopup extends React.Component {
 			});
 			var timezone = parseInt(this.state.start[0].getTimezoneOffset()) / 60;
 			var startFormat = $('#add-start').val().replace(" ", "T") + ':00-0' + timezone + ':00';
-			this.setState({ start: startFormat });
-			console.log(this.state.start);
+			var startDate = new Date(startFormat).toISOString() + "";
+			this.setState({ start: startDate });
+			console.log(startDate);
 		} else {
 		console.log('empty')}
 		
@@ -122,7 +133,8 @@ class AddEventPopup extends React.Component {
 		if ($('#add-end').val() != '') {
 			var timezone = parseInt(dateStr[0].getTimezoneOffset()) / 60;
 			var endFormat = $('#add-end').val().replace(" ", "T") + ':00-0' + timezone + ':00';;
-			this.setState({ end: endFormat });
+			var endDate = new Date(endFormat).toISOString() + "";
+			this.setState({ end: endDate });
 			console.log(this.state.end);
 		} else {
 			console.log('empty')
@@ -282,15 +294,15 @@ class AddEventPopup extends React.Component {
 								</div>
 							</div>
 
-							<div className='input-field col s3' id='add-recurring' onChange={this.handleChange}>
-								<select>
+							<div className='input-field col s3'>
+								<select id='add-recurrence' onChange={this.handleChange}>
 									<option value='1'></option>
-									<option value='2'>Daily</option>
-									<option value='3'>Weekly</option>
-									<option value='4'>Monthly</option>
-									<option value='5'>Yearly</option>
+									<option value='DAILY'>Daily</option>
+									<option value='WEEKLY'>Weekly</option>
+									<option value='MONTHLY'>Monthly</option>
+									<option value='YEARLY'>Yearly</option>
 								</select>
-								<label>Recurring</label>
+								<label>Recurrence</label>
 							</div>
 						</div>
 
