@@ -32,7 +32,7 @@ class ChecklistItem extends React.Component {
 					<span className='event-title'>{this.props.currEvent.label}</span>
 				</label>
 				<div className='checklist-event modal-trigger' href={'#event-details-popup-' + this.props.index}>
-					<div className='checklist-event-color'></div>
+					<div className='checklist-event-color' style={{backgroundColor: this.props.currEvent.color}}></div>
 				</div>
 				<div id={'event-details-popup-' + this.props.index} className='modal event-details-popup'>
 					<div className='modal-content'>

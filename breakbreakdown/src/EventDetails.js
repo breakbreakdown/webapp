@@ -61,7 +61,7 @@ class EventDetails extends React.Component {
 							</div>
 							<div className='input-field col s1'>
 								<label className='active'>Color</label>
-								<div id='color'></div>
+								<div id='color' style={{backgroundColor: this.props.color}}></div>
 							</div>
 						</div>
 						<div className='row'>

@@ -87,7 +87,7 @@ class EventDetails extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.color);
+		console.log(this.props.colorIndex);
 		var hours = [];
 		for (var i = 1; i < 24; i++) {
 			hours.push(<option value={i}>{i}</option>);
