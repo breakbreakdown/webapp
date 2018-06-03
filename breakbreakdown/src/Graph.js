@@ -28,19 +28,26 @@ class Graph extends React.Component {
     }
 
     componentDidMount() {
+       var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
        var today = new Date();
 	   var month = today.getMonth() + 1;
        var day = today.getDate();
 	   var year = today.getFullYear();
-	   var currDay = year + '-' + month + '-' + day;
+       var currDay = year + '-' + month + '-' + day;
+       var date = months[month-1].substring(0, 3)
 	   firebase.auth().onAuthStateChanged(function(user) {
 		  if (user) {
-			var userEventRef = firebase.database().ref('users/' + user.uid + '/days/' + year + '-' + month + '-' + day);
-			userEventRef.on('value', function (snapshot) {
+			var userEventRef = firebase.database().ref('users/' + user.uid + '/days/' + currDay);
+              userEventRef.on('value', function (snapshot) {
+                  this.setState({ events: [] })
 			   snapshot.forEach(function (childSnapshot) {
 				   var value = childSnapshot.val();
 				   var newStateArray = this.state.events;
-				   newStateArray.push({ x: " ", y: value.y, label: value.eventName, duration: value.duration, startTime: value.startTime, endTime: value.endTime, location: value.location, notes: value.notes });
+                   newStateArray.push({
+                       x: " ", y: value.y, date: currDay, title: value.eventName, label: value.eventName + " Duration: " + value.duration,
+                       duration: value.duration, startTime: value.startTime, endTime: value.endTime,
+                       location: value.location, notes: value.notes, completed: value.completed, color: "blue"
+                   });
 				   this.setState({events: newStateArray})
 			   }.bind(this));
 			}.bind(this));
@@ -85,7 +92,10 @@ class Graph extends React.Component {
                 data={currEvents}
                 innerRadius={150}
                 padding={{ top: 0, bottom: 0 }}
-                labelComponent={<VictoryTooltip />}
+               labelComponent={<VictoryTooltip flyoutStyle={{
+                               stroke: (d) => d.color != " " ?
+                                   d.color : "black"
+                               }}/>}
                 events={[{
                     target: "data",
                     eventHandlers: {
@@ -114,7 +124,7 @@ class Graph extends React.Component {
                 <div id='event-details-popup' className='modal event-details-popup'>
                     <div className="modal-content">
                         <EventDetails event={this.state.currEvent.label} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}
-						endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} />
+                            endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} date={this.state.currEvent.date}/>
                     </div>
                 </div>
 				<div id={'event-edit-popup-' + this.props.index} className='modal event-edit-popup'>

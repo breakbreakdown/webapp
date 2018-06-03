@@ -29,7 +29,7 @@ class EventDetails extends React.Component {
 						</div>
 						<div className='row'>
 							<div className='input-field col s6'>
-								<input id='date' placeholder='' disabled value={this.props.event} type='text' className='validate' />
+								<input id='date' placeholder='' disabled value={this.props.date} type='text' className='validate' />
 								<label htmlFor='date'>Date</label>
 							</div>
 							<div className='input-field col s6'>

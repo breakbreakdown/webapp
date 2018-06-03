@@ -74,28 +74,34 @@ class home extends Component {
 			var duration = endTime.getTime - startTime.getTime || "30";
 			var location = singleEvent.location || "";
 			var notes = singleEvent.notes || "";
+
+            console.log(singleEvent);
+
+            if (startTime != "" && endTime != "") {
+                var startHr = parseFloat(startTime.substr(11).split('-')[0].split(':')[0]);
+			    var startMin = parseFloat(startTime.substr(11).split('-')[0].split(':')[1]) / 60;
+			    var startFloat = startHr + startMin;
+			    var endHr = parseFloat(endTime.substr(11).split('-')[0].split(':')[0]);
+			    var endMin = parseFloat(endTime.substr(11).split('-')[0].split(':')[1]) / 60;
+			    var endFloat = endHr + endMin
+			    var totalTime = endFloat - startFloat;
+            }
 			
-			var startHr = parseFloat(startTime.substr(11).split('-')[0].split(':')[0]);
-			var startMin = parseFloat(startTime.substr(11).split('-')[0].split(':')[1]) / 60;
-			var startFloat = startHr + startMin;
-			var endHr = parseFloat(endTime.substr(11).split('-')[0].split(':')[0]);
-			var endMin = parseFloat(endTime.substr(11).split('-')[0].split(':')[1]) / 60;
-			var endFloat = endHr + endMin
-			var totalTime = endFloat - startFloat;
 			console.log('StartTime: ' + totalTime);
 			//An event entry.
 			//USE THIS ONE FOR SENDING REAL DATA
-		  var eventData = {
-				eventName: eventName,
-				colorId: colorId,
-		    duration: Math.floor(totalTime) + 'Hour(s) ' + Math.floor((totalTime % 1.0 * 60)) + 'Minute(s)',
-		    startTime: startTime,
-		    endTime: endTime,
-		    location: location,
-		    notes: notes,
-			completed: false,
-			y: totalTime
-		  };
+            var eventData = {
+                eventName: eventName,
+                colorId: colorId,
+                duration: Math.floor(totalTime) + 'Hour(s) ' + Math.floor((totalTime % 1.0 * 60)) + 'Min(s)',
+                startTime: startTime,
+                endTime: endTime,
+                location: location,
+                notes: notes,
+                completed: false,
+                y: totalTime,
+                type: 'Event'
+            };
 
 			//console.log(eventData)
 			//Use this one for sending DUMMY CODE
