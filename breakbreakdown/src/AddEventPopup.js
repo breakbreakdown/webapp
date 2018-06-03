@@ -13,112 +13,118 @@ var submitClicked = false;
 
 class AddEventPopup extends React.Component {
     constructor(props) {
+        console.log('constructor');
         super(props);
         this.state = {
-            title: '',
-            colorID: '',
-            location: '',
-            startTime: '',
-            endTime: '',
-            recurrence: '',
-            notes: '',
-            duration: ''
+            title: '', // Works
+            colorID: '', // No
+            location: '', // Works
+            startTime: '', // No
+            endTime: '', // No
+            recurrence: '', // No
+            notes: '', // Works
+            duration: '' // No
         };
-        this.handleChange = this.handleChange.bind(this);
+
         this.createEvent = this.createEvent.bind(this);
         this.insertAuthCick = this.insertAuthCick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(evt) {
-        this.setState({ [evt.target.name]: evt.target.id });
+        this.setState({ [evt.target.id]: evt.target.value });
+        console.log(evt.target.value);
     }
 
     insertAuthCick() {
-      if (ApiCalendar.gapi) {
-          ApiCalendar.gapi.auth2.getAuthInstance().signIn();
-          //console.log(this.gapi.auth2.getAuthInstance().isSignedIn.get());
-      } else {
-          setTimeout(() => {this.insertAuthClick()}, 300);
-          console.log("Error: this.gapi not loaded. Loading again...");
-      }
+        if (ApiCalendar.gapi) {
+            ApiCalendar.gapi.auth2.getAuthInstance().signIn();
+            //console.log(this.gapi.auth2.getAuthInstance().isSignedIn.get());
+        } else {
+            setTimeout(() => { this.insertAuthClick() }, 300);
+            console.log("Error: this.gapi not loaded. Loading again...");
+        }
     }
 
-    createEvent() {
+
+
+    createEvent(e) {
+        e.preventDefault();
         let eventIdReturn;
         console.log("button clicked");
         ApiCalendar.handleAuthClick();
         console.log('AUTHENTICATED');
-
         var signChanged = function (val) {
-          console.log("Signed in:", val);
-          if (val) {
-              console.log("About to call createEvent");
-              eventIdReturn = ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
-              // var event = {
-              //   'summary': 'name',
-              //   'location': 'location',
-              //   'description': 'notes',
-              //   'colorId': 5,
-              //   'start': {
-              //     'dateTime': '2018-06-01T09:00:00-07:00',
-              //     'timeZone': 'America/Los_Angeles'
-              //   },
-              //   'end': {
-              //     'dateTime': '2018-06-01T17:00:00-10:00',
-              //     'timeZone': 'America/Los_Angeles'
-              //   },
-              //   'recurrence': [
-              //     'RRULE:FREQ=DAILY;COUNT=2'
-              //   ]
-              // };
-              //
-              // var request = ApiCalendar.gapi.client.calendar.events.insert({
-              //   'calendarId': 'primary',
-              //   'resource': event
-              // });
-              //
-              // request.execute(function(event) {
-              //   //appendPre('Event created: ' + event.htmlLink);
-              //   eventIdReturn = event.id;
-              // });
-              console.log(eventIdReturn);
-              submitClicked = false;
-				    ApiCalendar.handleSignoutClick();
+            console.log("Signed in:", val);
+            if (val) {
+                console.log("About to call createEvent");
+                eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '5', 'startTime', 'endTime');
+                // var event = {
+                //   'summary': 'name',
+                //   'location': 'location',
+                //   'description': 'notes',
+                //   'colorId': 5,
+                //   'start': {
+                //     'dateTime': '2018-06-01T09:00:00-07:00',
+                //     'timeZone': 'America/Los_Angeles'
+                //   },
+                //   'end': {
+                //     'dateTime': '2018-06-01T17:00:00-10:00',
+                //     'timeZone': 'America/Los_Angeles'
+                //   },
+                //   'recurrence': [
+                //     'RRULE:FREQ=DAILY;COUNT=2'
+                //   ]
+                // };
+                //
+                // var request = ApiCalendar.gapi.client.calendar.events.insert({
+                //   'calendarId': 'primary',
+                //   'resource': event
+                // });
+                //
+                // request.execute(function(event) {
+                //   //appendPre('Event created: ' + event.htmlLink);
+                //   eventIdReturn = event.id;
+                // });
+                console.log(eventIdReturn);
+                ApiCalendar.handleSignoutClick();
             }
-        };
+        }.bind(this);
         ApiCalendar.listenSign(signChanged);
 
         // var updates = {};
         //
-    		// //PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
+        // //PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
         //
-  			// var duration = this.duration;
+        // var duration = this.duration;
 
-  			// //An event entry.
-  			// //USE THIS ONE FOR SENDING REAL DATA
-  		  // var eventData = {
-  		  //   duration: duration
-  		  // };
+        // //An event entry.
+        // //USE THIS ONE FOR SENDING REAL DATA
+        // var eventData = {
+        //   duration: duration
+        // };
         //
-  		  // // Get a key for a new event.
-  			// //Once we get eventID from google we will use Authorization instead of 'i'
-  		  // var newPostKey = databaseRef.ref.child('' + 'event ID from google here').key;
+        // // Get a key for a new event.
+        // //Once we get eventID from google we will use Authorization instead of 'i'
+        // var newPostKey = databaseRef.ref.child('' + 'event ID from google here').key;
         //
-  			// // //adds the event with data into updates array
-  		  // updates['/days/' + this.date + '/' + newPostKey] = eventData;
+        // // //adds the event with data into updates array
+        // updates['/days/' + this.date + '/' + newPostKey] = eventData;
         //
-    		// //pushes updates to firebase
-    	  // return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
-    		// console.log('event data pushed');
+        // //pushes updates to firebase
+        // return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
+        // console.log('event data pushed');
     }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
-      if(submitClicked) {
-        this.createEvent();
-      }
+        if (submitClicked) {
+            this.createEvent();
+        }
     }
+
 
     componentDidMount() {
+        // console.log('componentDidMount');
+        // console.log(submitClicked);
         // ApiCalendar.handleAuthClick();
         // var signChanged = function (val) {
         //     if (val) {
@@ -138,10 +144,10 @@ class AddEventPopup extends React.Component {
         //ApiCalendar.handleAuthClick();
         //this.createEvent();
         //ApiCalendar.createEvent('name', 'location', 'notes', '5', 'startTime', 'endTime', 'recurrence');
-
     }
 
     render() {
+        console.log('render');
         return (
             <div>
                 <span id='add-event-title'> Add Event </span>
@@ -149,7 +155,7 @@ class AddEventPopup extends React.Component {
                     <form className='col s12' >
                         <div className='row'>
                             <div className='input-field col s11'>
-                                <input id='title' placeholder='' type='text' />
+                                <input id='title' placeholder='' type='text' onChange={this.handleChange} />
                                 <label htmlFor='title'>Title</label>
                             </div>
                             <div className='input-field col s1'>
@@ -159,11 +165,11 @@ class AddEventPopup extends React.Component {
                         </div>
                         <div className='row'>
                             <div className='input-field col s6'>
-                                <input id='date' placeholder='' type='text' className='datepicker' onChange={this.handleChange} />
+                                <input id='date' placeholder='' type='text' className='datepicker' />
                                 <label htmlFor='date'>Date</label>
                             </div>
                             <div className='input-field col s6'>
-                                <select>
+                                <select id='recurrence' onChange={this.handleChange}>
                                     <option value='1'></option>
                                     <option value='2'>Daily</option>
                                     <option value='3'>Weekly</option>
@@ -175,11 +181,11 @@ class AddEventPopup extends React.Component {
                         </div>
                         <div className='row'>
                             <div className='input-field col s4'>
-                                <input id='start' placeholder='' type='text' className='timepicker' onChange={this.handleChange} />
+                                <input id='startTime' placeholder='' type='text' className='timepicker' onChange={this.handleChange} />
                                 <label htmlFor='start'>Start</label>
                             </div>
                             <div className='input-field col s4'>
-                                <input id='end' placeholder='' type='text' className='timepicker' onChange={this.handleChange} />
+                                <input id='endTime' placeholder='' type='text' className='timepicker' onChange={this.handleChange} />
                                 <label htmlFor='end'>End</label>
                             </div>
                             <div className='input-field col s4'>
@@ -202,7 +208,7 @@ class AddEventPopup extends React.Component {
 
                         <a className="waves-effect waves-light btn modal-close" id='cancel-btn'>Cancel</a>
 
-                        <button onClick={submitClicked = true} className='btn waves-effect waves-light' type='submit'>Add to Calendar
+                        <button onClick={(e) => { this.createEvent(e) }} className='btn waves-effect waves-light' type='submit'>Add to Calendar
 							<i className='material-icons right'>send</i>
                         </button>
                     </form>
