@@ -2,17 +2,9 @@ import React from 'react';
 import firebase from 'firebase';
 import Materialize from 'materialize-css';
 import './checklist.css';
+import fire from './fireB.js'
 import ChecklistItem from './ChecklistItem'
 import EventDetails from './EventDetails';
-
-var config = {
-	apiKey: "AIzaSyBzenkKKf1b7eyYHboHgcBL9N6mQAjpB2g",
-	authDomain: "breakbreakdown-64b8a.firebaseapp.com",
-	databaseURL: "https://breakbreakdown-64b8a.firebaseio.com",
-	projectId: "breakbreakdown-64b8a",
-	storageBucket: "breakbreakdown-64b8a.appspot.com",
-	messagingSenderId: "534313689390"
-};
 
 var database = firebase.database();
 var user = firebase.auth().currentUser;
@@ -24,8 +16,6 @@ class Checklist extends React.Component {
 	}
 	
 	componentDidMount(){
-		
-
 		var today = new Date();
 		var month = today.getMonth() + 1;
 		var day = today.getDate();
@@ -34,13 +24,19 @@ class Checklist extends React.Component {
 		firebase.auth().onAuthStateChanged(function (user) {
 			if (user) {
 				var userEventRef = firebase.database().ref('users/' + user.uid + '/days/' + year + '-' + month + '-' + day);
-				userEventRef.on('value', function (snapshot) {
+                userEventRef.on('value', function (snapshot) {
+                    var newStateArray = []
 					snapshot.forEach(function (childSnapshot) {
-						var value = childSnapshot.val();
-						var newStateArray = this.state.events;
-						newStateArray.push({ x: " ", y: value.y, label: value.eventName, duration: value.duration, startTime: value.startTime, endTime: value.endTime, location: value.location, notes: value.notes });
-						this.setState({ events: newStateArray })
-					}.bind(this));
+                        var value = childSnapshot.val();
+                    
+                            newStateArray.push({
+                                x: " ", y: value.y, label: value.eventName,
+                                duration: value.duration, startTime: value.startTime,
+                                endTime: value.endTime, location: value.location, notes: value.notes,
+                                eventRef: 'users/' + user.uid + '/days/' + year + '-' + month + '-' + day + '/' + childSnapshot.key
+                            });
+                    }.bind(this));
+                    this.setState({ events: newStateArray })
 				}.bind(this));
 			} else {
 				// No user is signed in.

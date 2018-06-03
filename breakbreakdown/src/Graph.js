@@ -18,7 +18,7 @@ var user = firebase.auth().currentUser;
 class Graph extends React.Component {
 	constructor(props) {
 		super(props);
-        this.state = { events: [], currTime: 0, currEvent: { x: " ", y: 6, label: "Fortnite Grind", duration: "6 Hour(s)", startTime: "1:30 PM", endTime: "7:30 PM", location: "Home", notes: "Get Better" } }
+        this.state = { events: [], currTime: 0, currEvent: { x: " ", y: 6, label: "Fortnite Grind", duration: "6 Hour(s)", startTime: "1:30 PM", endTime: "7:30 PM", location: "Home", notes: "Get Better" }, isChanged: false }
         this.setEvent = this.setEvent.bind(this);
         this.renderGraph = this.renderGraph.bind(this);
 	}
@@ -39,17 +39,18 @@ class Graph extends React.Component {
 		  if (user) {
 			var userEventRef = firebase.database().ref('users/' + user.uid + '/days/' + currDay);
               userEventRef.on('value', function (snapshot) {
-                  this.setState({ events: [] })
-			   snapshot.forEach(function (childSnapshot) {
-				   var value = childSnapshot.val();
-				   var newStateArray = this.state.events;
-                   newStateArray.push({
-                       x: " ", y: value.y, date: currDay, title: value.eventName, label: value.eventName + " Duration: " + value.duration,
-                       duration: value.duration, startTime: value.startTime, endTime: value.endTime,
-                       location: value.location, notes: value.notes, completed: value.completed, color: "blue"
-                   });
-				   this.setState({events: newStateArray})
-			   }.bind(this));
+                  var newStateArray = []
+                  snapshot.forEach(function (childSnapshot) {
+                      var value = childSnapshot.val();
+                      if (!value.completed) {
+                          newStateArray.push({
+                              x: " ", y: value.y, date: currDay, title: value.eventName, label: value.eventName + " Duration: " + value.duration,
+                              duration: value.duration, startTime: value.startTime, endTime: value.endTime,
+                              location: value.location, notes: value.notes, completed: value.completed, color: "blue"
+                          });
+                      }
+                  }.bind(this));
+                  this.setState({ events: newStateArray })
 			}.bind(this));
 		  } else {
 			// No user is signed in.

@@ -1,18 +1,34 @@
 import React from 'react';
 import EventDetails from './EventDetails';
 import EventEdit from './EventEdit';
+import firebase from 'firebase';
+import fire from './fireB.js'
 
 class ChecklistItem extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { currEvent:[]}
+        this.state = { currEvent: [] }
+        this.toggleCompleted = this.toggleCompleted.bind(this);
 	}
+
+    toggleCompleted() {
+        var refString = this.props.currEvent.eventRef;
+        firebase.database().ref(refString).once('value').then(function (snapshot) {
+            var isCompleted = (snapshot.val().completed);
+            if (isCompleted) {
+                var userEventRef = firebase.database().ref(refString).update({ completed: false });
+            } else {
+                var userEventRef = firebase.database().ref(refString).update({ completed: true });
+            }
+        });
+
+    }
 
 	render() {
 		return (
 			<li className='collection-item'>
 				<label>
-					<input type='checkbox' className='checkbox'/>
+                    <input type='checkbox' className='checkbox' onClick={this.toggleCompleted}/>
 					<span className='event-title'>{this.props.currEvent.label}</span>
 				</label>
 				<div className='checklist-event modal-trigger' href={'#event-details-popup-' + this.props.index}></div>
