@@ -58,7 +58,8 @@ class Graph extends React.Component {
                           newStateArray.push({
                               x: " ", y: value.y, date: currDay, title: value.eventName, label: value.eventName + " Duration: " + value.duration,
                               duration: value.duration, startTime: value.startTime, endTime: value.endTime,
-                              location: value.location, notes: value.notes, completed: value.completed, color: colors[parseInt(value.colorId) - 1]
+                              location: value.location, notes: value.notes, completed: value.completed, color: colors[parseInt(value.colorId) - 1],
+							  colorIndex: parseInt(value.colorId) - 1
                           });
                           console.log(colors[parseInt(value.colorId) - 1]);
                           newEventColors.push(colors[parseInt(value.colorId) - 1]);
@@ -161,7 +162,7 @@ class Graph extends React.Component {
 				<div id={'event-edit-popup-' + this.props.index} className='modal event-edit-popup'>
                             <div className='modal-content'>
                                 <EventEdit event={this.state.currEvent.title} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}
-                                endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} date={this.state.currEvent.date} color={this.state.currEvent.color}/>
+                                endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} date={this.state.currEvent.date} color={this.state.currEvent.colorIndex}/>
                             </div>
 				</div>
 

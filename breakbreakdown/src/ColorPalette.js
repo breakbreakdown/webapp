@@ -3,11 +3,18 @@ import reactCSS from 'reactcss'
 import { TwitterPicker } from 'react-color'
 
 class ColorPalette extends React.Component {
-	state = {
-		displayColorPicker: false,
-		colors: ['#7986cb', '#33b679', '#8e24aa', '#e67c73', '#f6c026', '#f5511d', '#039be5', '#616161', '#3f51b5', '#0b8043', '#d60000', '#5484ed'],
-		color: this.props.color
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			displayColorPicker: false,
+			colors: ['#7986cb', '#33b679', '#8e24aa', '#e67c73', '#f6c026', '#f5511d', '#039be5', '#616161', '#3f51b5', '#0b8043', '#d60000', '#5484ed'],
+			color: ''
+		};
+	}
+	
+	componentWilldMount() {
+		this.setState({color: this.state.colors[this.props.colorIndex]})
+	}
 
 	handleClick = () => {
 		this.setState({ displayColorPicker: !this.state.displayColorPicker })
@@ -22,8 +29,8 @@ class ColorPalette extends React.Component {
 		this.handleClose()
 	};
 
+	
 	render() {
-
 		const styles = reactCSS({
 		  'default': {
 			color: {
