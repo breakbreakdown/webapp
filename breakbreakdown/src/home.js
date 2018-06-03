@@ -68,23 +68,29 @@ class home extends Component {
 
 			var singleEvent = myEvents[i];
 			var eventName = singleEvent.eventName || "Unnamed Event";
-			var colorId = singleEvent.colorId || "18";
+			var colorId = singleEvent.colorId || "12";
 			var startTime = singleEvent.startTime || "";
 			var endTime = singleEvent.endTime || "";
 			var duration = endTime.getTime - startTime.getTime || "30";
 			var location = singleEvent.location || "";
 			var notes = singleEvent.notes || "";
+
+            console.log(singleEvent);
+
+            if (startTime != "" && endTime != "") {
+                var startHr = parseFloat(startTime.substr(11).split('-')[0].split(':')[0]);
+			    var startMin = parseFloat(startTime.substr(11).split('-')[0].split(':')[1]) / 60;
+			    var startFloat = startHr + startMin;
+			    var endHr = parseFloat(endTime.substr(11).split('-')[0].split(':')[0]);
+			    var endMin = parseFloat(endTime.substr(11).split('-')[0].split(':')[1]) / 60;
+			    var endFloat = endHr + endMin
+			    var totalTime = endFloat - startFloat;
+            }
 			
-			var startHr = parseFloat(startTime.substr(11).split('-')[0].split(':')[0]);
-			var startMin = parseFloat(startTime.substr(11).split('-')[0].split(':')[1]) / 60;
-			var startFloat = startHr + startMin;
-			var endHr = parseFloat(endTime.substr(11).split('-')[0].split(':')[0]);
-			var endMin = parseFloat(endTime.substr(11).split('-')[0].split(':')[1]) / 60;
-			var endFloat = endHr + endMin
-			var totalTime = endFloat - startFloat;
 			console.log('StartTime: ' + totalTime);
 			//An event entry.
 			//USE THIS ONE FOR SENDING REAL DATA
+<<<<<<< HEAD
 		  var eventData = {
 				eventName: eventName,
 				colorId: colorId,
@@ -96,6 +102,20 @@ class home extends Component {
 			completed: false,
 			y: totalTime
 		  };
+=======
+            var eventData = {
+                eventName: eventName,
+                colorId: colorId,
+                duration: Math.floor(totalTime) + 'Hour(s) ' + Math.floor((totalTime % 1.0 * 60)) + 'Min(s)',
+                startTime: startTime,
+                endTime: endTime,
+                location: location,
+                notes: notes,
+                completed: false,
+                y: totalTime,
+                type: 'Event'
+            };
+>>>>>>> 43dd7e5511242a7d457e0721094cec445d4b794c
 
 			//console.log(eventData)
 			//Use this one for sending DUMMY CODE

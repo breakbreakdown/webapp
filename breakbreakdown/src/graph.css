@@ -1,12 +1,31 @@
 #freetime-countdown {
-	position: absolute;
-	left: 45%;
-	bottom: 60%;
+	margin-bottom: 50px;
 }
 
-#totaltime-left {
-	text-align: center;
-	position: absolute;
-	left: 42%;
-	bottom: 40%;
+#freetime-text {
+	font-size: 30px;
+	color: grey;
 }
+
+#freetime-counter {
+	font-size: 50px;
+}
+
+#totaltime-left-text {
+	color: grey;
+	font-size: 20px;
+}
+
+#totaltime-left-counter {
+	font-size: 30px;
+}
+
+#countdowns {
+	text-align: center;
+	margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
