@@ -62,7 +62,6 @@ class home extends Component {
 
 		console.log(myEvents);
 
-		//PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
 		for (var i = 0; i < myEvents.length; i++) {
 
 
@@ -86,7 +85,7 @@ class home extends Component {
 			    var endFloat = endHr + endMin
 			    var totalTime = endFloat - startFloat;
             }
-			
+
 			console.log('StartTime: ' + totalTime);
 			//An event entry.
 			//USE THIS ONE FOR SENDING REAL DATA
@@ -122,13 +121,13 @@ class home extends Component {
 		  var newPostKey = databaseRef.ref.child('' + singleEvent.eventId).key;
 
 			// //adds the event with data into updates array
-		  updates['/days/' + newDate + '/' + newPostKey] = eventData;
+		  updates['/' + newPostKey] = eventData;
 
 			console.log(updates);
 			console.log('event data loaded into array for index ' + i);
 	   }
 		//pushes updates to firebase
-	  return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
+	  return database.ref('users/' + localStorage.getItem('appTokenKey') + '/days/' + newDate).update(updates);
 		console.log('event data pushed');
 	}
 
