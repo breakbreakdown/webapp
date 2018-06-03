@@ -236,7 +236,8 @@ class ApiCalendar {
             'resource': event
         });
 
-        request.execute(function (event) {
+		request.execute(function (event) {
+			alert("This event has been added to your Google Calendar. Press Cancel");
             //appendPre('Event created: ' + event.htmlLink);
             return event.id;
         });
