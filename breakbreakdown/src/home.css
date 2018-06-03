@@ -83,9 +83,9 @@ body {
 }
 
 #add-event-popup, .event-details-popup, .event-edit-popup {
-	width: 40% !important;
+	width: 45% !important;
 	max-height: 90% !important;
-	padding: 20px !important;
+	padding: 20px 40px 20px 40px !important;
 }
 
 #add-event-popup > .modal-content, #event-details-popup > .modal-content {
@@ -103,6 +103,25 @@ body {
 
 #add-event-popup .modal, #event-details-popup .modal {
 	position: fixed !important;
+}
+
+#add-duration .dropdown-content {
+	height: 300px;
+}
+
+#event-type {
+	margin-top: 5px;
+	display: inline;
+	float: right;
+}
+
+.switch label input[type=checkbox]:checked + .lever, 
+.switch label input[type=checkbox] + .lever {
+	background: #75b0d1 !important;
+}
+
+.switch label input[type=checkbox]:checked + .lever:after {
+	background: #f6f6f6 !important;
 }
 
 .modal-overlay {
@@ -148,4 +167,12 @@ input[type=text], input[type=text]:focus {
 /* label underline focus shadow */
 input[type=text]:focus {
 	box-shadow: 0 1px 0 0 #75b0d1 !important;
+}
+
+
+@media screen and (max-width: 1400px) {
+	#add-event-popup, .event-details-popup, .event-edit-popup {
+		width: 60% !important;
+	}
+	
 }

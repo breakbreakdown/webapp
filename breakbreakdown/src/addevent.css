@@ -14,6 +14,25 @@
 	margin-top: 40px;
 }
 
+.flatpickr-month {
+	height: 40px !important;
+}
+
+.cur-year {
+	height: 30px !important;
+	margin-left: 5px !important;
+}
+
+.flatpickr-input {
+	width: 100%  !important;
+
+}
+
+.input-field {
+
+}
+
+
 
 .timepicker-modal, .datepicker-modal {
 	width: 90% !important;
