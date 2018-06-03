@@ -156,7 +156,8 @@ class ApiCalendar {
                 var events = resp.items;
                 if (events.length > 0) {
                   for (let i = 0; i < events.length; i++) {
-                    let event = events[i];
+                      let event = events[i];
+                      console.log(event);
                     myEvents[i] = { eventName: event.summary,
                                     colorId: event.colorId,
                                     duration: '30',
