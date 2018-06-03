@@ -68,7 +68,7 @@ class home extends Component {
 
 			var singleEvent = myEvents[i];
 			var eventName = singleEvent.eventName || "Unnamed Event";
-			var colorId = singleEvent.colorId || "18";
+			var colorId = singleEvent.colorId || "12";
 			var startTime = singleEvent.startTime || "";
 			var endTime = singleEvent.endTime || "";
 			var duration = endTime.getTime - startTime.getTime || "30";
