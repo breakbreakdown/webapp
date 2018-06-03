@@ -56,7 +56,7 @@ class Graph extends React.Component {
                       var value = childSnapshot.val();
                       if (!value.completed) {
                           newStateArray.push({
-                              x: " ", y: value.y, date: currDay, title: value.eventName, label: value.eventName + " Duration: " + value.duration,
+                              x: " ", y: value.y, date: currDay, title: value.eventName, label: value.eventName + " | Duration: " + value.duration,
                               duration: value.duration, startTime: value.startTime, endTime: value.endTime,
                               location: value.location, notes: value.notes, completed: value.completed, color: colors[parseInt(value.colorId) - 1],
 							  color: colors[parseInt(value.colorId) - 1]
