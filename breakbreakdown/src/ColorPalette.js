@@ -5,8 +5,8 @@ import { TwitterPicker } from 'react-color'
 class ColorPalette extends React.Component {
 	state = {
 		displayColorPicker: false,
-		colors: ['#D68D9F', '#DEA26D', '#DEC26D', '#A0CC85', '#75B0D1', '#9689C7'],
-		color: '#D68D9F'
+		colors: ['#7986cb', '#33b679', '#8e24aa', '#e67c73', '#f6c026', '#f5511d', '#039be5', '#616161', '#3f51b5', '#0b8043', '#d60000', '#5484ed'],
+		color: this.props.color
 	};
 
 	handleClick = () => {

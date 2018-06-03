@@ -161,7 +161,7 @@ class Graph extends React.Component {
 				<div id={'event-edit-popup-' + this.props.index} className='modal event-edit-popup'>
                             <div className='modal-content'>
                                 <EventEdit event={this.state.currEvent.title} duration={this.state.currEvent.duration} startTime={this.state.currEvent.startTime}
-                                endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} date={this.state.currEvent.date} />
+                                endTime={this.state.currEvent.endTime} location={this.state.currEvent.location} notes={this.state.currEvent.notes} date={this.state.currEvent.date} color={this.state.currEvent.color}/>
                             </div>
 				</div>
 

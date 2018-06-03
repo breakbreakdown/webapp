@@ -109,7 +109,7 @@ class EventDetails extends React.Component {
 							</div>
 							<div className='input-field col s1'>
 								<label className='active'>Color</label>
-								<ColorPalette />
+								<ColorPalette currColor = {this.props.color}/>
 							</div>
 						</div>
 

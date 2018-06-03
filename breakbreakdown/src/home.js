@@ -90,19 +90,7 @@ class home extends Component {
 			console.log('StartTime: ' + totalTime);
 			//An event entry.
 			//USE THIS ONE FOR SENDING REAL DATA
-<<<<<<< HEAD
-		  var eventData = {
-				eventName: eventName,
-				colorId: colorId,
-		    duration: Math.floor(totalTime) + 'Hour(s) ' + Math.floor((totalTime % 1.0 * 60)) + 'Minute(s)',
-		    startTime: startTime.substr(11).split('-')[0],
-		    endTime: endTime.substr(11).split('-')[0],
-		    location: location,
-		    notes: notes,
-			completed: false,
-			y: totalTime
-		  };
-=======
+
             var eventData = {
                 eventName: eventName,
                 colorId: colorId,
@@ -115,7 +103,6 @@ class home extends Component {
                 y: totalTime,
                 type: 'Event'
             };
->>>>>>> 43dd7e5511242a7d457e0721094cec445d4b794c
 
 			//console.log(eventData)
 			//Use this one for sending DUMMY CODE
