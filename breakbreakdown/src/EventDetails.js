@@ -90,7 +90,7 @@ class EventDetails extends React.Component {
 							</div>
 							</div>
 							<div className='input-field col s3'>
-								<input id='recurring' placeholder='' disabled value={this.props.event} type='text' />
+								<input id='recurring' placeholder='' disabled value={this.props.recurring} type='text' />
 								<label htmlFor='recurring'>Recurring</label>
 							</div>
 							
