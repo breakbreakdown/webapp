@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import fire from './fireB.js'
 import M from 'react-materialize';
 import './toolbar.css';
+import Clock from 'react-live-clock';
 
 var database = firebase.database();
 var user = firebase.auth().currentUser;
@@ -42,7 +43,11 @@ class Toolbar extends React.Component {
         user.signOut();
     }
 
-    render() {
+	render() {
+		var currDate = new Date();
+		var currTime = currDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+		
+
 		return (
             <div id='toolbar'>
                 <div id='userName'>
@@ -52,7 +57,11 @@ class Toolbar extends React.Component {
                 <div id='userTime'>
 					<i className="material-icons">event</i>
 					<div>{this.state.todayLabel}</div>
-                </div>
+				</div>
+				<div id='userTime'>
+					<i className="material-icons">access_time</i>
+					<div><Clock format={'HH:mm A'} ticking={true} /></div>
+				</div>
                 <div id='settings'>
                     <i className="material-icons" onClick={this.signOut}>keyboard_tab</i>
                 </div>

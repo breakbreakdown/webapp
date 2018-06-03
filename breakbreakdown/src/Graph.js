@@ -18,7 +18,7 @@ var user = firebase.auth().currentUser;
 class Graph extends React.Component {
 	constructor(props) {
 		super(props);
-        this.state = { events: [], currTime: 0, currEvent: { x: " ", y: 6, label: "Fortnite Grind", duration: "6 Hour(s)", startTime: "1:30 PM", endTime: "7:30 PM", location: "Home", notes: "Get Better" } }
+        this.state = { events: [], currTime: 0, currEvent: [] }
         this.setEvent = this.setEvent.bind(this);
         this.renderGraph = this.renderGraph.bind(this);
 	}
@@ -73,7 +73,7 @@ class Graph extends React.Component {
         var currIndex = 0;
         if (currEvents.length == 0) {
             return <VictoryPie
-                colorScale={["gray"]}
+                colorScale={["#dadada"]}
                 data={[{ x: " ", y: 1, label: "No Events Today" }]}
                 innerRadius={150}
                 padding={{ top: 0, bottom: 0 }}
@@ -109,7 +109,23 @@ class Graph extends React.Component {
         
 
 		return (
-            <div id='graph'> 
+			<div id='graph'> 
+				<div id='countdowns'>
+					<div id="freetime-countdown">
+						<div id="freetime-text"> Free Time </div>
+						<div id="freetime-counter">
+							<Countdown date={Date.now() + 86400000 - this.state.currTime - this.getTotalEventTime()} />
+						</div>
+					</div>
+
+					<div id="totaltime-left">
+						<div id="totaltime-left-text"> Time Left in Day </div>
+						<div id="totaltime-left-counter">
+							<Countdown date={Date.now() + 86400000 - this.state.currTime} />
+						</div>
+					</div>
+				</div>
+
                 {this.renderGraph(this.state.events)}
                 <div id='event-details-popup' className='modal event-details-popup'>
                     <div className="modal-content">
@@ -119,25 +135,11 @@ class Graph extends React.Component {
                 </div>
 				<div id={'event-edit-popup-' + this.props.index} className='modal event-edit-popup'>
                             <div className='modal-content'>
-                                <EventEdit event={this.state.currEvent.label} />
+						<EventEdit event={this.state.currEvent.label} />
                             </div>
 				</div>
 
-				<div id='countdowns'>
-			    <div id="freetime-countdown">
-				    <div id="freetime-text"> Free Time </div>
-				    <div id="freetime-counter">
-					    <Countdown date={Date.now() + 86400000 - this.state.currTime - this.getTotalEventTime()} />
-				    </div>
-			    </div>
-			
-			    <div id="totaltime-left">
-				    <div id="totaltime-left-text"> Time Left in Day </div>
-					<div id="totaltime-counter">
-					    <Countdown date={Date.now() + 86400000 - this.state.currTime} />
-				    </div>
-			    </div>
-		      </div>
+				
 		      </div>
 		);
 	}

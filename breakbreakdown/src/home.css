@@ -78,7 +78,7 @@ body {
 	padding: 50px;
 }
 
-#checklist-title, #add-event-title, #event-details-title {
+#checklist-title, #add-event-title, #event-details-title, #edit-event-title {
 	font-size: 1.64rem;
 }
 
@@ -88,22 +88,6 @@ body {
 	padding: 20px 40px 20px 40px !important;
 }
 
-#add-event-popup > .modal-content, #event-details-popup > .modal-content {
-	margin-left: 20px !important;
-	margin-right: 20px !important;
-}
-
-#add-event-popup .modal-overlay, #event-details-popup .modal-overlay {
-	position: fixed  !important;
-	top: 0 !important;
-	left: 0 !important;
-	right: 0 !important;
-	bottom: 0 !important;
-}
-
-#add-event-popup .modal, #event-details-popup .modal {
-	position: fixed !important;
-}
 
 #add-duration .dropdown-content {
 	height: 300px;
@@ -126,6 +110,10 @@ body {
 
 .modal-overlay {
 	pointer-events: none;
+}
+
+.modal-trigger {
+	cursor: pointer;
 }
 
 /* Scrollbar width */

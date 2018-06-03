@@ -20,26 +20,12 @@ class AddEventPopup extends React.Component {
 
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', function () {
-			var date = document.querySelectorAll('.datepicker');
-			var instances = Materialize.Datepicker.init(date);
-			var time = document.querySelectorAll('.timepicker');
-			var instances = Materialize.Timepicker.init(time);
 			var menu = document.querySelectorAll('select');
 			var instances = Materialize.FormSelect.init(menu);
 		});
 
 		this.resetForm = this.resetForm.bind(this);
-		this.setEventType()
-	}
-
-	resetForm() {
-		$('#add-title').val('');
-		$('#add-date').val('');
-		$('#add-start').val('');
-		$('#add-end').val('');
-		$('#add-duration').val('');
-		$('#add-location').val('');
-		$('#add-notes').val('');
+		this.setEventType();
 	}
 
 	setDefaultEndTime(dateStr) {
@@ -52,6 +38,30 @@ class AddEventPopup extends React.Component {
 			noCalendar: true,
 			minTime: this.state.startTime[0],
 			defaultDate: this.state.startTime[0]
+		});
+	}
+
+	resetForm() {
+		$('#add-title').val('');
+		$('#add-location').val('');
+		$('#add-notes').val('');
+		this.resetDate();
+		this.resetTimes();
+		this.resetDuration();
+		this.resetType();
+	}
+
+	resetType() {
+		$('#event-switch').prop('checked', false);
+		$('#type-event').css('display', 'block');
+		$('#type-task').css('display', 'none');
+	}
+
+	resetDate() {
+		const fps = flatpickr("#add-date", {
+			static: true,
+			altInput: true,
+			onClose: this.setDefaultDate
 		});
 	}
 
@@ -89,10 +99,12 @@ class AddEventPopup extends React.Component {
 			$('#type-event').css('display', 'none');
 			$('#type-task').css('display', 'block');
 			this.resetTimes();
+			console.log('task');
 		} else {
 			$('#type-event').css('display', 'block');
 			$('#type-task').css('display', 'none');
 			this.resetDuration();
+			console.log('event');
 		}
 	}
 
@@ -108,13 +120,11 @@ class AddEventPopup extends React.Component {
 		}
 		return (
 			<div>
-				
-
 					<span id='add-event-title'> Add Event </span>
 					<div className="switch" id='event-type'>
 						<label>
 							Event
-							<input type="checkbox" id='event-switch' onChange={this.setEventType} data-clear/>
+							<input type="checkbox" id='event-switch' onChange={this.setEventType}/>
 							<span className="lever"></span>
 							Task
 							</label>
@@ -142,6 +152,7 @@ class AddEventPopup extends React.Component {
 									onClose: this.setDefaultDate
 								}} />
 							</div>
+
 							<div id='type-event'>
 								<div className='input-field col s3'>
 									<label htmlFor='add-start' className='active'>Start</label>

@@ -14,3 +14,13 @@ input {
 	display: inline-block;
 	margin-top: 15px;
 }
+
+#details-event-type {
+	display: inline-block;
+	float: right;
+	margin-top: 5px;
+}
+
+#event-details-header {
+	padding: 10px 30px 10px 30px;
+}

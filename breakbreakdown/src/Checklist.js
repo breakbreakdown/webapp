@@ -2,17 +2,9 @@ import React from 'react';
 import firebase from 'firebase';
 import Materialize from 'materialize-css';
 import './checklist.css';
+import './home.css';
 import ChecklistItem from './ChecklistItem'
 import EventDetails from './EventDetails';
-
-var config = {
-	apiKey: "AIzaSyBzenkKKf1b7eyYHboHgcBL9N6mQAjpB2g",
-	authDomain: "breakbreakdown-64b8a.firebaseapp.com",
-	databaseURL: "https://breakbreakdown-64b8a.firebaseio.com",
-	projectId: "breakbreakdown-64b8a",
-	storageBucket: "breakbreakdown-64b8a.appspot.com",
-	messagingSenderId: "534313689390"
-};
 
 var database = firebase.database();
 var user = firebase.auth().currentUser;
@@ -20,12 +12,9 @@ var user = firebase.auth().currentUser;
 class Checklist extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {events:[]}
+		this.state = { events: [], currTime: 0, currEvent: [] }
 	}
-	
-	componentDidMount(){
-		
-
+	componentDidMount() {
 		var today = new Date();
 		var month = today.getMonth() + 1;
 		var day = today.getDate();
@@ -46,6 +35,10 @@ class Checklist extends React.Component {
 				// No user is signed in.
 			}
 		}.bind(this));
+		console.log('checklist');
+		console.log(this.state.events);
+		console.log(this.state.events[1]);
+
 	}
 
 	componentWillMount() {
