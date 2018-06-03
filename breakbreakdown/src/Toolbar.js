@@ -46,10 +46,12 @@ class Toolbar extends React.Component {
 		return (
             <div id='toolbar'>
                 <div id='userName'>
-                    <i className="material-icons">person</i><p>{this.state.userName}</p>
+					<i className="material-icons">person</i>
+					<div>{this.state.userName}</div>
                 </div>
                 <div id='userTime'>
-                    <i className="material-icons">calendar_today</i><p>{this.state.todayLabel}</p>
+					<i className="material-icons">event</i>
+					<div>{this.state.todayLabel}</div>
                 </div>
                 <div id='settings'>
                     <i className="material-icons" onClick={this.signOut}>keyboard_tab</i>

@@ -131,20 +131,23 @@ class Graph extends React.Component {
                             <div className='modal-content'>
                                 <EventEdit event={this.state.currEvent.label} />
                             </div>
-                        </div>
+				</div>
+
+				<div id='countdowns'>
 			    <div id="freetime-countdown">
 				    <div id="freetime-text"> Free Time </div>
-				    <div>
+				    <div id="freetime-counter">
 					    <Countdown date={Date.now() + 86400000 - this.state.currTime - this.getTotalEventTime()} />
 				    </div>
 			    </div>
 			
 			    <div id="totaltime-left">
 				    <div id="totaltime-left-text"> Time Left in Day </div>
-				    <div>
+					<div id="totaltime-counter">
 					    <Countdown date={Date.now() + 86400000 - this.state.currTime} />
 				    </div>
 			    </div>
+		      </div>
 		      </div>
 		);
 	}
