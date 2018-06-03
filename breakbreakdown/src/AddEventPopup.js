@@ -27,7 +27,6 @@ class AddEventPopup extends React.Component {
         };
 
         this.createEvent = this.createEvent.bind(this);
-        this.insertAuthCick = this.insertAuthCick.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -36,56 +35,21 @@ class AddEventPopup extends React.Component {
         console.log(evt.target.value);
     }
 
-    insertAuthCick() {
-        if (ApiCalendar.gapi) {
-            ApiCalendar.gapi.auth2.getAuthInstance().signIn();
-            //console.log(this.gapi.auth2.getAuthInstance().isSignedIn.get());
-        } else {
-            setTimeout(() => { this.insertAuthClick() }, 300);
-            console.log("Error: this.gapi not loaded. Loading again...");
-        }
-    }
-
-
-
     createEvent(e) {
         e.preventDefault();
         let eventIdReturn;
         console.log("button clicked");
         ApiCalendar.handleAuthClick();
         console.log('AUTHENTICATED');
+        var alreadyPushed = false;
         var signChanged = function (val) {
             console.log("Signed in:", val);
             if (val) {
                 console.log("About to call createEvent");
-                eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '5', 'startTime', 'endTime');
-                // var event = {
-                //   'summary': 'name',
-                //   'location': 'location',
-                //   'description': 'notes',
-                //   'colorId': 5,
-                //   'start': {
-                //     'dateTime': '2018-06-01T09:00:00-07:00',
-                //     'timeZone': 'America/Los_Angeles'
-                //   },
-                //   'end': {
-                //     'dateTime': '2018-06-01T17:00:00-10:00',
-                //     'timeZone': 'America/Los_Angeles'
-                //   },
-                //   'recurrence': [
-                //     'RRULE:FREQ=DAILY;COUNT=2'
-                //   ]
-                // };
-                //
-                // var request = ApiCalendar.gapi.client.calendar.events.insert({
-                //   'calendarId': 'primary',
-                //   'resource': event
-                // });
-                //
-                // request.execute(function(event) {
-                //   //appendPre('Event created: ' + event.htmlLink);
-                //   eventIdReturn = event.id;
-                // });
+                if (!alreadyPushed) {
+                  eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '5', 'startTime', 'endTime');
+                  alreadyPushed = true;
+                }
                 console.log(eventIdReturn);
                 ApiCalendar.handleSignoutClick();
             }

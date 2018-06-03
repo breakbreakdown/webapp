@@ -74,7 +74,6 @@ class ApiCalendar {
         return true;
     }
 
-
     /**
      * Sign in Google user account
      */
