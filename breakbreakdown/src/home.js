@@ -14,8 +14,6 @@ import fire from './fireB.js';
 import * as U from './user.js'
 
 //in initial constructor set the
-
-
 var database = fire.database();
 
 //path to user
@@ -50,9 +48,9 @@ class home extends Component {
 	writeNewEvent(myEvents) {
 		console.log("in here");
 		var date = new Date();
-		var month = date.getUTCMonth() + 1; //months from 1-12
-		var day = date.getUTCDate();
-		var year = date.getUTCFullYear();
+		var month = date.getMonth() + 1; //months from 1-12
+		var day = date.getDate();
+		var year = date.getFullYear();
 		var newDate = year + "-" + month + "-" + day;
 
 		console.log('writeNewEvent initiated');
