@@ -32,28 +32,28 @@ class Toolbar extends React.Component {
                 userRef.on('value', function (snapshot) {
                     this.setState({ userName: snapshot.val().firstName + " " + snapshot.val().lastName })
                 }.bind(this));
-                
+
             } else {
- 
+
             }
         }.bind(this));
 
     }
 
     signOut() {
-        
+
         firebase.auth().signOut().then(function () {
 			localStorage.removeItem('appTokenKey');
-			return <Redirect to='/signin' />;
+			window.location.reload();
 			}.bind(this)
 		)
-		
+
     }
 
 	render() {
 		var currDate = new Date();
 		var currTime = currDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-		
+
 
 		return (
             <div id='toolbar'>
@@ -71,7 +71,6 @@ class Toolbar extends React.Component {
 				</div>
                 <div id='settings'>
 					<i className="material-icons" onClick={this.signOut}>keyboard_tab</i>
-					
                 </div>
             </div>
 		);

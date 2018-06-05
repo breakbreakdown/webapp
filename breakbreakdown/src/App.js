@@ -8,8 +8,8 @@ import '../node_modules/material-design-icons/iconfont/material-icons.css';
 class App extends React.Component {
 	render() {
 		if (localStorage.getItem("appTokenKey")) {
-    	return <Redirect to="/home" />
-    }
+    		return <Redirect to="/home" />
+    	}
 		firebase.auth().onAuthStateChanged(user => {
 	    if (user) {
 	        //console.log("User signed in: ", JSON.stringify(user));

@@ -37,4 +37,6 @@ function initializeUser(userId, firstName, lastName, email) {
 		lastName: lastName,
     email: email
   });
+  fire.database().ref('users/' + userId + '/days').set({
+  });
 }
