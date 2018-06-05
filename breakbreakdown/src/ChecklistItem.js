@@ -31,6 +31,7 @@ class ChecklistItem extends React.Component {
                     <input type='checkbox' className='checkbox' checked={this.props.currEvent.completed} onClick={this.toggleCompleted}/>
 					<span className='event-title'>{this.props.currEvent.label}</span>
 				</label>
+
 				<div className='checklist-event ' href={'#event-details-popup-' + this.props.index}>
 					<div className='checklist-event-color' style={{backgroundColor: this.props.currEvent.color}}></div>
 				</div>

@@ -41,6 +41,6 @@
 
 /* check color */
 [type="checkbox"]:checked + span:not(.lever):before {
-	border-right: 2px solid #75b0d1 !important;
-	border-bottom: 2px solid #75b0d1 !important;
+	border-right: 2px solid #84c97a !important;
+	border-bottom: 2px solid #84c97a !important;
 }
