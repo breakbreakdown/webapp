@@ -74,7 +74,7 @@ class home extends Component {
 
             console.log(singleEvent);
 
-            if (startTime != "" && endTime != "") {
+			if (startTime != "" && endTime != "") {
                 var startHr = parseFloat(startTime.substr(11).split('-')[0].split(':')[0]);
 			    var startMin = parseFloat(startTime.substr(11).split('-')[0].split(':')[1]) / 60;
 			    var startFloat = startHr + startMin;
