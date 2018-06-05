@@ -28,7 +28,7 @@ class ChecklistItem extends React.Component {
 		return (
 			<li className='collection-item'>
 				<label>
-                    <input type='checkbox' className='checkbox' onClick={this.toggleCompleted}/>
+                    <input type='checkbox' className='checkbox' checked={this.props.currEvent.completed} onClick={this.toggleCompleted}/>
 					<span className='event-title'>{this.props.currEvent.label}</span>
 				</label>
 				<div className='checklist-event modal-trigger' href={'#event-details-popup-' + this.props.index}>

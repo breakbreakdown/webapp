@@ -35,7 +35,7 @@ class Checklist extends React.Component {
                                 duration: value.duration, startTime: value.startTime,
                                 endTime: value.endTime, location: value.location, notes: value.notes,
                                 eventRef: 'users/' + user.uid + '/days/' + year + '-' + month + '-' + day + '/' + childSnapshot.key,
-								color: colors[value.colorId - 1]
+								color: colors[value.colorId - 1], completed: value.completed
                             });
                     }.bind(this));
                     this.setState({ events: newStateArray })

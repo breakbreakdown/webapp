@@ -79,12 +79,8 @@ class AddEventPopup extends React.Component {
 						this.state.recurrence = 'RRULE:FREQ=' + this.state.recurrence + ';';
 						console.log(this.state.recurrence);
 					}
-<<<<<<< HEAD
 					console.log($('#selected-color'))
 					eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, (this.state.colorID + 1) || "1", this.state.start, this.state.end, this.state.recurrence);
-=======
-					eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '5', this.state.start, this.state.end, this.state.recurrence);
->>>>>>> 409a6dfe09c224353780dc7e7c78c1eef1b06dc3
                   alreadyPushed = true;
                 }
                 console.log(eventIdReturn);
