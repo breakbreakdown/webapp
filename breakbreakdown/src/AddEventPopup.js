@@ -91,15 +91,9 @@ class AddEventPopup extends React.Component {
 
 		e.preventDefault();
 		if (!$('#event-switch').prop('checked') && ($('#add-start').val() == "" || $('#add-end').val() == "")) {
-			alert("Please enter start and end time before adding event.");
-		} else if ($('#event-switch').prop('checked') && (this.state.hours == '0' && this.state.minutes == '0') || this.state.date == '') {
-			if (this.state.hours == '0' && this.state.minutes == '0') {
-				alert("Please enter duration before adding task.");
-			}
-			if (this.state.date == '') {
-				alert("Please enter date before adding task.");
-			}
-
+				alert("Please enter start and end time before adding event.");
+		} else if ($('#event-switch').prop('checked') && ((this.state.hours == '0' && this.state.minutes == '0') || this.state.date == '')) {
+				alert("Please enter duration and before adding task.");
 		} else {
 			let eventIdReturn;
 			console.log("button clicked");

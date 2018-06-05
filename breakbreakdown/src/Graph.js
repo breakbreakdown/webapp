@@ -108,10 +108,12 @@ class Graph extends React.Component {
                 data={currEvents}
                 innerRadius={150}
                 padding={{ top: 0, bottom: 0 }}
-               labelComponent={<VictoryTooltip flyoutStyle={{
-								   stroke: (d) => d.color != " " ?
-									   d.color : "black"
-								   }}/>}
+			   labelComponent={<VictoryTooltip flyoutStyle={{
+				   stroke: (d) => d.color != " " ? d.color : "black",
+
+			   }}
+				   style={{fontSize: '10px'}}
+			   />}
 									events={[{
 										target: "data",
 										eventHandlers: {

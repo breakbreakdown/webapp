@@ -93,7 +93,7 @@ class home extends Component {
             var eventData = {
                 eventName: eventName,
                 colorId: colorId,
-                duration: Math.floor(totalTime) + 'Hour(s) ' + Math.floor((totalTime % 1.0 * 60)) + 'Min(s)',
+                duration: Math.floor(totalTime) + 'hr ' + Math.floor((totalTime % 1.0 * 60)) + 'min',
                 startTime: startTime,
                 endTime: endTime,
                 location: location,
