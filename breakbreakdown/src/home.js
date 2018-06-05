@@ -29,11 +29,10 @@ class home extends Component {
 		let currComp = this;
 		ApiCalendar.handleAuthClick();
 		var signChanged = function (val) {
-			console.log("Signed in:", val);
 			if (val) {
 				ApiCalendar.listUpcomingEvents(25).then(function(myEvents){
 					//DO ALL EVENTS ?HANDLING HERE
-					console.log(myEvents[0]);
+					console.log(myEvents);
 					currComp.writeNewEvent(myEvents);
 				}).catch(function(err){
 				  //What happens if the promise was rejected
@@ -46,20 +45,14 @@ class home extends Component {
 
 	//Writes all the users new events to firebase
 	writeNewEvent(myEvents) {
-		console.log("in here");
 		var date = new Date();
 		var month = date.getMonth() + 1; //months from 1-12
 		var day = date.getDate();
 		var year = date.getFullYear();
 		var newDate = year + "-" + month + "-" + day;
 
-		console.log('writeNewEvent initiated');
-
 		//stores all the events that need to be updated
 		var updates = {};
-
-		console.log(myEvents);
-
 		for (var i = 0; i < myEvents.length; i++) {
 
 
@@ -72,9 +65,8 @@ class home extends Component {
 			var location = singleEvent.location || "";
 			var notes = singleEvent.notes || "";
 
-            console.log(singleEvent);
+            if (startTime != "" && endTime != "") {
 
-			if (startTime != "" && endTime != "") {
                 var startHr = parseFloat(startTime.substr(11).split('-')[0].split(':')[0]);
 			    var startMin = parseFloat(startTime.substr(11).split('-')[0].split(':')[1]) / 60;
 			    var startFloat = startHr + startMin;
@@ -83,8 +75,6 @@ class home extends Component {
 			    var endFloat = endHr + endMin
 			    var totalTime = endFloat - startFloat;
             }
-
-			console.log('StartTime: ' + totalTime);
 			//An event entry.
 			//USE THIS ONE FOR SENDING REAL DATA
 
@@ -97,11 +87,10 @@ class home extends Component {
                 location: location,
                 notes: notes,
                 completed: false,
-                y: totalTime,
+                y: totalTime || "",
                 type: 'Event'
             };
 
-			//console.log(eventData)
 			//Use this one for sending DUMMY CODE
 			// var eventData = {
 			// 	eventName: 'sample event',
@@ -113,20 +102,16 @@ class home extends Component {
 		  //   notes: 'this is the notes which will appear in the description of the dummy event'
 		  // };
 
-			console.log('event data found' + i);
 		  // Get a key for a new event.
 			//Once we get eventID from google we will use Authorization instead of 'i'
 		  var newPostKey = databaseRef.ref.child('' + singleEvent.eventId).key;
 
 			// //adds the event with data into updates array
 		  updates['/' + newPostKey] = eventData;
-
-			console.log(updates);
-			console.log('event data loaded into array for index ' + i);
+		  console.log(updates);
 	   }
 		//pushes updates to firebase
 	  return database.ref('users/' + localStorage.getItem('appTokenKey') + '/days/' + newDate).update(updates);
-		console.log('event data pushed');
 	}
 
 	render() {
