@@ -33,6 +33,7 @@ class AddEventPopup extends React.Component {
 		this.setEndTime = this.setEndTime.bind(this);
 		this.createEvent = this.createEvent.bind(this);
         this.handleChange = this.handleChange.bind(this);
+		this.getColor = this.getColor.bind(this);
 	}
 
 	componentDidMount() {
@@ -47,7 +48,7 @@ class AddEventPopup extends React.Component {
 
 		this.resetForm = this.resetForm.bind(this);
 		this.setEventType();
-		this.setState({ recurrence: '1' });
+		this.setState({recurrence: '1'});
 	}
 	
 	handleChange(evt) {
@@ -77,7 +78,8 @@ class AddEventPopup extends React.Component {
 						this.state.recurrence = 'RRULE:FREQ=' + this.state.recurrence + ';';
 						console.log(this.state.recurrence);
 					}
-					eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '4', this.state.start, this.state.end, this.state.recurrence);
+					console.log($('#selected-color'))
+					eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, (this.state.colorID + 1) || "1", this.state.start, this.state.end, this.state.recurrence);
                   alreadyPushed = true;
                 }
                 console.log(eventIdReturn);
@@ -85,7 +87,6 @@ class AddEventPopup extends React.Component {
             }
         }.bind(this);
         ApiCalendar.listenSign(signChanged);
-
         // var updates = {};
         //
         // //PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
@@ -211,6 +212,11 @@ class AddEventPopup extends React.Component {
 		}
 	}
 
+	getColor(value) {
+		let colors = ['#7986cb', '#33b679', '#8e24aa', '#e67c73', '#f6c026', '#f5511d', '#039be5', '#616161', '#3f51b5', '#0b8043', '#d60000', '#5484ed'];
+		this.setState({colorID: colors.indexOf(value)});
+	}
+	
 	render() {
 		var hours = [];
 		for (var i = 1; i < 24; i++) {
@@ -242,7 +248,7 @@ class AddEventPopup extends React.Component {
 							</div>
 							<div className='input-field col s1' onChange={this.handleChange}>
 								<label className='active'>Color</label>
-								<ColorPalette />
+								<ColorPalette sendColor = {this.getColor} />
 							</div>
 						</div>
 

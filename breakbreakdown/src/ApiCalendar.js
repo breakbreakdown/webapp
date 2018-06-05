@@ -237,7 +237,7 @@ class ApiCalendar {
         });
 
 		request.execute(function (event) {
-			alert("This event has been added to your Google Calendar. Please wait a couple minutes for the event to load on this site. Press Cancel.");
+			alert("This event has been added to your Google Calendar. Press Cancel");
             //appendPre('Event created: ' + event.htmlLink);
             return event.id;
         });

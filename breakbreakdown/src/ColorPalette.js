@@ -10,13 +10,13 @@ class ColorPalette extends React.Component {
 			colors: ['#7986cb', '#33b679', '#8e24aa', '#e67c73', '#f6c026', '#f5511d', '#039be5', '#616161', '#3f51b5', '#0b8043', '#d60000', '#5484ed'],
 			color: '#7986cb'
 		};
+		this.setInitialColor = this.setInitialColor.bind(this);
 	}
 	
-	componentWillMount() {
-		console.log(this.state.colors[this.props.colorIndex]);
-		this.setState({color: this.state.colors[this.props.colorIndex]})
+	setInitialColor() {
+		this.props.sendColor('#7986cb');
 	}
-
+	
 	handleClick = () => {
 		this.setState({ displayColorPicker: !this.state.displayColorPicker })
 	};
@@ -27,6 +27,7 @@ class ColorPalette extends React.Component {
 
 	handleChange = (color) => {
 		this.setState({ color: color.hex })
+		this.props.sendColor(color.hex);
 		this.handleClose()
 	};
 
