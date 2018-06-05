@@ -29,7 +29,7 @@ class Checklist extends React.Component {
                     var newStateArray = []
 					snapshot.forEach(function (childSnapshot) {
                         var value = childSnapshot.val();
-                    
+
                             newStateArray.push({
                                 x: " ", y: value.y, label: value.eventName,
                                 duration: value.duration, startTime: value.startTime,
@@ -57,22 +57,20 @@ class Checklist extends React.Component {
 			currTime: totalMilliseconds
 		});
 	}
-	
+
 	render() {
-		console.log('hello');
-		console.log(this.state.events);
 		return (
 			<div id='checklist'>
-			
+
 				<span id='checklist-title'> Checklist </span>
-			
+
 				<ul className='collection'>
 					{Object.keys(this.state.events).map((d) => {
 						return <ChecklistItem key={d} index={d} currEvent={this.state.events[d]}/>
 					})}
 				</ul>
-				
-        
+
+
 			</div>
 		);
 	}
