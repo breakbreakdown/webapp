@@ -71,11 +71,7 @@ class Toolbar extends React.Component {
 				</div>
                 <div id='settings'>
 					<i className="material-icons" onClick={this.signOut}>keyboard_tab</i>
-					<div id='settings-popup' className='modal'>
-						<div className='modal-content'>
-							
-						</div>
-					</div>
+					
                 </div>
             </div>
 		);

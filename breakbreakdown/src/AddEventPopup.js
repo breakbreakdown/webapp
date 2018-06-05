@@ -47,8 +47,8 @@ class AddEventPopup extends React.Component {
 
 		this.resetForm = this.resetForm.bind(this);
 		this.setEventType();
-		this.setState({ recurrence: '1' });
-	}
+		this.setState({recurrence: '1'});
+			}
 	
 	handleChange(evt) {
         this.setState({ [evt.target.id.split('-')[1]]: evt.target.value });
@@ -77,7 +77,7 @@ class AddEventPopup extends React.Component {
 						this.state.recurrence = 'RRULE:FREQ=' + this.state.recurrence + ';';
 						console.log(this.state.recurrence);
 					}
-					eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '4', this.state.start, this.state.end, this.state.recurrence);
+					eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '5', this.state.start, this.state.end, this.state.recurrence);
                   alreadyPushed = true;
                 }
                 console.log(eventIdReturn);
