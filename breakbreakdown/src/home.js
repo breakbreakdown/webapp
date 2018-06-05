@@ -45,6 +45,7 @@ class home extends Component {
 
 	//Writes all the users new events to firebase
 	writeNewEvent(myEvents) {
+		console.log('write new event started')
 		var date = new Date();
 		var month = date.getMonth() + 1; //months from 1-12
 		var day = date.getDate();
@@ -54,9 +55,20 @@ class home extends Component {
 		//stores all the events that need to be updated
 		var updates = {};
 		for (var i = 0; i < myEvents.length; i++) {
-
-
+			console.log('new event forloop entered');
 			var singleEvent = myEvents[i];
+
+			var eventPath = database.ref('users/' + localStorage.getItem('appTokenKey') + '/days/' + newDate + '/' + singleEvent.eventId);
+
+			var completed = false;
+			eventPath.on('value', function(snapshot) {
+						var value = snapshot.val();
+				console.log('looking at event');
+  			if (value != null && value.completed == true) {
+					completed = true;
+				}
+			});
+
 			var eventName = singleEvent.eventName || "Unnamed Event";
 			var colorId = singleEvent.colorId || "12";
 			var startTime = singleEvent.startTime || "";
@@ -86,7 +98,7 @@ class home extends Component {
                 endTime: endTime,
                 location: location,
                 notes: notes,
-                completed: false,
+                completed: completed,
                 y: totalTime || "",
                 type: 'Event'
             };
