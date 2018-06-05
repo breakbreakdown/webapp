@@ -23,7 +23,9 @@ class AddEventPopup extends React.Component {
 						end: '', // No
 						recurrence: '', // No
 						notes: '', // Works
-						duration: '' // No };
+						duration: '', // No };
+						hours: '',
+						minutes: ''
 				}
 		this.setDefaultEndTime = this.setDefaultEndTime.bind(this);
 		this.setDefaultDate = this.setDefaultDate.bind(this);
@@ -33,6 +35,9 @@ class AddEventPopup extends React.Component {
 		this.setEndTime = this.setEndTime.bind(this);
 		this.createEvent = this.createEvent.bind(this);
         this.handleChange = this.handleChange.bind(this);
+		this.setDurationHours = this.setDurationHours.bind(this);
+		this.setDurationMinutes = this.setDurationMinutes.bind(this);
+		this.test = this.test.bind(this);
 	}
 
 	componentDidMount() {
@@ -47,8 +52,8 @@ class AddEventPopup extends React.Component {
 
 		this.resetForm = this.resetForm.bind(this);
 		this.setEventType();
-		this.setState({recurrence: '1'});
-			}
+		this.setState({recurrence: '1', hours: '0', minutes: '0'});
+	}
 	
 	handleChange(evt) {
         this.setState({ [evt.target.id.split('-')[1]]: evt.target.value });
@@ -57,57 +62,135 @@ class AddEventPopup extends React.Component {
 	}
 
 
-    createEvent(e) {
-        e.preventDefault();
-        let eventIdReturn;
-        console.log("button clicked");
-        ApiCalendar.handleAuthClick();
-        console.log('AUTHENTICATED');
-        var alreadyPushed = false;
-        var signChanged = function (val) {
-            console.log("Signed in:", val);
-            if (val) {
-                console.log("About to call createEvent");
-				if (!alreadyPushed) {
-					console.log(this.state.recurrence);
-					if (this.state.recurrence == 1) {
-						this.state.recurrence = "RRULE:FREQ=DAILY;COUNT=1";
-						console.log('triggered1');
-					} else {
-						this.state.recurrence = 'RRULE:FREQ=' + this.state.recurrence + ';';
+	createEvent(e) {
+
+		//return new Promise(function (resolve, reject) {
+		//	request.execute(function (resp) {
+		//		var events = resp.items;
+		//		if (events.length > 0) {
+		//			for (let i = 0; i < events.length; i++) {
+		//				let event = events[i];
+		//				myEvents[i] = {
+		//					eventName: event.summary,
+		//					colorId: event.colorId,
+		//					duration: '30',
+		//					startTime: event.start["dateTime"],
+		//					endTime: event.end["dateTime"],
+		//					location: event.location,
+		//					notes: event.description,
+		//					eventId: event.id
+		//				};
+
+		//			}
+		//		} else {
+		//			myEvents = null;
+		//		}
+		//		resolve(myEvents);
+		//	});
+		//});
+
+		e.preventDefault();
+		if (!$('#event-switch').prop('checked') && ($('#add-start').val() == "" || $('#add-end').val() == "")) {
+			alert("Please enter start and end time before adding event.");
+		} else if ($('#event-switch').prop('checked') && (this.state.hours == '0' && this.state.minutes == '0') || this.state.date == '') {
+			if (this.state.hours == '0' && this.state.minutes == '0') {
+				alert("Please enter duration before adding task.");
+			}
+			if (this.state.date == '') {
+				alert("Please enter date before adding task.");
+			}
+
+		} else {
+			let eventIdReturn;
+			console.log("button clicked");
+			ApiCalendar.handleAuthClick();
+			console.log('AUTHENTICATED');
+			var alreadyPushed = false;
+			var signChanged = function (val) {
+				console.log("Signed in:", val);
+				if (val) {
+					console.log("About to call createEvent");
+					if (!alreadyPushed) {
 						console.log(this.state.recurrence);
+						if (this.state.recurrence == 1) {
+							this.state.recurrence = "RRULE:FREQ=DAILY;COUNT=1";
+							console.log('triggered1');
+						} else {
+							this.state.recurrence = 'RRULE:FREQ=' + this.state.recurrence + ';';
+							console.log(this.state.recurrence);
+						}
+						eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '5', this.state.start, this.state.end, this.state.recurrence);
+						alreadyPushed = true;
+
+						//tasks
+						if ($('#event-switch').prop('checked')) {
+							var date = new Date();
+							var month = date.getMonth() + 1; //months from 1-12
+							var day = date.getDate();
+							var year = date.getFullYear();
+							var newDate = year + "-" + month + "-" + day;
+							var usersRef = database.ref('users/' + localStorage.getItem('appTokenKey') + '/days/' + newDate);
+
+							var eventName = this.state.title || "Unnamed Event";
+							var colorId = this.state.colorId || "12";
+							var location = this.state.location || "";
+							var notes = this.state.notes || "";
+
+							var durHr = parseFloat(this.state.hours);
+							var durMin = parseFloat(this.state.minutes) / 60;
+							var totalTime = durHr + durMin;
+							
+
+							var m = this.state.date[0].getMonth() + 1; //months from 1-12
+							var d = this.state.date[0].getDate();
+							var y = this.state.date[0].getFullYear();
+							var taskDate = y + "-" + m + "-" + d;
+
+							var taskData = {
+								eventName: eventName,
+								date: taskDate,
+								colorId: colorId,
+								duration: this.state.hours + 'hr ' + this.state.minutes + 'min',
+								location: location,
+								notes: notes,
+								completed: false,
+								y: totalTime || "",
+								type: 'Task'
+							};
+							console.log(taskData);
+							console.log(usersRef);
+							usersRef.child("" + localStorage.getItem('appTokenKey') + Date.now()).update(taskData);
+						}
 					}
-					eventIdReturn = ApiCalendar.createEvent(this.state.title, this.state.location, this.state.notes, '5', this.state.start, this.state.end, this.state.recurrence);
-                  alreadyPushed = true;
-                }
-                console.log(eventIdReturn);
-                ApiCalendar.handleSignoutClick();
-            }
-        }.bind(this);
-        ApiCalendar.listenSign(signChanged);
+					console.log(eventIdReturn);
+					ApiCalendar.handleSignoutClick();
+				}
+			}.bind(this);
+			ApiCalendar.listenSign(signChanged);
 
-        // var updates = {};
-        //
-        // //PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
-        //
-        // var duration = this.duration;
+			// var updates = {};
+			//
+			// //PUT EVERYTHING BELOW HERE IN A FOR LOOP ONCE WE FIGURE OUT HOW TO DO THE LOCAL EVENT OBJECT
+			//
+			// var duration = this.duration;
 
-        // //An event entry.
-        // //USE THIS ONE FOR SENDING REAL DATA
-        // var eventData = {
-        //   duration: duration
-        // };
-        //
-        // // Get a key for a new event.
-        // //Once we get eventID from google we will use Authorization instead of 'i'
-        // var newPostKey = databaseRef.ref.child('' + 'event ID from google here').key;
-        //
-        // // //adds the event with data into updates array
-        // updates['/days/' + this.date + '/' + newPostKey] = eventData;
-        //
-        // //pushes updates to firebase
-        // return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
-        // console.log('event data pushed');
+			// //An event entry.
+			// //USE THIS ONE FOR SENDING REAL DATA
+			// var eventData = {
+			//   duration: duration
+			// };
+			//
+			// // Get a key for a new event.
+			// //Once we get eventID from google we will use Authorization instead of 'i'
+			// var newPostKey = databaseRef.ref.child('' + 'event ID from google here').key;
+			//
+			// // //adds the event with data into updates array
+			// updates['/days/' + this.date + '/' + newPostKey] = eventData;
+			//
+			// //pushes updates to firebase
+			// return database.ref('users/' + localStorage.getItem('appTokenKey')).update(updates);
+			// console.log('event data pushed');
+		}
     }
 	
 	setDefaultEndTime(dateStr) {
@@ -211,6 +294,20 @@ class AddEventPopup extends React.Component {
 		}
 	}
 
+	setDurationHours(evt) {
+		this.setState({ hours: evt.target.value });
+	}
+
+	setDurationMinutes(evt) {
+		this.setState({ minutes: evt.target.value });
+	}
+
+	test() {
+		console.log($('#event-switch').prop('checked'));
+		console.log(this.state.hours);
+		console.log(this.state.minutes);
+	}
+
 	render() {
 		var hours = [];
 		for (var i = 1; i < 24; i++) {
@@ -279,14 +376,14 @@ class AddEventPopup extends React.Component {
 								</div>
 								<div id='add-duration'>
 									<div className='input-field col s3'>
-										<select id="duration-hours">
+										<select id="duration-hours" onChange={this.setDurationHours}>
 											<option value='0' selected></option>
 											{hours}
 										</select>
 										<label>Hours</label>
 									</div>
 									<div className='input-field col s3'>
-										<select id="duration-minutes">
+										<select id="duration-minutes" onChange={this.setDurationMinutes}>
 											<option value='0' selected></option>
 											{minutes}
 										</select>
@@ -321,6 +418,7 @@ class AddEventPopup extends React.Component {
 						</div>
 						
 						<a className="waves-effect waves-light btn modal-close" id='cancel-btn' onClick={this.resetForm}>Cancel</a>
+						<a className="waves-effect waves-light btn" id='cancel-btn' onClick={this.test}>test</a>
 						
 						<button onClick={(e) => { this.createEvent(e) }} className='btn waves-effect waves-light' type='submit'>Add to Calendar
 							<i className='material-icons right'>send</i>
